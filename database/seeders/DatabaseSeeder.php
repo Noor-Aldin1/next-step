@@ -43,6 +43,9 @@ class DatabaseSeeder extends Seeder
             RatingsSeeder::class,
             SkillsTableSeeder::class,
             UserSkillTableSeeder::class,
+            PackageSeeder::class,
+            UserSubscriptionSeeder::class,
+            PaymentSeeder::class,
         ]);
     }
 }
