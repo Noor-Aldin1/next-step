@@ -182,8 +182,9 @@ class job_postingController extends Controller
     {
 
         $jobPosting = JobPosting::findOrFail($id);
+        $categories_name = $this->categories_name;
 
-        return view('employer.job_postings.edit', compact('jobPosting'));
+        return view('employer.pages.edit_job', compact('jobPosting', 'categories_name'));
     }
 
     /**
