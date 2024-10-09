@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Application;
-
+use App\Models\JobCategory;
 use App\Http\Controllers\Employer\ApplicationController;
 
 // Group routes that require authentication
@@ -16,7 +16,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('employer/job_postings', [job_postingController::class, 'index'])->name('employer.job_postings.index');
 
     // Show the form for creating a new job posting (GET)
-    Route::get('employer/job_postings/create', [job_postingController::class, 'create'])->name('employer.job_postings.create');
+    Route::get('employer/job_postings/all', [job_postingController::class, 'create'])->name('employer.job_postings.dashbord');
 
     // Store a newly created job posting (POST)
     Route::post('employer/job_postings', [job_postingController::class, 'store'])->name('employer.job_postings.store');
@@ -42,14 +42,14 @@ Route::put('/employer/profile/{id}', [RegisterdEmployerController::class, 'updat
 
 // joblist controller
 
-Route::get('employer/job_postings/joblist/ee', [job_postingController::class, 'joblist'])->name('employer.job_postings.index');
+Route::get('employer/job_postings/joblist/list', [job_postingController::class, 'joblist'])->name('employer.job_postings.list');
 
 
 
 // job Aplication 
 
 
-Route::get('/employer/Application', [ApplicationController::class, 'index'])->name('index'); // List all applications
+Route::get('/employer/Application', [ApplicationController::class, 'index'])->name('appl.index'); // List all applications
 Route::post('/applications/update-status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
 
 
@@ -76,13 +76,14 @@ Route::get('/employer/profile/delete', function () {
             ->from('job_postings')
             ->where('employer_id', $employer->id);
     })->count();
-
+    $categories_name = JobCategory::all();
     // Return the view with the user, employer, job count, and applicant count
     return view('employer.pages.profile.change_pass', [
         'user' => $user,
         'employer' => $employer,
         'jobCount' => $jobCount,
         'totalApplicants' => $totalApplicants,
+        'categories_name' => $categories_name,
     ]);
 })->name('employer.profile.delete');
 

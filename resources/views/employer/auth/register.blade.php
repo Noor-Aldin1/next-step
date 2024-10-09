@@ -39,97 +39,10 @@
                                                 <div class="nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
 
                                                     <div class="tab-content w-100" id="nav-tabContent">
-                                                        <div class="tab-pane fade show active" id="nav-personal"
-                                                            role="tabpanel" aria-labelledby="nav-personal-tab">
-                                                            <form class=" dez-form pb-3">
-                                                                <h3 class="form-title m-t0">Employer Information</h3>
-                                                                <div class="dez-separator-outer m-b5">
-                                                                    <div class="dez-separator bg-primary style-liner"></div>
-                                                                </div>
-                                                                <p>Enter your e-mail address and your password. </p>
-                                                                <div class="form-group mb-3">
-                                                                    <input name="dzName" required=""
-                                                                        class="form-control" placeholder="User Name"
-                                                                        type="text">
-                                                                </div>
-                                                                <div class="form-group mb-3">
-                                                                    <input name="dzName" required=""
-                                                                        class="form-control " placeholder="Type Password"
-                                                                        type="password">
-                                                                </div>
-                                                                <div class="form-group text-left mb-5">
-                                                                    <button
-                                                                        class="btn btn-primary dz-xs-flex me-3">login</button>
-                                                                    <span class="form-check d-inline-block">
-                                                                        <input type="checkbox" class="form-check-input"
-                                                                            id="check1" name="example1">
-                                                                        <label class="form-check-label"
-                                                                            for="check1">Remember me</label>
-                                                                    </span>
-                                                                    <button
-                                                                        class="nav-link m-auto btn tp-btn-light btn-primary"
-                                                                        id="nav-forget-tab" data-bs-toggle="tab"
-                                                                        data-bs-target="#nav-forget" type="button"
-                                                                        role="tab" aria-controls="nav-forget"
-                                                                        aria-selected="false">Forget Password ?</button>
-                                                                </div>
-                                                                <div class="dz-social ">
-                                                                    <h5 class="form-title fs-20">Sign In With</h5>
-                                                                    <ul
-                                                                        class="dez-social-icon dez-border dez-social-icon-lg text-white">
-                                                                        <li><a target="_blank"
-                                                                                href="https://www.facebook.com/"
-                                                                                class="fab fa-facebook-f btn-facebook"></a>
-                                                                        </li>
-                                                                        <li><a target="_blank"
-                                                                                href="https://www.google.com/"
-                                                                                class="fab fa-google-plus-g btn-google-plus"></a>
-                                                                        </li>
-                                                                        <li><a target="_blank"
-                                                                                href="https://www.linkedin.com/"
-                                                                                class="fab fa-linkedin-in btn-linkedin"></a>
-                                                                        </li>
-                                                                        <li><a target="_blank" href="https://twitter.com/"
-                                                                                class="fab fa-twitter btn-twitter"></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </form>
-                                                            <div class="text-center bottom">
-                                                                <button class="btn btn-primary button-md btn-block"
-                                                                    id="nav-sign-tab" data-bs-toggle="tab"
-                                                                    data-bs-target="#nav-sign" type="button" role="tab"
-                                                                    aria-controls="nav-sign" aria-selected="false">Create an
-                                                                    account</button>
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="tab-pane fade" id="nav-forget" role="tabpanel"
-                                                            aria-labelledby="nav-forget-tab">
-                                                            <form class="dez-form">
-                                                                <h3 class="form-title m-t0">Forget Password ?</h3>
-                                                                <div class="dez-separator-outer m-b5">
-                                                                    <div class="dez-separator bg-primary style-liner"></div>
-                                                                </div>
-                                                                <p>Enter your e-mail address below to reset your password.
-                                                                </p>
-                                                                <div class="form-group mb-4">
-                                                                    <input name="dzName" required=""
-                                                                        class="form-control" placeholder="Email Address"
-                                                                        type="text">
-                                                                </div>
-                                                                <div class="form-group clearfix text-left">
-                                                                    <button class=" active btn btn-primary"
-                                                                        id="nav-personal-tab" data-bs-toggle="tab"
-                                                                        data-bs-target="#nav-personal" type="button"
-                                                                        role="tab" aria-controls="nav-personal"
-                                                                        aria-selected="true">Back</button>
-                                                                    <button
-                                                                        class="btn btn-primary float-end">Submit</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div class="tab-pane fade" id="nav-sign" role="tabpanel"
-                                                            aria-labelledby="nav-sign-tab">
+                                                        {{-- create --}}
+                                                        <div class="tab-pane fade show active" id="nav-sign"
+                                                            role="tabpanel" aria-labelledby="nav-sign-tab">
                                                             <div class="scrollable-form-container">
                                                                 <form class="dez-form py-5" method="POST"
                                                                     action="{{ route('employer.register.store') }}">
@@ -143,16 +56,15 @@
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Username:</p>
-                                                                        <input name="username" required
-                                                                            class="form-control"
+                                                                        <input name="username" required class="form-control"
                                                                             placeholder="e.g Qusai Ali" type="text">
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Company Name:</p>
                                                                         <input name="company_name" required
-                                                                            class="form-control"
-                                                                            placeholder="e.g Microsoft" type="text">
+                                                                            class="form-control" placeholder="e.g Microsoft"
+                                                                            type="text">
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
@@ -178,31 +90,26 @@
 
                                                                     <div class="form-group mt-3">
                                                                         <p>City:</p>
-                                                                        <input name="city" required
-                                                                            class="form-control" placeholder="Amman"
-                                                                            type="text">
+                                                                        <input name="city" required class="form-control"
+                                                                            placeholder="Amman" type="text">
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Phone:</p>
-                                                                        <input name="phone" required
-                                                                            class="form-control" placeholder="07xxxxxxxx"
-                                                                            type="tel">
+                                                                        <input name="phone" required class="form-control"
+                                                                            placeholder="07xxxxxxxx" type="tel">
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Email Address:</p>
-                                                                        <input name="email" required
-                                                                            class="form-control"
-                                                                            placeholder="youremail@xyz.com"
-                                                                            type="email">
+                                                                        <input name="email" required class="form-control"
+                                                                            placeholder="youremail@xyz.com" type="email">
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Password:</p>
-                                                                        <input name="password" required
-                                                                            class="form-control" placeholder=""
-                                                                            type="password">
+                                                                        <input name="password" required class="form-control"
+                                                                            placeholder="" type="password">
                                                                     </div>
 
                                                                     <div class="form-group mt-3 mb-3">
@@ -214,24 +121,36 @@
 
                                                                     <div class="mb-3">
                                                                         <span class="form-check float-start me-2">
-                                                                            <input type="checkbox"
-                                                                                class="form-check-input" id="check2"
-                                                                                name="termsAgree" required>
+                                                                            <input type="checkbox" class="form-check-input"
+                                                                                id="check2" name="termsAgree" required>
                                                                             <label class="form-check-label d-unset"
                                                                                 for="check2">I agree to the</label>
                                                                         </span>
+
                                                                         <label>
                                                                             <a href="#">Terms of Service</a> &amp; <a
                                                                                 href="#">Privacy Policy</a>
                                                                         </label>
+                                                                        <br>
+                                                                        <label>
+                                                                            <a style="font-weight: bold"
+                                                                                href="{{ route('login') }}">Already have an
+                                                                                account</a>
+                                                                        </label>
+                                                                        <span class="form-check float-start me-2">
+
+
+                                                                        </span>
                                                                     </div>
 
                                                                     <div class="form-group clearfix text-left">
-                                                                        <button class="btn btn-primary outline gray"
-                                                                            data-bs-toggle="tab"
-                                                                            data-bs-target="#nav-personal" type="button"
-                                                                            role="tab" aria-controls="nav-personal"
-                                                                            aria-selected="true">Back</button>
+                                                                        <a href="{{ route('home') }}"> <button
+                                                                                class="btn btn-primary outline gray"
+                                                                                data-bs-toggle="tab"
+                                                                                data-bs-target="#nav-personal"
+                                                                                type="button" role="tab"
+                                                                                aria-controls="nav-personal"
+                                                                                aria-selected="true">Back</button></a>
                                                                         <button class="btn btn-primary float-end"
                                                                             type="submit">Submit</button>
                                                                     </div>

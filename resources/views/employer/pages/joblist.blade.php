@@ -6,13 +6,26 @@
             <!-- Search Filters -->
             <div class="d-flex align-items-center flex-wrap search-job bg-white mb-4">
                 <!-- Location Filter -->
-                <div class="col-xl-2 col-xxl-3 col-lg-3 col-sm-6 col-12 search-dropdown d-flex align-items-center">
-                    <select class="form-control border-0 default-select dashboard-select-1 wide h-auto" id="locationFilter">
+                <div class="card-body">
+
+                    <select id="locationFilter"
+                        class="form-control card-title border-0 default-select dashboard-select-1 wide h-auto">
                         <option value="">Choose Location</option>
                         <option value="Amman">Amman</option>
-                        <option value="France">France</option>
+                        <option value="Irbid">Irbid</option>
+                        <option value="Balqa">Balqa</option>
+                        <option value="Karak">Karak</option>
+                        <option value="Ma'an">Ma'an</option>
+                        <option value="Mafraq">Mafraq</option>
+                        <option value="Tafilah">Tafilah</option>
+                        <option value="Zarqa">Zarqa</option>
+                        <option value="Madaba">Madaba</option>
+                        <option value="Jerash">Jerash</option>
+                        <option value="Ajloun">Ajloun</option>
+                        <option value="Aqaba">Aqaba</option>
                     </select>
                 </div>
+
                 <!-- Salary Filter -->
                 <div class="col-xl-2 col-xxl-3 col-lg-3 col-sm-6 col-12 search-dropdown d-flex align-items-center">
                     <select class="form-control border-0 default-select dashboard-select-1 wide h-auto" id="salaryFilter">
@@ -143,7 +156,8 @@
                                             data-salary="{{ number_format($job->salary ?? 0, 2) }}">
                                             <div
                                                 class="d-flex flex-wrap search-row bg-white p-3 mb-3 rounded justify-content-between align-items-center">
-                                                <div class="d-flex col-xl-3 col-xxl-4 col-lg-4 col-sm-6 align-items-center">
+                                                <div
+                                                    class="d-flex col-xl-3 col-xxl-4 col-lg-4 col-sm-6 align-items-center">
                                                     <div>
                                                         <h2 class="title">
                                                             <a href="javascript:void(0);"

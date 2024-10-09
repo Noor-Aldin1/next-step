@@ -51,8 +51,10 @@ class job_postingController extends Controller
     {
         // Get paginated job postings for the employer
         $jobs = JobPosting::where('employer_id', auth()->id())->paginate(10); // Adjust the number of items per page as needed
+        $categories_name = $this->categories_name;
 
-        return view('employer.pages.joblist', compact('jobs'));
+
+        return view('employer.pages.joblist', compact('jobs', 'categories_name'));
     }
 
     /**
@@ -230,7 +232,7 @@ class job_postingController extends Controller
             );
 
             // Redirect back with success message
-            return redirect()->route('employer.job_postings.index')->with('success', 'Job posting updated successfully.');
+            return redirect()->route('employer.job_postings.show', $jobPosting->id)->with('success', 'Job posting updated successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Handle validation errors and redirect back with error messages
             return redirect()->back()->withErrors($e->validator)->withInput();

@@ -5,11 +5,7 @@
         <div class="container-fluid">
             <div class="d-flex align-items-center mb-4">
                 <h3 class="mb-0 me-auto">Update Job</h3>
-                <div>
-                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm me-3"> <i class="fas fa-envelope"></i></a>
-                    <a href="javascript:void(0);" class="btn btn-secondary btn-sm me-3"><i class="fas fa-phone-alt"></i></a>
-                    <a href="javascript:void(0);" class="btn btn-primary btn-sm"><i class="fas fa-info"></i></a>
-                </div>
+
             </div>
             <div class="row">
                 <div class="col-xl-12">
@@ -120,7 +116,7 @@
                                 </div>
                                 <div class="card-footer text-end">
                                     <div>
-                                        <a href="{{ route('employer.job_postings.index') }}"
+                                        <a href="{{ route('employer.job_postings.show', $jobPosting->id) }}"
                                             class="btn btn-danger light me-3">Close</a>
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>

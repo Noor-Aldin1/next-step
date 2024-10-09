@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\JobCategory;
 
 class ApplicationController extends Controller
 {
+    protected $categories_name;
     /**
      * Display a listing of the applications.
      */
@@ -17,6 +19,7 @@ class ApplicationController extends Controller
 
     public function index(Request $request)
     {
+        $categories_name = $this->categories_name = JobCategory::all();
         // Get the authenticated employer's ID
         $employerId = Auth::id();
 
@@ -46,7 +49,7 @@ class ApplicationController extends Controller
             ->pluck('title');
 
         // Return the filtered applications and titles to the view
-        return view('employer.pages.jobaplication', compact('applications', 'titles'));
+        return view('employer.pages.jobaplication', compact('applications', 'titles', 'categories_name'));
     }
 
 

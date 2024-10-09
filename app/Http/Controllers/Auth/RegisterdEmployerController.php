@@ -17,9 +17,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\JobCategory;
 
 class RegisterdEmployerController extends Controller
 {
+    protected $categories_name;
+
     /**
      * Display the registration view.
      */
@@ -94,13 +97,14 @@ class RegisterdEmployerController extends Controller
                 ->from('job_postings')
                 ->where('employer_id', $employer->id);
         })->count();
-
+        $categories_name = $this->categories_name = JobCategory::all();
         // Return the view with the user and employer data, along with job and applicant counts
         return view('employer.pages.profile.main_profile', [
             'user' => $user,
             'employer' => $employer,
             'jobCount' => $jobCount,
             'totalApplicants' => $totalApplicants,
+            'categories_name' => $categories_name,
         ]);
     }
 

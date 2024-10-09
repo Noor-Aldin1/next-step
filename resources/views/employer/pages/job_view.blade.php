@@ -96,21 +96,8 @@
                                     <div class="card-footer border-0">
                                         <div>
                                             <!-- Edit Job Button -->
-                                            <a href="javascript:void(0);" class="btn btn-warning btn-sm me-2"
-                                                data-bs-toggle="modal" data-bs-target="#jobEditModal"
-                                                data-job-id="{{ $jobPosting->id }}" data-title="{{ $jobPosting->title }}"
-                                                data-company-name="{{ $jobPosting->company_name }}"
-                                                data-position="{{ $jobPosting->position }}"
-                                                data-category="{{ optional($jobPosting->categories)->pluck('name')->implode(', ') }}"
-                                                data-job-type="{{ $jobPosting->job_type }}"
-                                                data-experience="{{ $jobPosting->experience }}"
-                                                data-last-date="{{ $jobPosting->last_date_to_apply }}"
-                                                data-salary="{{ $jobPosting->salary }}"
-                                                data-city="{{ $jobPosting->city }}"
-                                                data-address="{{ $jobPosting->address }}"
-                                                data-education-level="{{ $jobPosting->education_level }}"
-                                                data-requirements="{{ $jobPosting->requirements }}"
-                                                data-description="{{ $jobPosting->description }}">
+                                            <a href="{{ route('employer.job_postings.edit', $jobPosting->id) }}"
+                                                class="btn btn-warning btn-sm me-2">
                                                 <i class="fas fa-edit me-2"></i>Edit
                                             </a>
 
@@ -129,7 +116,6 @@
                 </div>
             </div>
         </div>
-        @include('employer.partials.edit_job')
 
 
 
@@ -169,7 +155,8 @@
                             'Your job posting has been deleted.',
                             'success'
                         ).then(() => {
-                            location.reload(); // Reload the page after deletion
+                            window.location.href =
+                                "{{ route('employer.job_postings.dashbord') }}"; // Redirect to the dashboard route after deletion
                         });
                     },
                     error: function(xhr) {
