@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->role_id === 2) {
             return redirect()->intended('lessor/dashboard'); //mentor
         } elseif ($user->role_id === 3) {
-            return redirect()->intended(route('employer.panel')); //employer
+            return redirect()->intended(route('employer.job_postings.create')); //employer
         } elseif ($user->role_id === 4) {
             return redirect()->intended('admin/dashboard'); // Admin
         }

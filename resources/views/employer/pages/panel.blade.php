@@ -3,17 +3,17 @@
 @section('content')
     @include('employer.partials.navbar')
     <!--**********************************
-                            Nav header end
-                        ***********************************-->
+                                Nav header end
+                            ***********************************-->
 
     <!--**********************************
-                            Sidebar start
-                        ***********************************-->
+                                Sidebar start
+                            ***********************************-->
     @include('employer.partials.sidebar')
 
     <!--**********************************
-                            Main Content
-                        ***********************************-->
+                                Main Content
+                            ***********************************-->
     @yield('maincontent')
-    {{-- @include('employer.partials.form_add_job') --}}
+    @include('employer.partials.form_add_job')
 @endsection
