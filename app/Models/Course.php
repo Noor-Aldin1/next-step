@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Course extends Model
+{
+    use HasFactory;
+    protected $table = 'courses';
+    protected $fillable = ['title', 'description', 'supervisor_id'];
+
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, 'supervisor_id');
+    }
+
+    public function materials()
+    {
+        return $this->hasMany(CourseMaterial::class, 'course_id');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(CourseTask::class, 'course_id');
+    }
+
+    public function lectures()
+    {
+        return $this->hasMany(CourseLecture::class, 'course_id');
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'course_students', 'course_id', 'student_id');
+    }
+}
