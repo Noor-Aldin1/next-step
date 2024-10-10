@@ -11,7 +11,7 @@ use App\Http\Controllers\Customer\ResumeController;
 use App\Http\Controllers\Customer\ProjectController;
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Customer\PackageController;
 // -------------routes for navbar -------------
 Route::get('/student/about', function () {
     return view('user.pages.about');
@@ -69,6 +69,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('resumes', ResumeController::class);
 
     Route::post('/profile/upload-image', [C_ProfileController::class, 'uploadImage'])->name('profile.uploadImage');
+
+
+    //checout 
+    Route::resource('packages', PackageController::class);
 });
 
 
@@ -91,3 +95,11 @@ Route::get('/jobs', [filter_job::class, 'felter'])->name('jobs.felter');
 
 // Home page route
 Route::get('/', [filter_job::class, 'homePage'])->name('home');
+
+
+
+// checkout 
+
+Route::get('/student/checkout', function () {
+    return view('user.pages.checkout');
+})->name('checkout');
