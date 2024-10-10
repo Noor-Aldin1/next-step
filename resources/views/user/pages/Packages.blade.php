@@ -102,8 +102,21 @@
                                 </div>
 
                                 <div class="price-btn">
-                                    <a href="#" onclick="openModal()">Subscribe</a>
+                                    <form action="{{ route('checkout.form') }}" method="GET" class="d-inline">
+                                        @csrf <!-- Include CSRF token for security -->
+                                        <input type="hidden" name="package_id" value="{{ $package->id }}">
+                                        <input type="hidden" name="numberOfMonths" value="1">
+                                        <!-- Set default number of months -->
+                                        <div class="price-btn">
+                                            <a> <button style=" color:rgb(255, 255, 255)" type="submit"
+                                                    class="">Continue to
+                                                    Checkout</button></a>
+                                        </div>
+                                    </form>
+
+
                                 </div>
+
                             </div>
                         </div>
                     @endforeach

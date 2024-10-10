@@ -142,4 +142,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Skill::class, 'user_skill')->withPivot('rate');
     }
+    public function subscriptions()
+    {
+        return $this->hasMany(UserSubscription::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasManyThrough(Payment::class, UserSubscription::class, 'user_id', 'subscription_id');
+    }
 }

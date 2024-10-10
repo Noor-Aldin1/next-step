@@ -24,4 +24,9 @@ class Package extends Model
         'attributes' => 'array', // Assuming attributes will be stored as JSON
         'price' => 'decimal:2',
     ];
+
+    public function subscriptions()
+    {
+        return $this->hasMany(UserSubscription::class);
+    }
 }

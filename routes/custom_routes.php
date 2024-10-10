@@ -12,10 +12,19 @@ use App\Http\Controllers\Customer\ProjectController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\PackageController;
+use App\Http\Controllers\CheckoutController;
+
+
+
+
+
 // -------------routes for navbar -------------
 Route::get('/student/about', function () {
     return view('user.pages.about');
 })->name('about');
+Route::get('/student/mentors', function () {
+    return view('user.pages.mentors');
+})->name('mentors');
 Route::get('/student/soft', function () {
     return view('user.pages.soft-skills');
 })->name('soft');
@@ -35,10 +44,7 @@ Route::get('/student/Terms', function () {
 
     return view('user.pages.Terms');
 })->name('Terms');
-Route::get('/student/Packages', function () {
 
-    return view('user.pages.Packages');
-})->name('Packages');
 Route::get('/student/Change', function () {
 
     return view('user.pages.profile.changepass');
@@ -72,10 +78,13 @@ Route::middleware(['auth'])->group(function () {
 
 
     //checout 
-    Route::resource('packages', PackageController::class);
+
+    Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.form');
+    Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+    Route::get('/checkout/success', [CheckoutController::class, 'checkoutSuccess'])->name('checkout.success');
 });
-
-
+//packages page
+Route::resource('packages', PackageController::class);
 
 // pdf CV 
 Route::get('resumes/{id}/download', [ResumeController::class, 'downloadPdf'])->name('resumes.download');

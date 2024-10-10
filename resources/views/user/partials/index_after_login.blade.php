@@ -54,7 +54,7 @@
                             <a href="{{ route('jobs.felter') }}" class="nav-link">Jobs</a>
                         </li>
                         <li class="nav-item">
-                            <a href="candidate.html" class="nav-link">Monitors</a>
+                            <a href="{{ route('mentors') }}" class="nav-link">Monitors</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('soft') }}" class="nav-link">Soft Skills</a>
@@ -66,7 +66,7 @@
                             <a href="#" class="nav-link dropdown-toggle">More</a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
-                                    <a href="{{ route('Packages') }}" class="nav-link">Packages</a>
+                                    <a href="{{ route('packages.index') }}" class="nav-link">Packages</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('FAQ') }}" class="nav-link">FAQ</a>
