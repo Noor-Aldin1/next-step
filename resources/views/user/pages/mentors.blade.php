@@ -97,27 +97,28 @@
                 </div>
 
                 <div class="col-lg-3 col-sm-6">
-                    <div class="candidate-card">
+                    <div class="card candidate-card">
                         <div class="candidate-img">
-                            <img src="assets/img/candidate/2.jpg" alt="candidate image">
+                            <iframe width="100%" height="200"
+                                src="https://www.youtube.com/embed/Jb2cyr5qxrw?si=9OYRzeex88s-NHC0" frameborder="0"
+                                allowfullscreen></iframe>
                         </div>
-                        <div class="candidate-text">
-                            <h3>
-                                <a href="candidate-details.html">Felica Kareon</a>
+                        <div class="card-body candidate-text text-center">
+                            <h3 class="card-title">
+                                <a href="candidate-details.html" class="text-dark">Mibraj Alex</a>
                             </h3>
-                            <ul>
-                                <li>
-                                    PHP Developer
-                                </li>
+                            <ul class="list-unstyled">
+                                <li>Web Developer</li>
                             </ul>
                         </div>
 
-                        <div class="candidate-social">
-                            <a href="#" target="_blank"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-linkedin"></i></a>
+                        <div class="card-footer candidate-social text-center">
+                            <a href="#" target="_blank" class="text-primary"><i class="bx bxl-facebook"></i></a>
+                            <a href="#" target="_blank" class="text-info"><i class="bx bxl-twitter"></i></a>
+                            <a href="#" target="_blank" class="text-danger"><i class="bx bxl-linkedin"></i></a>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="col-lg-3 col-sm-6">

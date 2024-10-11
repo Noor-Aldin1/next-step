@@ -66,7 +66,7 @@
                                 class="nav-link {{ request()->routeIs('mentors') ? 'active' : '' }}">mentors</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('Packages') }}"
+                            <a href="{{ route('packages.index') }}"
                                 class="nav-link {{ request()->routeIs('packages.index') ? 'active' : '' }}">Packages</a>
                         </li>
 
