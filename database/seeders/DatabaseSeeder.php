@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             JobPostingSeeder::class,
             ApplicationSeeder::class,
             MentorSeeder::class,
+            UserMentorTableSeeder::class,
             ProfileSeeder::class,
             VerificationSeeder::class,
             CommentsSeeder::class,
@@ -46,6 +47,8 @@ class DatabaseSeeder extends Seeder
             PackageSeeder::class,
             UserSubscriptionSeeder::class,
             PaymentSeeder::class,
+            MentorMeetingsTableSeeder::class,
+
         ]);
     }
 }

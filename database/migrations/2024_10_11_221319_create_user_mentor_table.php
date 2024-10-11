@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mentors', function (Blueprint $table) {
+        Schema::create('user_mentor', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete();
-            $table->string('availability'); // VARCHAR(255)
-            $table->string('video');
-            $table->enum('status', ['active', 'inactive']); // ENUM
             $table->timestamps();
+            $table->foreignId('mentor_id')->constrained('mentors', 'id')->cascadeOnDelete();
+            $table->foreignId('student_id')->constrained('users', 'id')->cascadeOnDelete();
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mentors');
+        Schema::dropIfExists('user_mentor');
     }
 };
