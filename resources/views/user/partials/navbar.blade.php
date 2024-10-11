@@ -53,10 +53,7 @@
                             <a href="{{ route('jobs.felter') }}"
                                 class="nav-link {{ request()->is('jobs.felter') ? 'active' : '' }}">Jobs</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="candidate.html"
-                                class="nav-link {{ request()->is('candidate.html') ? 'active' : '' }}">Monitors</a>
-                        </li>
+
                         <li class="nav-item">
                             <a href="{{ route('soft') }}"
                                 class="nav-link {{ request()->routeIs('soft') ? 'active' : '' }}">Soft Skills</a>
