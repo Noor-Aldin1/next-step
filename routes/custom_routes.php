@@ -22,6 +22,9 @@ use App\Http\Controllers\Customer\MentorController;
 Route::get('/student/about', function () {
     return view('user.pages.about');
 })->name('about');
+Route::get('/student/about/after_subsription', function () {
+    return view('user.pages.after_subsription');
+})->name('about');
 Route::get('/student/soft', function () {
     return view('user.pages.soft-skills');
 })->name('soft');

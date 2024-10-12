@@ -75,29 +75,45 @@
                         <div class="card candidate-card">
                             <div class="candidate-img">
                                 <div class="video-container" style="cursor: pointer;">
-                                    <iframe id="mentor-video" width="100%" height="200"
-                                        src="{{ $mentor->video ? asset('storage/' . $mentor->video) : 'https://www.youtube.com/embed/tgbNymZ7vqY' }}"
-                                        frameborder="0" allowfullscreen></iframe>
+                                    <!-- Use video tag with poster attribute for background image -->
+                                    <video id="mentor-video" width="100%" height="200" controls preload="none"
+                                        poster="start.png">
+                                        <source
+                                            src="{{ $mentor->video ? asset('storage/' . $mentor->video) : 'http://mydomain.com/mytestfile.mp4' }}"
+                                            type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
                                 </div>
                             </div>
 
                             <script>
+                                // Add click event listener to the video container
                                 document.querySelector('.video-container').addEventListener('click', function() {
-                                    const videoSrc =
-                                        "{{ $mentor->video ? asset('storage/' . $mentor->video) : 'https://www.youtube.com/embed/tgbNymZ7vqY' }}";
-                                    document.getElementById('mentor-video').src = videoSrc;
+                                    const mentorVideo = document.getElementById('mentor-video');
+
+                                    // Check if the video source is not set
+                                    if (!mentorVideo.src) {
+                                        // Set the video source to start playing
+                                        mentorVideo.src = mentorVideo.querySelector('source').src; // Get the source from the <source> tag
+                                        mentorVideo.play(); // Start playing the video
+                                    }
                                 });
                             </script>
 
 
+
+
+
+
+
                             <div class="card-body candidate-text text-center">
                                 <h3 class="card-title">
-                                    <a href="{{ route('mentors.show', $mentor->id) }}"
-                                        class="text-dark">{{ $mentor->username }}</a>
-
-
-
+                                    <a href="{{ route('mentors.show', $mentor->id) }}" class="text-danger font-weight-bold"
+                                        style="text-decoration: underline;">
+                                        {{ $mentor->username }}
+                                    </a>
                                 </h3>
+
                                 <ul class="list-unstyled">
                                     <li>{{ $mentor->job_title }}</li>
                                 </ul>
