@@ -151,4 +151,19 @@ class User extends Authenticatable
     {
         return $this->hasManyThrough(Payment::class, UserSubscription::class, 'user_id', 'subscription_id');
     }
+
+    /**
+     * The relationship with mentors.
+     * Many users (students) can have many mentors.
+     */
+    public function mentors()
+    {
+        return $this->belongsToMany(Mentor::class, 'user_mentor', 'student_id', 'mentor_id')
+            ->withTimestamps();
+    }
+
+    public function meetings()
+    {
+        return $this->hasMany(MentorMeeting::class, 'user_id');
+    }
 }

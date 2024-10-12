@@ -11,13 +11,15 @@ class Mentor extends Model
     protected $table = 'mentors';
     protected $fillable = [
         'user_id',
-        'expertise',
         'availability',
-        'university',
-        'major ',
-
+        'video',
+        'status',
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -41,5 +43,16 @@ class Mentor extends Model
     public function ratings()
     {
         return $this->hasMany(Rating::class, 'mentor_id');
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'user_mentor', 'mentor_id', 'student_id')
+            ->withTimestamps(); // Keep track of timestamps
+    }
+
+    public function meetings()
+    {
+        return $this->hasMany(MentorMeeting::class, 'mentor_id');
     }
 }
