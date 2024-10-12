@@ -13,7 +13,7 @@ use App\Http\Controllers\Customer\ProjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\PackageController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\Customer\MentorController;
 
 
 
@@ -112,3 +112,18 @@ Route::get('/', [filter_job::class, 'homePage'])->name('home');
 Route::get('/student/checkout', function () {
     return view('user.pages.checkout');
 })->name('checkout');
+
+
+
+
+// Mentor routes
+Route::prefix('mentors')->name('mentors.')->group(function () {
+    Route::get('/', [MentorController::class, 'index'])->name('index'); // Display a listing of the mentors
+    Route::get('/create', [MentorController::class, 'create'])->name('create'); // Show the form for creating a new mentor
+    Route::post('/', [MentorController::class, 'store'])->name('store'); // Store a newly created mentor
+    Route::get('/{id}', [MentorController::class, 'show'])->name('show'); // Display the specified mentor
+    Route::get('/{id}/edit', [MentorController::class, 'edit'])->name('edit'); // Show the form for editing the specified mentor
+    Route::put('/{id}', [MentorController::class, 'update'])->name('update'); // Update the specified mentor
+    Route::delete('/{id}', [MentorController::class, 'destroy'])->name('destroy'); // Remove the specified mentor
+    Route::get('/active', [MentorController::class, 'activeMentors'])->name('active'); // Get active mentors
+});

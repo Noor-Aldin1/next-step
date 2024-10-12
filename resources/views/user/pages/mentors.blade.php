@@ -4,12 +4,12 @@
     <section class="page-title title-bg7">
         <div class="d-table">
             <div class="d-table-cell">
-                <h2>Candidates</h2>
+                <h2>Mentors</h2>
                 <ul>
                     <li>
                         <a href="index.html">Home</a>
                     </li>
-                    <li>Candidates</li>
+                    <li>Mentors</li>
                 </ul>
             </div>
         </div>
@@ -68,204 +68,76 @@
             </div>
         </div>
         <!-- Find Section End -->
-
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="card candidate-card">
-                        <div class="candidate-img">
-                            <iframe width="100%" height="200"
-                                src="https://www.youtube.com/embed/Jb2cyr5qxrw?si=9OYRzeex88s-NHC0" frameborder="0"
-                                allowfullscreen></iframe>
-                        </div>
-                        <div class="card-body candidate-text text-center">
-                            <h3 class="card-title">
-                                <a href="candidate-details.html" class="text-dark">Mibraj Alex</a>
-                            </h3>
-                            <ul class="list-unstyled">
-                                <li>Web Developer</li>
-                            </ul>
-                        </div>
+                @foreach ($results as $mentor)
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card candidate-card">
+                            <div class="candidate-img">
+                                <div class="video-container" style="cursor: pointer;">
+                                    <iframe id="mentor-video" width="100%" height="200"
+                                        src="{{ $mentor->video ? asset('storage/' . $mentor->video) : 'https://www.youtube.com/embed/tgbNymZ7vqY' }}"
+                                        frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </div>
 
-                        <div class="card-footer candidate-social text-center">
-                            <a href="#" target="_blank" class="text-primary"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank" class="text-info"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank" class="text-danger"><i class="bx bxl-linkedin"></i></a>
+                            <script>
+                                document.querySelector('.video-container').addEventListener('click', function() {
+                                    const videoSrc =
+                                        "{{ $mentor->video ? asset('storage/' . $mentor->video) : 'https://www.youtube.com/embed/tgbNymZ7vqY' }}";
+                                    document.getElementById('mentor-video').src = videoSrc;
+                                });
+                            </script>
+
+
+                            <div class="card-body candidate-text text-center">
+                                <h3 class="card-title">
+                                    <a href="#" class="text-dark">{{ $mentor->username }}</a>
+                                </h3>
+                                <ul class="list-unstyled">
+                                    <li>{{ $mentor->job_title }}</li>
+                                </ul>
+                            </div>
+
+                            <div class="card-footer candidate-social text-center">
+                                <a href="{{ $mentor->github }}" target="_blank" class="text-primary"><i
+                                        class="bx bxl-github"></i></a>
+                                <a href="{{ $mentor->linkedin }}" target="_blank" class="text-danger"><i
+                                        class="bx bxl-linkedin"></i></a>
+                            </div>
                         </div>
                     </div>
-
-                </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="card candidate-card">
-                        <div class="candidate-img">
-                            <iframe width="100%" height="200"
-                                src="https://www.youtube.com/embed/Jb2cyr5qxrw?si=9OYRzeex88s-NHC0" frameborder="0"
-                                allowfullscreen></iframe>
-                        </div>
-                        <div class="card-body candidate-text text-center">
-                            <h3 class="card-title">
-                                <a href="candidate-details.html" class="text-dark">Mibraj Alex</a>
-                            </h3>
-                            <ul class="list-unstyled">
-                                <li>Web Developer</li>
-                            </ul>
-                        </div>
-
-                        <div class="card-footer candidate-social text-center">
-                            <a href="#" target="_blank" class="text-primary"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank" class="text-info"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank" class="text-danger"><i class="bx bxl-linkedin"></i></a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="candidate-card">
-                        <div class="candidate-img">
-                            <img src="assets/img/candidate/3.jpg" alt="candidate image">
-                        </div>
-                        <div class="candidate-text">
-                            <h3>
-                                <a href="candidate-details.html">Malisa Petel</a>
-                            </h3>
-                            <ul>
-                                <li>
-                                    Business Consultant
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="candidate-social">
-                            <a href="#" target="_blank"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="candidate-card">
-                        <div class="candidate-img">
-                            <img src="assets/img/candidate/4.jpg" alt="candidate image">
-                        </div>
-                        <div class="candidate-text">
-                            <h3>
-                                <a href="candidate-details.html">Quence Joes</a>
-                            </h3>
-                            <ul>
-                                <li>
-                                    Graphics Designer
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="candidate-social">
-                            <a href="#" target="_blank"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="candidate-card">
-                        <div class="candidate-img">
-                            <img src="assets/img/candidate/5.jpg" alt="candidate image">
-                        </div>
-                        <div class="candidate-text">
-                            <h3>
-                                <a href="candidate-details.html">Mary Mainor</a>
-                            </h3>
-                            <ul>
-                                <li>
-                                    Technical Writter
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="candidate-social">
-                            <a href="#" target="_blank"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="candidate-card">
-                        <div class="candidate-img">
-                            <img src="assets/img/candidate/6.jpg" alt="candidate image">
-                        </div>
-                        <div class="candidate-text">
-                            <h3>
-                                <a href="candidate-details.html">Jack Hallock</a>
-                            </h3>
-                            <ul>
-                                <li>
-                                    Marketing Expert
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="candidate-social">
-                            <a href="#" target="_blank"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="candidate-card">
-                        <div class="candidate-img">
-                            <img src="assets/img/candidate/7.jpg" alt="candidate image">
-                        </div>
-                        <div class="candidate-text">
-                            <h3>
-                                <a href="candidate-details.html">Lucas Mason</a>
-                            </h3>
-                            <ul>
-                                <li>
-                                    UX Designer
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="candidate-social">
-                            <a href="#" target="_blank"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="candidate-card">
-                        <div class="candidate-img">
-                            <img src="assets/img/candidate/8.jpg" alt="candidate image">
-                        </div>
-                        <div class="candidate-text">
-                            <h3>
-                                <a href="candidate-details.html">Jerry Hudson</a>
-                            </h3>
-                            <ul>
-                                <li>
-                                    Video Editor
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="candidate-social">
-                            <a href="#" target="_blank"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="bx bxl-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
+
+            <!-- Custom Pagination Section -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <!-- Previous Button -->
+                    <li class="page-item {{ $results->onFirstPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $results->previousPageUrl() }}" tabindex="-1"
+                            aria-disabled="{{ $results->onFirstPage() ? 'true' : 'false' }}">
+                            <i class='bx bx-chevrons-left bx-fade-left'></i>
+                        </a>
+                    </li>
+
+                    <!-- Dynamic Page Numbers -->
+                    @foreach (range(1, $results->lastPage()) as $page)
+                        <li class="page-item {{ $page == $results->currentPage() ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $results->url($page) }}">{{ $page }}</a>
+                        </li>
+                    @endforeach
+
+                    <!-- Next Button -->
+                    <li class="page-item {{ !$results->hasMorePages() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $results->nextPageUrl() }}">
+                            <i class='bx bx-chevrons-right bx-fade-right'></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+
     </section>
     <!-- Candidates Section End -->
 
@@ -282,8 +154,8 @@
 
                 <div class="col-md-6">
                     <form class="newsletter-form" data-toggle="validator">
-                        <input type="email" class="form-control" placeholder="Enter your email" name="EMAIL"
-                            required autocomplete="off">
+                        <input type="email" class="form-control" placeholder="Enter your email" name="EMAIL" required
+                            autocomplete="off">
 
                         <button class="default-btn sub-btn" type="submit">
                             Subscribe
