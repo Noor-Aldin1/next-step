@@ -125,7 +125,7 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
-    public function experiences()
+    public function experience()
     {
         return $this->hasMany(Experience::class);
     }

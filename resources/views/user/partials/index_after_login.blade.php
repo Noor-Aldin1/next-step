@@ -54,7 +54,7 @@
                             <a href="{{ route('jobs.felter') }}" class="nav-link">Jobs</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('mentors') }}" class="nav-link">Monitors</a>
+                            <a href="{{ route('mentors.index') }}" class="nav-link">Monitors</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('soft') }}" class="nav-link">Soft Skills</a>

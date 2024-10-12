@@ -92,7 +92,11 @@
 
                             <div class="card-body candidate-text text-center">
                                 <h3 class="card-title">
-                                    <a href="#" class="text-dark">{{ $mentor->username }}</a>
+                                    <a href="{{ route('mentors.show', $mentor->id) }}"
+                                        class="text-dark">{{ $mentor->username }}</a>
+
+
+
                                 </h3>
                                 <ul class="list-unstyled">
                                     <li>{{ $mentor->job_title }}</li>

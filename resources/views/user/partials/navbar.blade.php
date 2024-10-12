@@ -59,8 +59,8 @@
                                 class="nav-link {{ request()->routeIs('soft') ? 'active' : '' }}">Soft Skills</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('mentors') }}"
-                                class="nav-link {{ request()->routeIs('mentors') ? 'active' : '' }}">mentors</a>
+                            <a href="{{ route('mentors.index') }}"
+                                class="nav-link {{ request()->routeIs('mentors.index') ? 'active' : '' }}">mentors</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('packages.index') }}"
