@@ -19,12 +19,11 @@ class UserMentorTableSeeder extends Seeder
             [
                 'student_id' => 1, // Assuming a user with ID 1 exists
                 'mentor_id' => 1, // Assuming a mentor with ID 1 exists
-                'mentor_limit' => 3, // Assuming a mentor with ID 1 exists
             ],
             [
                 'student_id' => 2, // Assuming a user with ID 2 exists
                 'mentor_id' => 1, // Assuming a mentor with ID 1 exists
-                'mentor_limit' => 1, // Assuming a mentor with ID 1 exists
+                // Assuming a mentor with ID 1 exists
             ],
 
         ]);

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Mentor;
+use App\Models\UserMentor;
 
 use App\Models\Experience;
 use App\Models\User;
@@ -210,6 +211,14 @@ class MentorController extends Controller
         $skills = $this->sql->where('mentors.id', $id)->get();
         $user = auth()->user();
 
+        $userId = auth()->id(); // Assuming the user is authenticated
+        $mentorId = $results->id; // Assuming you're passing the mentor's ID
+
+        // Check if the user has already subscribed to this mentor
+        $hasSubscribed = UserMentor::where('student_id', $userId)
+            ->where('mentor_id', $mentorId)
+            ->exists();
+
         // Check for an active subscription (you can adjust the condition as per your business logic)
         // $activeSubscription = UserSubscription::where('user_id', $user->id)
         //     ->where('end_date', '>', now()) // Ensure the subscription is still active
@@ -235,7 +244,7 @@ class MentorController extends Controller
         $mentor = Mentor::with(['user', 'students', 'materials', 'tasks', 'lectures', 'ratings', 'meetings'])->findOrFail($id);
 
         // Return the view with the mentor and related data
-        return view('user.pages.mentor_details', compact('mentor', 'results', 'usersWithExperience', 'experience', 'skills', 'user'));
+        return view('user.pages.mentor_details', compact('mentor', 'results', 'usersWithExperience', 'experience', 'skills', 'user', 'hasSubscribed'));
     }
 
     /**

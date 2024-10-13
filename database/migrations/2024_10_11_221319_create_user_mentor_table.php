@@ -16,7 +16,6 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('mentor_id')->constrained('mentors', 'id')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('users', 'id')->cascadeOnDelete();
-            $table->integer('mentor_limit')->default(1);
         });
     }
 

@@ -1,5 +1,8 @@
 @extends('user.index')
+
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <div class="container">
         <div class="py-5 text-center">
             <h2 style="color: #010c29; font-size: 24px; font-weight: bold; text-align: center; margin-top: 20px;">
@@ -17,13 +20,18 @@
                 <ul class="list-group mb-3">
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">{{ $package->name }}</h6>
-                            <small class="text-muted">{{ $package->description }}</small>
+                            <h6 class="my-0">{{ $newPackage->name }}</h6>
+                            <small class="text-muted">{{ $newPackage->description }}</small>
                         </div>
-                        <span class="text-muted" id="monthly-payment">${{ $package->price }}</span>
+                        <span class="text-muted" id="monthly-payment">${{ $newPackage->price }}</span>
                     </li>
                 </ul>
-                <h5 class="text-muted">Total: <span id="total-amount">$0</span></h5>
+
+                <h5 class="text-muted">Total: <span id="total-amount">${{ $totalAmount ?? $newPackage->price }}</span></h5>
+
+                @if (isset($remainingBalance) && $remainingBalance > 0)
+                    <small class="text-muted">Remaining balance from previous subscription: ${{ $remainingBalance }}</small>
+                @endif
             </div>
 
             <div class="col-md-8 order-md-1">
@@ -32,20 +40,22 @@
                 <form id="checkoutForm" action="{{ route('checkout.process') }}" method="POST" class="needs-validation"
                     novalidate>
                     @csrf
-                    <input type="hidden" name="package_id" value="{{ $package->id }}">
+                    <input type="hidden" name="package_id" value="{{ $newPackage->id }}">
+                    <input type="hidden" name="remaining_balance" id="remaining_balance"
+                        value="{{ $remainingBalance ?? 0 }}">
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="username">Username</label>
                             <input disabled value="{{ auth()->user()->username }}" type="text" name="username"
-                                class="form-control" id="username" placeholder="" required>
+                                class="form-control" id="username" required>
                             <div class="invalid-feedback">Valid Username is required.</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="numberOfMonths">Number of Months</label>
                             <input type="number" name="numberOfMonths" class="form-control" id="numberOfMonths"
                                 placeholder="e.g 5" value="1" min="1" required>
-                            <div class="invalid-feedback">Valid number of months is required.</div>
+                            <div class="invalid-feedback">Valid number of months is required (must be at least 1).</div>
                         </div>
                     </div>
 
@@ -69,41 +79,16 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="cc-name">Name on card</label>
-                            <input type="text" name="cc-name" class="form-control" id="cc-name" placeholder=""
-                                required>
+                            <input type="text" name="cc-name" class="form-control" id="cc-name" required>
                             <small class="text-muted">Full name as displayed on card</small>
                             <div class="invalid-feedback">Name on card is required.</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="cc-number">Credit card number</label>
-                            <input type="text" name="cc-number" class="form-control" id="cc-number" placeholder=""
-                                required pattern="\d{16}">
-                            <div class="invalid-feedback">Credit card number must be 16 digits.</div>
+                            <input type="text" name="cc-number" class="form-control" id="cc-number" required>
+                            <div class="invalid-feedback">Credit card number is required.</div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">Expiration</label>
-                            <input type="text" name="cc-expiration" class="form-control" id="cc-expiration"
-                                placeholder="MM/YYYY" required pattern="^(0[1-9]|1[0-2])\/\d{4}$">
-                            <div class="invalid-feedback">Expiration date required in MM/YYYY format.</div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-cvv">CVV</label>
-                            <input type="text" name="cc-cvv" class="form-control" id="cc-cvv" placeholder=""
-                                required pattern="\d{3}">
-                            <div class="invalid-feedback">Security code must be 3 digits.</div>
-                        </div>
-                    </div>
-                    <hr class="mb-4">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="agree-terms" required>
-                        <label class="custom-control-label" for="agree-terms">I agree to the <a
-                                href="{{ route('Terms') }}" class="text-primary">terms and conditions</a></label>
-                    </div>
-
-                    <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit"> Checkout</button>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -113,105 +98,107 @@
                             </ul>
                         </div>
                     @endif
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="cc-expiration">Expiration</label>
+                            <input type="text" name="cc-expiration" class="form-control" id="cc-expiration"
+                                placeholder="MM/YY" required pattern="^(0[1-9]|1[0-2])\/?([0-9]{2})$">
+                            <div class="invalid-feedback">Expiration date required (format: MM/YY).</div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="cc-cvv">CVV</label>
+                            <input type="text" name="cc-cvv" class="form-control" id="cc-cvv" required
+                                pattern="^[0-9]{3,4}$">
+                            <div class="invalid-feedback">Security code required (3 or 4 digits).</div>
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
                 </form>
-
-                <br><br>
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
     <script>
-        (function() {
-            'use strict';
-
-            // Fetch the number of months and monthly payment
-            const monthlyPayment = {{ $package->price }};
+        document.addEventListener('DOMContentLoaded', function() {
             const numberOfMonthsInput = document.getElementById('numberOfMonths');
+            const monthlyPayment = {{ $newPackage->price }};
+            const remainingBalance = {{ $remainingBalance ?? 0 }};
             const totalAmountDisplay = document.getElementById('total-amount');
+            const checkoutForm = document.getElementById('checkoutForm');
+            const expirationInput = document.getElementById('cc-expiration');
 
-            // Function to calculate total amount
             function calculateTotal() {
-                const numberOfMonths = parseInt(numberOfMonthsInput.value) || 0;
-                const total = numberOfMonths * monthlyPayment;
-                totalAmountDisplay.innerText = `$${total}`;
+                const numberOfMonths = parseInt(numberOfMonthsInput.value, 10);
+                const newPackageTotal = monthlyPayment * numberOfMonths;
+                const finalAmount = Math.max(0, newPackageTotal - remainingBalance);
+                totalAmountDisplay.innerText = `$${finalAmount.toFixed(2)}`;
             }
 
-            // Event listener for input change
-            numberOfMonthsInput.addEventListener('input', calculateTotal);
+            // Helper function to validate expiration date
+            function validateExpirationDate() {
+                const currentDate = new Date();
+                const currentYear = currentDate.getFullYear() % 100; // Extract last 2 digits of the year (YY)
+                const currentMonth = currentDate.getMonth() + 1; // Months are zero-indexed
 
-            // Initialize total on page load
+                const expirationValue = expirationInput.value.trim();
+                const [expMonth, expYear] = expirationValue.split('/').map(Number);
+
+                if (
+                    expYear < currentYear ||
+                    (expYear === currentYear && expMonth < currentMonth)
+                ) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Expiration Date',
+                        text: 'The expiration date must be from the current month or later.'
+                    });
+                    return false;
+                }
+                return true;
+            }
+
+            // Event listener for number of months input change
+            numberOfMonthsInput.addEventListener('input', calculateTotal);
             calculateTotal();
 
-            // Form validation
-            window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
+            checkoutForm.addEventListener('submit', function(event) {
+                if (!checkoutForm.checkValidity() || !validateExpirationDate()) {
+                    event.preventDefault();
+                    event.stopPropagation();
 
-                Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
+                    if (!checkoutForm.checkValidity()) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Form validation error',
+                            text: 'Please make sure all fields are filled out correctly.'
+                        });
+                    }
+                } else {
+                    event.preventDefault(); // For demo purposes, you can remove this in production
+
+                    Swal.fire({
+                        title: 'Processing...',
+                        text: 'Please wait while we process your payment.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
                         }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
+                    });
+
+                    // Simulate form submission after SweetAlert success (you can remove this in production)
+                    setTimeout(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Payment Successful!',
+                            text: 'Your payment has been processed successfully.'
+                        }).then(() => {
+                            checkoutForm.submit(); // Submit the form after success
+                        });
+                    }, 2000);
+                }
+
+                checkoutForm.classList.add('was-validated');
             });
-        })();
-    </script>
-
-    <!-- Include SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
-            // Prevent form submission
-            event.preventDefault();
-
-            // Get form values
-            const username = document.getElementById('username').value;
-            const numberOfMonths = document.getElementById('numberOfMonths').value;
-            const ccName = document.getElementById('cc-name').value;
-            const ccNumber = document.getElementById('cc-number').value;
-            const ccExpiration = document.getElementById('cc-expiration').value;
-            const ccCVV = document.getElementById('cc-cvv').value;
-
-            // Regex patterns
-            const ccNumberPattern = /^[0-9]{16}$/; // 16 digits
-            const ccExpirationPattern = /^(0[1-9]|1[0-2])\/\d{4}$/; // MM/YYYY format
-            const ccCVVPattern = /^[0-9]{3}$/; // 3 digits
-
-            let isValid = true;
-            let errorMessage = '';
-
-            // Validate fields
-            if (!ccNumberPattern.test(ccNumber)) {
-                isValid = false;
-                errorMessage += 'Invalid credit card number.\n';
-            }
-            if (!ccExpirationPattern.test(ccExpiration)) {
-                isValid = false;
-                errorMessage += 'Invalid expiration date format. Use MM/YYYY.\n';
-            }
-            if (!ccCVVPattern.test(ccCVV)) {
-                isValid = false;
-                errorMessage += 'Invalid CVV. It should be 3 digits.\n';
-            }
-
-            // Show error message if invalid
-            if (!isValid) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: errorMessage,
-                });
-            } else {
-                // If valid, submit the form
-                this.submit();
-            }
         });
     </script>
-    </div>
 @endsection

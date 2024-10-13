@@ -14,6 +14,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url('customer_css/assets/css/bootstrap.min.css') }}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
     <!-- Owl Carousel CSS -->
     <link rel="stylesheet" href="{{ url('customer_css/assets/css/owl.carousel.min.css') }}">
 

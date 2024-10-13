@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\PackageController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Customer\MentorController;
-
+use App\Http\Controllers\Customer\UsermentorsController;
 
 
 
@@ -127,3 +127,8 @@ Route::prefix('mentors')->name('mentors.')->group(function () {
     Route::delete('/{id}', [MentorController::class, 'destroy'])->name('destroy'); // Remove the specified mentor
     Route::get('/active', [MentorController::class, 'activeMentors'])->name('active'); // Get active mentors
 });
+
+
+
+// usermenter
+Route::resource('usermentor', UsermentorsController::class);
