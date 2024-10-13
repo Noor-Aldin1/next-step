@@ -1,83 +1,90 @@
-<div class="container" data-experience-count="{{ Auth::user()->experiences->count() }}">
+<div class="container"
+    data-experience-count="{{ Auth::check() && Auth::user()->experiences ? Auth::user()->experiences->count() : 0 }}">
     <form action="{{ route('experiences.store') }}" method="POST" id="experienceForm">
         @csrf <!-- Laravel CSRF token -->
         <div id="experienceContainer" class="accordion" id="accordionExperience">
             <!-- Existing Experiences (to edit) -->
-            @foreach (Auth::user()->experiences as $experience)
-                <div class="accordion-item">
-                    <input type="hidden" name="experience_id[]" value="{{ $experience->id }}">
-                    <h2 class="accordion-header" id="experienceHeading{{ $loop->index }}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#experienceCollapse{{ $loop->index }}" aria-expanded="false"
-                            aria-controls="experienceCollapse{{ $loop->index }}" onclick="toggleAccordion(this)">
-                            {{ $experience->position }} at {{ $experience->company_name }}
-                        </button>
-                    </h2>
-                    <div id="experienceCollapse{{ $loop->index }}" class="accordion-collapse collapse"
-                        aria-labelledby="experienceHeading{{ $loop->index }}">
-                        <div class="accordion-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="position_{{ $loop->index }}">Position</label>
-                                        <input type="text" name="position[]" class="form-control"
-                                            id="position_{{ $loop->index }}" value="{{ $experience->position }}"
-                                            required disabled>
+            @if (Auth::check() && Auth::user()->experiences && Auth::user()->experiences->count() > 0)
+                @foreach (Auth::user()->experiences as $experience)
+                    <div class="accordion-item">
+                        <input type="hidden" name="experience_id[]" value="{{ $experience->id }}">
+                        <h2 class="accordion-header" id="experienceHeading{{ $loop->index }}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#experienceCollapse{{ $loop->index }}" aria-expanded="false"
+                                aria-controls="experienceCollapse{{ $loop->index }}" onclick="toggleAccordion(this)">
+                                {{ $experience->position }} at {{ $experience->company_name }}
+                            </button>
+                        </h2>
+                        <div id="experienceCollapse{{ $loop->index }}" class="accordion-collapse collapse"
+                            aria-labelledby="experienceHeading{{ $loop->index }}">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="position_{{ $loop->index }}">Position</label>
+                                            <input type="text" name="position[]" class="form-control"
+                                                id="position_{{ $loop->index }}" value="{{ $experience->position }}"
+                                                required disabled>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="company_name_{{ $loop->index }}">Company Name</label>
-                                        <input type="text" name="company_name[]" class="form-control"
-                                            id="company_name_{{ $loop->index }}"
-                                            value="{{ $experience->company_name }}" required disabled>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="company_name_{{ $loop->index }}">Company Name</label>
+                                            <input type="text" name="company_name[]" class="form-control"
+                                                id="company_name_{{ $loop->index }}"
+                                                value="{{ $experience->company_name }}" required disabled>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="start_due_{{ $loop->index }}">Start Date</label>
-                                        <input type="date" name="start_due[]" class="form-control"
-                                            id="start_due_{{ $loop->index }}" value="{{ $experience->start_due }}"
-                                            required disabled>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="start_due_{{ $loop->index }}">Start Date</label>
+                                            <input type="date" name="start_due[]" class="form-control"
+                                                id="start_due_{{ $loop->index }}"
+                                                value="{{ $experience->start_due }}" required disabled>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="end_due_{{ $loop->index }}">End Date / Expected to End</label>
-                                        <input type="date" name="end_due[]" class="form-control"
-                                            id="end_due_{{ $loop->index }}" value="{{ $experience->end_due }}"
-                                            required disabled>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="end_due_{{ $loop->index }}">End Date / Expected to End</label>
+                                            <input type="date" name="end_due[]" class="form-control"
+                                                id="end_due_{{ $loop->index }}" value="{{ $experience->end_due }}"
+                                                required disabled>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="description_{{ $loop->index }}">Description</label>
-                                        <textarea name="description[]" class="form-control" id="description_{{ $loop->index }}" rows="3" required
-                                            disabled>{{ $experience->description }}</textarea>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="description_{{ $loop->index }}">Description</label>
+                                            <textarea name="description[]" class="form-control" id="description_{{ $loop->index }}" rows="3" required
+                                                disabled>{{ $experience->description }}</textarea>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-md-12">
-                                    <!-- Edit and Delete buttons -->
-                                    <button type="button" class="btn btn-warning mt-2" data-id="{{ $experience->id }}"
-                                        data-position="{{ $experience->position }}"
-                                        data-company_name="{{ $experience->company_name }}"
-                                        data-start_due="{{ $experience->start_due }}"
-                                        data-end_due="{{ $experience->end_due }}"
-                                        data-description="{{ $experience->description }}"
-                                        onclick="openEditExperienceModal(this)">Edit</button>
+                                    <div class="col-md-12">
+                                        <!-- Edit and Delete buttons -->
+                                        <button type="button" class="btn btn-warning mt-2"
+                                            data-id="{{ $experience->id }}"
+                                            data-position="{{ $experience->position }}"
+                                            data-company_name="{{ $experience->company_name }}"
+                                            data-start_due="{{ $experience->start_due }}"
+                                            data-end_due="{{ $experience->end_due }}"
+                                            data-description="{{ $experience->description }}"
+                                            onclick="openEditExperienceModal(this)">Edit</button>
 
-                                    <button type="button" class="btn btn-danger mt-2"
-                                        onclick="deleteExperience(this)">Delete</button>
+                                        <button type="button" class="btn btn-danger mt-2"
+                                            onclick="deleteExperience(this)">Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @else
+                <div> </div>
+            @endif
+
         </div>
         <!-- Dynamically added experiences will appear here -->
         <div id="newExperienceContainer"></div>
