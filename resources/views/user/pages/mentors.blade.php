@@ -74,31 +74,17 @@
                     <div class="col-lg-3 col-sm-6">
                         <div class="card candidate-card">
                             <div class="candidate-img">
-                                <div class="video-container" style="cursor: pointer;">
-                                    <!-- Use video tag with poster attribute for background image -->
-                                    <video id="mentor-video" width="100%" height="200" controls preload="none"
-                                        poster="start.png">
-                                        <source
-                                            src="{{ $mentor->video ? asset('storage/' . $mentor->video) : 'http://mydomain.com/mytestfile.mp4' }}"
-                                            type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
+                                <div class="image-container" style="cursor: pointer;">
+                                    <!-- Use img tag to display the mentor's photo -->
+                                    <div class="candidate-img">
+                                        <img id="mentor-image" width="100%" height="200"
+                                            src="{{ $mentor->photo ? asset('storage/' . $mentor->photo) : 'http://mydomain.com/default-image.png' }}"
+                                            alt="Mentor Image" style="object-fit: cover;">
+                                        <!-- Use a default image if no photo is set -->
+                                    </div>
                                 </div>
                             </div>
 
-                            <script>
-                                // Add click event listener to the video container
-                                document.querySelector('.video-container').addEventListener('click', function() {
-                                    const mentorVideo = document.getElementById('mentor-video');
-
-                                    // Check if the video source is not set
-                                    if (!mentorVideo.src) {
-                                        // Set the video source to start playing
-                                        mentorVideo.src = mentorVideo.querySelector('source').src; // Get the source from the <source> tag
-                                        mentorVideo.play(); // Start playing the video
-                                    }
-                                });
-                            </script>
 
 
 

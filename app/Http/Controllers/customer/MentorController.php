@@ -49,6 +49,7 @@ class MentorController extends Controller
                 'profiles.id',
                 'profiles.user_id',
                 'profiles.full_name',
+                'users.photo',
                 'profiles.phone',
                 'profiles.email',
                 'profiles.job_title',
@@ -88,7 +89,7 @@ class MentorController extends Controller
                 'profiles.university',
                 'profiles.gap',
                 'users.username',
-
+                'users.photo',
                 'mentors.video'
             );
     }
@@ -185,6 +186,7 @@ class MentorController extends Controller
                 'users.id',         // All non-aggregated fields need to be included here
                 'users.username',
                 'users.email',      // Added 'email' field
+                'users.photo',      // Added 'email' field
                 'profiles.id',
                 'profiles.user_id',
                 'profiles.full_name',
