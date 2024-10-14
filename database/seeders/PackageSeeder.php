@@ -12,25 +12,34 @@ class PackageSeeder extends Seeder
         DB::table('packages')->insert([
             [
                 'name' => 'Basic Plan',
-                'attributes' => json_encode(['duration' => '1 month', 'support' => 'email']),
-                'price' => 9.99,
+                'attributes' => json_encode([
+                    'features' => [
+                        'One-on-One Mentorship',
+                        'Job Board Access',
+                    ],
+                    'details' => [
+                        'Includes meetings, tailored assignments, valuable materials, certificates, and skills assessments',
+                    ],
+                ]),
+                'price' => 19.99, // Adjusted to reflect more value
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'Pro Plan',
-                'attributes' => json_encode(['duration' => '6 months', 'support' => 'email, phone']),
-                'price' => 49.99,
+                'attributes' => json_encode([
+                    'features' => [
+                        'Ultimate Mentorship Experience',
+                        'Tri-Mentor Access',
+                    ],
+                    'details' => [
+                        'Includes advanced mentorship, access to three mentors, more comprehensive assignments, and premium job board features',
+                    ],
+                ]),
+                'price' => 99.99, // Higher price for more comprehensive services
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'Enterprise Plan',
-                'attributes' => json_encode(['duration' => '12 months', 'support' => 'priority support']),
-                'price' => 99.99,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
         ]);
     }
 }

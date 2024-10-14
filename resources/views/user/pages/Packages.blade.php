@@ -25,9 +25,8 @@
     <section class="pricing-section pt-100 pb-70">
         <div class="container">
             <div class="section-title text-center">
-                <h2>Buy Our Plans & Packages</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+                <h2>Unlock Exclusive Plans and Packages!</h2>
+
             </div>
 
             <div class="row">
@@ -83,21 +82,36 @@
                                         @if ($package->attributes)
                                             @php
                                                 // Check if attributes is already an array
-                                                $features = is_array($package->attributes)
+                                                $attributes = is_array($package->attributes)
                                                     ? $package->attributes
                                                     : json_decode($package->attributes, true);
+
+                                                $features = $attributes['features'] ?? [];
+                                                $details = $attributes['details'] ?? [];
                                             @endphp
 
                                             @foreach ($features as $feature)
-                                                <li>
-                                                    <i class='bx bx-check'></i>
-                                                    {{ $feature }}
-                                                </li>
+                                                @if (is_string($feature))
+                                                    <!-- Ensure the feature is a string -->
+                                                    <li>
+                                                        <i class='bx bx-check'></i>
+                                                        {{ $feature }}
+                                                    </li>
+                                                @endif
+                                            @endforeach
+
+                                            @foreach ($details as $detail)
+                                                @if (is_string($detail))
+                                                    <!-- Ensure the detail is a string -->
+                                                    <li>
+                                                        <i class='bx bx-info-circle'></i>
+                                                        {{ $detail }}
+                                                    </li>
+                                                @endif
                                             @endforeach
                                         @else
                                             <li>No features available.</li>
                                         @endif
-
                                     </ul>
                                 </div>
 
@@ -108,15 +122,15 @@
                                         <input type="hidden" name="numberOfMonths" value="1">
                                         <!-- Set default number of months -->
                                         <div class="price-btn">
-                                            <a> <button style=" color:rgb(255, 255, 255)" type="submit"
-                                                    class="">Continue to
-                                                    Checkout</button></a>
+                                            <a href="#"
+                                                onclick="event.preventDefault(); this.closest('form').submit();"
+                                                class="price-btn">
+                                                Subscribe Now
+                                            </a>
                                         </div>
                                     </form>
 
-
                                 </div>
-
                             </div>
                         </div>
                     @endforeach
