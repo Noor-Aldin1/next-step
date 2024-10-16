@@ -97,6 +97,7 @@
                                                 <div class="jobs2 card-body">
                                                     <div class="text-center">
                                                         <h4 class="mb-0">
+
                                                             <a href="{{ route('employer.job_postings.show', $job->id) }}"
                                                                 class="text-black">{{ $job->title }}</a>
                                                         </h4>
@@ -208,50 +209,79 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const jobList = document.getElementById('jobList');
-            const locationFilter = document.getElementById('locationFilter');
-            const salaryFilter = document.getElementById('salaryFilter');
-            const titleFilter = document.getElementById('titleFilter');
-            const searchBtn = document.getElementById('searchBtn');
+        // Form validation remains the same
+        document.getElementById('jobForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop form submission
 
-            function filterJobs() {
-                const location = locationFilter.value.toLowerCase();
-                const salary = salaryFilter.value;
-                const title = titleFilter.value.toLowerCase();
+            const form = event.target;
+            const title = form.title.value.trim();
+            const companyName = form.company_name.value.trim();
+            const position = form.position.value.trim();
+            const jobType = form.job_type.value;
+            const city = form.city.value;
+            const address = form.address.value.trim();
+            const category = form.category.value;
 
-                const jobItems = jobList.querySelectorAll('.job-listing');
+            let hasError = false;
+            let errors = [];
 
-                jobItems.forEach(job => {
-                    const jobLocation = job.getAttribute('data-location').toLowerCase();
-                    const jobSalary = parseFloat(job.getAttribute('data-salary'));
-                    const jobTitle = job.getAttribute('data-title').toLowerCase();
-                    let showJob = true;
-
-                    // Filter by location
-                    if (location && !jobLocation.includes(location)) {
-                        showJob = false;
-                    }
-
-                    // Filter by salary
-                    if (salary && jobSalary > parseFloat(salary)) {
-                        showJob = false;
-                    }
-
-                    // Filter by job title
-                    if (title && !jobTitle.includes(title)) {
-                        showJob = false;
-                    }
-
-                    job.style.display = showJob ? 'block' : 'none';
-                });
+            // Validate fields based on Laravel rules
+            if (title === '' || title.length > 255) {
+                hasError = true;
+                errors.push('Title is required and must not exceed 255 characters.');
             }
 
-            // Event listeners for filters
-            locationFilter.addEventListener('change', filterJobs);
-            salaryFilter.addEventListener('change', filterJobs);
-            titleFilter.addEventListener('input', filterJobs);
-            searchBtn.addEventListener('click', filterJobs);
+            if (companyName === '' || companyName.length > 255) {
+                hasError = true;
+                errors.push('Company Name is required and must not exceed 255 characters.');
+            }
+
+            if (position === '' || position.length > 255) {
+                hasError = true;
+                errors.push('Position is required and must not exceed 255 characters.');
+            }
+
+            if (jobType === '') {
+                hasError = true;
+                errors.push('Job Type is required.');
+            }
+
+            if (city === '') {
+                hasError = true;
+                errors.push('City is required.');
+            }
+
+            if (address === '' || address.length > 255) {
+                hasError = true;
+                errors.push('Address is required and must not exceed 255 characters.');
+            }
+
+            if (category === '') {
+                hasError = true;
+                errors.push('Category is required.');
+            }
+
+            if (hasError) {
+                // Use SweetAlert2 to display validation errors
+                Swal.fire({
+                    title: 'Validation Errors',
+                    icon: 'error',
+                    html: '<ul>' + errors.map(error => `<li>${error}</li>`).join('') + '</ul>',
+                    confirmButtonText: 'Okay'
+                });
+            } else {
+                form.submit(); // Proceed with form submission if no errors
+            }
         });
+
+        // Display success message if present in session
+        @if (session('success'))
+            Swal.fire({
+                title: 'Success',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        @endif
     </script>
 @endsection

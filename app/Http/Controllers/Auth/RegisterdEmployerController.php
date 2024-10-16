@@ -145,6 +145,6 @@ class RegisterdEmployerController extends Controller
         $employer->save();
 
         // Redirect with a success message
-        return redirect()->route('employer.profile')->with('success', 'Employer profile updated successfully.');
+        return redirect()->route('employer.job_postings.dashbord')->with('success', 'Employer profile updated successfully.');
     }
 }

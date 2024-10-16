@@ -43,19 +43,30 @@ class job_postingController extends Controller
 
         // Get all job postings for the employer
         $jobPostings = JobPosting::where('employer_id', auth()->id())->get();
-
         return view('employer.pages.dashbooard', compact('jobPostings'));
     }
 
     public function joblist()
     {
-        // Get paginated job postings for the employer
-        $jobs = JobPosting::where('employer_id', auth()->id())->paginate(10); // Adjust the number of items per page as needed
-        $categories_name = $this->categories_name;
+        $userId = auth()->id();
 
+        if (!$userId) {
+            return redirect()->route('login')->with('error', 'You must be logged in to view job postings.');
+        }
+        // Get paginated job postings for the employer
+        $jobs = JobPosting::join('employers', 'job_postings.employer_id', '=', 'employers.id')
+            ->where('employers.user_id', $userId)
+            ->select('job_postings.*') // Select job_postings fields
+            ->paginate(10);
+        // Adjust the number of items per page as needed
+        // dd($jobs);
+
+
+        $categories_name = $this->categories_name;
 
         return view('employer.pages.joblist', compact('jobs', 'categories_name'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -70,7 +81,7 @@ class job_postingController extends Controller
 
         $categories_name = $this->categories_name;
 
-
+        // dd($jobPostings);
         return view('employer.pages.dashbooard', ['categories_name' => $categories_name, 'jobPostings' => $jobPostings]);
     }
 
@@ -94,6 +105,12 @@ class job_postingController extends Controller
     }
     public function store(Request $request)
     {
+        $employer = Employer::where('user_id', auth()->id())->first();
+
+        if (!$employer) {
+            return redirect()->back()->with('error', 'You need to register as an employer to post a job.');
+        }
+
         try {
             // Validation for form inputs
             $validatedData = $request->validate([
@@ -110,12 +127,12 @@ class job_postingController extends Controller
                 'city' => 'required|in:Amman,Irbid,Balqa,Karak,Ma\'an,Mafraq,Tafilah,Zarqa,Madaba,Jerash,Ajloun,Aqaba',
                 'address' => 'required|max:255',
                 'education_level' => 'nullable|max:255',
-                'category' => 'required|in:' .  $this->gitcategory(), // Adjusted for valid category check
+                'category' => 'required|max:255',
             ]);
 
             // Create the job posting
             $jobPosting = JobPosting::create([
-                'employer_id' => auth()->id(),
+                'employer_id' => $employer->id, // Fixed employer ID retrieval
                 'title' => $validatedData['title'],
                 'description' => $validatedData['description'],
                 'requirements' => $validatedData['requirements'],
@@ -124,7 +141,7 @@ class job_postingController extends Controller
                 'job_type' => $validatedData['job_type'],
                 'experience' => $validatedData['experience'],
                 'salary' => $validatedData['salary'],
-                'post_due' => now(), // Set post_due to today's date
+                'post_due' => $validatedData['post_due'] ?? now(), // Use provided date or set to now
                 'last_date_to_apply' => $validatedData['last_date_to_apply'],
                 'city' => $validatedData['city'],
                 'address' => $validatedData['address'],
@@ -134,18 +151,23 @@ class job_postingController extends Controller
             // Retrieve the category name from validated data
             $categoryName = $validatedData['category'];
 
-            // Retrieve all categories only once to avoid repeated database calls
+            // Find the category by name
             $category = JobCategory::where('name', $categoryName)->first();
-            $matchingId = $category ? $category->id : null;
 
-            // Create the JobPostingCategory relationship
-            JobPostingCategory::create([
-                'job_id' => $jobPosting->id, // Use the recently created job posting's ID
-                'category_id' => $matchingId, // Use the matching category ID or null if not found
-            ]);
+            // Ensure the category exists
+            if ($category) {
+                // Create the JobPostingCategory relationship
+                JobPostingCategory::create([
+                    'job_id' => $jobPosting->id, // Use the created job's ID
+                    'category_id' => $category->id, // Use the category's ID
+                ]);
+            } else {
+                // Handle case where category was not found
+                return redirect()->back()->with('error', 'The selected category does not exist.');
+            }
 
             // Return success response
-            return redirect()->route('employer.panel')->with('success', 'Job posting created successfully.');
+            return redirect()->back()->with('success', 'Job successfully added!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Handle validation errors
             return redirect()->back()->withErrors($e->validator)->withInput();
@@ -157,6 +179,7 @@ class job_postingController extends Controller
             return redirect()->back()->with('error', 'An error occurred while creating the job posting. Please try again later.');
         }
     }
+
 
 
 

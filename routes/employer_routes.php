@@ -19,7 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('employer/job_postings/all', [job_postingController::class, 'create'])->name('employer.job_postings.dashbord');
 
     // Store a newly created job posting (POST)
-    Route::post('employer/job_postings', [job_postingController::class, 'store'])->name('employer.job_postings.store');
+    Route::post('employer/job_postings/zzz', [job_postingController::class, 'store'])->name('employer.job_postings.store');
 
     // Display the specified job posting (GET)
     Route::get('employer/job_postings/{id}', [job_postingController::class, 'show'])->name('employer.job_postings.show');

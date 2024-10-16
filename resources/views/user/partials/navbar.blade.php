@@ -92,8 +92,8 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('business_owner') }}"
-                                class="nav-link {{ request()->routeIs('business_owner') ? 'active' : '' }}"
+                            <a href="{{ route('employer.register') }}"
+                                class="nav-link {{ request()->routeIs('employer.register') ? 'active' : '' }}"
                                 style=" font-weight: bold; text-decoration: underline;"
                                 title="Uncover benefits created exclusively for business owners">
                                 Business
