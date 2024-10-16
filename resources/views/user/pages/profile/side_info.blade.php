@@ -64,7 +64,7 @@
                     Change Password
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <div x-data="{ showDeleteAccountModal() { showDeleteModal() } }" class="ps-5 mb-2">
                     <!-- Delete Account Button triggers SweetAlert2 -->
                     <button x-on:click.prevent='showDeleteAccountModal()'
@@ -73,7 +73,7 @@
                         <span>Delete Account</span>
                     </button>
                 </div>
-            </li>
+            </li> --}}
 
         </ul>
     </div>
