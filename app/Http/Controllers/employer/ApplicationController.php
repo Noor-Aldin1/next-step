@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\JobCategory;
+use App\Models\Employer;
+
 
 class ApplicationController extends Controller
 {
@@ -21,8 +23,15 @@ class ApplicationController extends Controller
     {
         $categories_name = $this->categories_name = JobCategory::all();
         // Get the authenticated employer's ID
-        $employerId = Auth::id();
 
+        $employer = Employer::where('user_id', auth()->id())->first();
+
+        if ($employer) {
+            $employerId = $employer->id; // Access the id property directly
+        } else {
+            // Handle case where employer is not found
+            return redirect()->back()->with('error', 'Employer not found.');
+        }
         // Get filtering parameters
         $title = $request->input('title', ''); // Get the title filter
 
