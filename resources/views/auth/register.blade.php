@@ -28,44 +28,43 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-8 offset-md-2 offset-lg-3">
-                    <div id="alert" class="alert alert-warning" role="alert" style="display: none;"></div>
-                    <form class="signup-form" method="POST" action="{{ route('register') }}" id="signupForm">
+                    <form class="signup-form needs-validation" method="POST" action="{{ route('register') }}"
+                        id="signupForm" novalidate>
                         @csrf
                         <div class="form-group">
-                            <label for="name">Enter Username</label>
+                            <label for="name">Username</label>
                             <input id="name" type="text" class="form-control" name="name"
-                                placeholder="Enter Username" value="{{ old('name') }}" required autofocus
-                                autocomplete="name">
-                            @error('name')
-                                <span class="text-danger mt-2">{{ $message }}</span>
-                            @enderror
+                                placeholder="e.g Ali_12" value="{{ old('name') }}" required autofocus>
+                            <div class="invalid-feedback">
+                                Username must be at least 3 alphanumeric characters.
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="email">Enter Email</label>
+                            <label for="email">Email</label>
                             <input id="email" type="email" class="form-control" name="email"
-                                placeholder="Enter Your Email" value="{{ old('email') }}" required autocomplete="username">
-                            @error('email')
-                                <span class="text-danger mt-2">{{ $message }}</span>
-                            @enderror
+                                placeholder="e.g example@gmail.com" value="{{ old('email') }}" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address like example@xyz.com.
+
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="password">Enter Password</label>
-                            <input id="password" type="password" class="form-control" name="password"
-                                placeholder="Enter Your Password" required autocomplete="new-password">
-                            @error('password')
-                                <span class="text-danger mt-2">{{ $message }}</span>
-                            @enderror
+                            <label for="password">Password</label>
+                            <input id="password" type="password" class="form-control" name="password" required
+                                minlength="8">
+                            <div class="invalid-feedback">
+                                Password must be at least 8 characters long.
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="password_confirmation">Confirm Password</label>
                             <input id="password_confirmation" type="password" class="form-control"
-                                name="password_confirmation" placeholder="Confirm Your Password" required
-                                autocomplete="new-password">
-                            @error('password_confirmation')
-                                <span class="text-danger mt-2">{{ $message }}</span>
-                            @enderror
+                                name="password_confirmation" required>
+                            <div class="invalid-feedback">
+                                Password confirmation must match.
+                            </div>
                         </div>
 
                         <div class="signup-btn text-center">
@@ -76,7 +75,7 @@
                             <p>
                                 Have an Account?
                                 <a href="{{ route('login') }}">
-                                    Sign In
+                                    Login
                                     <i class='bx bx-chevrons-right bx-fade-right'></i>
                                 </a>
                             </p>
@@ -89,98 +88,85 @@
     <!-- Sign Up Section End -->
 
     <script>
-        // Show success alert after registration
-        @if (session('success'))
-            Swal.fire({
-                title: 'Success!',
-                text: "{{ session('success') }}",
-                icon: 'success',
-                confirmButtonText: 'OK'
+        (function() {
+            'use strict';
+
+            var forms = document.querySelectorAll('.needs-validation');
+
+            Array.prototype.slice.call(forms).forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    var username = form.querySelector('input[name="name"]').value.trim();
+                    var email = form.querySelector('input[name="email"]').value.trim();
+                    var password = form.querySelector('input[name="password"]').value;
+                    var passwordConfirmation = form.querySelector('input[name="password_confirmation"]')
+                        .value;
+
+                    // Regular Expressions
+                    var usernamePattern = /^[a-zA-Z0-9]{3,}$/; // At least 3 alphanumeric characters
+                    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format
+
+                    // Validate username
+                    if (!usernamePattern.test(username)) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Validation Error',
+                            text: 'Username must be at least 3 alphanumeric characters.',
+                        });
+                        form.querySelector('input[name="name"]').classList.add('is-invalid');
+                    }
+
+                    // Validate email
+                    else if (!emailPattern.test(email)) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Validation Error',
+                            text: 'Please enter a valid email address.',
+                        });
+                        form.querySelector('input[name="email"]').classList.add('is-invalid');
+                    }
+
+                    // Validate password length
+                    else if (password.length < 8) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Validation Error',
+                            text: 'Password must be at least 8 characters long.',
+                        });
+                        form.querySelector('input[name="password"]').classList.add('is-invalid');
+                    }
+
+                    // Validate password confirmation
+                    else if (password !== passwordConfirmation) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Password Mismatch',
+                            text: 'Password and confirmation do not match.',
+                        });
+                        form.querySelector('input[name="password_confirmation"]').classList.add(
+                            'is-invalid');
+                    }
+
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Form Error',
+                            text: 'Please fix the errors in the form.',
+                        });
+                    }
+
+                    form.classList.add('was-validated');
+                }, false);
             });
-        @endif
-
-        // Client-side validation
-        document.getElementById('signupForm').addEventListener('submit', function(event) {
-            let alertBox = document.getElementById('alert');
-            alertBox.style.display = 'none'; // Hide the alert initially
-
-            // Get values
-            const username = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const passwordConfirmation = document.getElementById('password_confirmation').value.trim();
-
-            // Regular expressions
-            const usernamePattern = /^[a-zA-Z0-9]{3,}$/; // At least 3 alphanumeric characters
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email pattern
-
-            // Simple validation for empty fields
-            if (!username || !email || !password || !passwordConfirmation) {
-                event.preventDefault(); // Prevent form submission
-                alertBox.innerText = 'All fields are required.';
-                alertBox.style.display = 'block'; // Show the alert
-                return;
-            }
-
-            // Validate username
-            if (!usernamePattern.test(username)) {
-                event.preventDefault(); // Prevent form submission
-                alertBox.innerText = 'Username must be at least 3 alphanumeric characters.';
-                alertBox.style.display = 'block'; // Show the alert
-                return;
-            }
-
-            // Validate email
-            if (!emailPattern.test(email)) {
-                event.preventDefault(); // Prevent form submission
-                alertBox.innerText = 'Please enter a valid email address.';
-                alertBox.style.display = 'block'; // Show the alert
-                return;
-            }
-
-            // Validate password length
-            if (password.length < 8) {
-                event.preventDefault(); // Prevent form submission
-                alertBox.innerText = 'The password field must be at least 8 characters.';
-                alertBox.style.display = 'block'; // Show the alert
-                return;
-            }
-
-            // Validate password confirmation
-            if (password !== passwordConfirmation) {
-                event.preventDefault(); // Prevent form submission
-                alertBox.innerText = 'Passwords do not match.';
-                alertBox.style.display = 'block'; // Show the alert
-                return;
-            }
-        });
+        })();
     </script>
-
-    <!-- Subscribe Section Start -->
-    <section class="subscribe-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="section-title">
-                        <h2>Get New Job Notifications</h2>
-                        <p>Subscribe & get all related jobs notification</p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <form class="newsletter-form" data-toggle="validator">
-                        <input type="email" class="form-control" placeholder="Enter your email" name="EMAIL" required
-                            autocomplete="off">
-
-                        <button class="default-btn sub-btn" type="submit">
-                            Subscribe
-                        </button>
-
-                        <div id="validator-newsletter" class="form-result"></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Subscribe Section End -->
 @endsection

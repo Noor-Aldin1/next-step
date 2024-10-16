@@ -30,7 +30,7 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="email">Enter Email</label>
+                            <label for="email">Email</label>
                             <input id="email" type="email" class="form-control" name="email"
                                 placeholder="Enter Your Email" value="{{ old('email') }}" required autofocus
                                 autocomplete="username">
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password">Enter Password</label>
+                            <label for="password"> Password</label>
                             <input id="password" type="password" class="form-control" name="password"
                                 placeholder="Enter Your Password" required autocomplete="current-password">
                             @error('password')
@@ -48,12 +48,6 @@
                             @enderror
                         </div>
 
-                        <div class="form-group text-center">
-                            <label for="remember_me" class="form-check-label">
-                                <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
-                                Remember me
-                            </label>
-                        </div>
 
                         <div class="signin-btn text-center">
                             <button type="submit" class="btn btn-primary">Sign In</button>

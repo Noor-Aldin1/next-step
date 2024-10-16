@@ -44,8 +44,9 @@
                                                         <div class="tab-pane fade show active" id="nav-sign"
                                                             role="tabpanel" aria-labelledby="nav-sign-tab">
                                                             <div class="scrollable-form-container">
-                                                                <form class="dez-form py-5" method="POST"
-                                                                    action="{{ route('employer.register.store') }}">
+                                                                <form class="dez-form py-5 needs-validation" method="POST"
+                                                                    action="{{ route('employer.register.store') }}"
+                                                                    novalidate>
                                                                     @csrf <!-- Add CSRF token for security -->
                                                                     <h3 class="form-title">Sign Up</h3>
                                                                     <div class="dez-separator-outer m-b5">
@@ -58,6 +59,8 @@
                                                                         <p>Username:</p>
                                                                         <input name="username" required class="form-control"
                                                                             placeholder="e.g Qusai Ali" type="text">
+                                                                        <div class="invalid-feedback">Username is required
+                                                                        </div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
@@ -65,6 +68,8 @@
                                                                         <input name="company_name" required
                                                                             class="form-control" placeholder="e.g Microsoft"
                                                                             type="text">
+                                                                        <div class="invalid-feedback">Company Name is
+                                                                            required</div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
@@ -73,62 +78,80 @@
                                                                             class="form-control"
                                                                             placeholder="e.g Healthcare, Retail"
                                                                             type="text">
+                                                                        <div class="invalid-feedback">Business Sector is
+                                                                            required</div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Employee Numbers:</p>
-                                                                        <input name="employee_num" class="form-control"
-                                                                            placeholder="e.g 6" type="number">
+                                                                        <input required name="employee_num"
+                                                                            class="form-control" placeholder="e.g 6"
+                                                                            type="number" min="1">
+                                                                        <div class="invalid-feedback">Please enter a valid
+                                                                            number of employees</div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Account Manager:</p>
                                                                         <input name="account_manager" required
                                                                             class="form-control"
-                                                                            placeholder="example@xyz.com" type="text">
+                                                                            placeholder="example@xyz.com" type="email">
+                                                                        <div class="invalid-feedback">Please enter a valid
+                                                                            email</div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>City:</p>
                                                                         <input name="city" required class="form-control"
                                                                             placeholder="Amman" type="text">
+                                                                        <div class="invalid-feedback">City is required</div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Phone:</p>
                                                                         <input name="phone" required class="form-control"
-                                                                            placeholder="07xxxxxxxx" type="tel">
+                                                                            placeholder="07xxxxxxxx" type="tel"
+                                                                            pattern="07[0-9]{8}">
+                                                                        <div class="invalid-feedback">Please enter a valid
+                                                                            phone number (e.g. 07xxxxxxxx)</div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Email Address:</p>
                                                                         <input name="email" required class="form-control"
                                                                             placeholder="youremail@xyz.com" type="email">
+                                                                        <div class="invalid-feedback">Please enter a valid
+                                                                            email address</div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3">
                                                                         <p>Password:</p>
                                                                         <input name="password" required class="form-control"
-                                                                            placeholder="" type="password">
+                                                                            placeholder="" type="password" minlength="6">
+                                                                        <div class="invalid-feedback">Password must be at
+                                                                            least 6 characters long</div>
                                                                     </div>
 
                                                                     <div class="form-group mt-3 mb-3">
                                                                         <p>Re-type Your Password:</p>
                                                                         <input name="password_confirmation" required
                                                                             class="form-control" placeholder=""
-                                                                            type="password">
+                                                                            type="password" minlength="6">
+                                                                        <div class="invalid-feedback">Passwords do not
+                                                                            match</div>
                                                                     </div>
 
                                                                     <div class="mb-3">
                                                                         <span class="form-check float-start me-2">
-                                                                            <input type="checkbox" class="form-check-input"
-                                                                                id="check2" name="termsAgree" required>
+                                                                            <input type="checkbox"
+                                                                                class="form-check-input" id="check2"
+                                                                                name="termsAgree" required>
                                                                             <label class="form-check-label d-unset"
                                                                                 for="check2">I agree to the</label>
                                                                         </span>
 
                                                                         <label>
-                                                                            <a href="#">Terms of Service</a> &amp; <a
+                                                                            <a href="#">Terms of Service</a> & <a
                                                                                 href="#">Privacy Policy</a>
                                                                         </label>
                                                                         <br>
@@ -137,20 +160,13 @@
                                                                                 href="{{ route('login') }}">Already have an
                                                                                 account</a>
                                                                         </label>
-                                                                        <span class="form-check float-start me-2">
-
-
-                                                                        </span>
                                                                     </div>
 
                                                                     <div class="form-group clearfix text-left">
-                                                                        <a href="{{ route('home') }}"> <button
-                                                                                class="btn btn-primary outline gray"
-                                                                                data-bs-toggle="tab"
-                                                                                data-bs-target="#nav-personal"
-                                                                                type="button" role="tab"
-                                                                                aria-controls="nav-personal"
-                                                                                aria-selected="true">Back</button></a>
+                                                                        <a href="{{ route('home') }}">
+                                                                            <button class="btn btn-primary outline gray"
+                                                                                type="button">Back</button>
+                                                                        </a>
                                                                         <button class="btn btn-primary float-end"
                                                                             type="submit">Submit</button>
                                                                     </div>
@@ -205,4 +221,50 @@
             </div>
             <!-- Content END-->
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            (function() {
+                'use strict';
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation');
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function(form) {
+                        form.addEventListener('submit', function(event) {
+                            // Perform custom validations here if necessary
+                            var password = form.querySelector('input[name="password"]').value;
+                            var passwordConfirmation = form.querySelector('input[name="password_confirmation"]')
+                                .value;
+
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Validation Error',
+                                    text: 'Please correct the highlighted errors before submitting.',
+                                });
+                            } else if (password !== passwordConfirmation) {
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Password Mismatch',
+                                    text: 'The password and confirmation do not match.',
+                                });
+
+                                form.querySelector('input[name="password_confirmation"]').classList.add(
+                                    'is-invalid');
+                            }
+
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+            })();
+        </script>
     @endsection
