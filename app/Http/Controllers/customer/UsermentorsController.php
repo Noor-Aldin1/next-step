@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Models\Mentor;
+
 use App\Http\Controllers\Controller;
 use App\Models\UserMentor;
 use Illuminate\Http\Request;
 use App\Models\UserSubscription;
+use Illuminate\Database\Eloquent\Factories\Relationship;
+use App\Models\User;
 
 class UsermentorsController extends Controller
 { /*    //@return \Illuminate\Http\Response
@@ -13,9 +17,29 @@ class UsermentorsController extends Controller
     public function index()
     {
         // Fetch all mentor-student relationships
-        $relationships = UserMentor::all();
-        return view('usermentor.index', compact('relationships'));
+        $relationships = UserMentor::where('student_id', '=', auth()->id())->get();
+
+        // Collect mentor IDs from the relationships
+        $mentorIds = $relationships->pluck('mentor_id');
+
+        // Fetch mentor details using the collected mentor IDs
+        $mentors = Mentor::whereIn('id', $mentorIds)->get();
+
+        // If mentors are associated with users (assuming there's a 'user_id' in mentors table)
+        $users = [];
+        foreach ($mentors as $mentor) {
+            $user = User::where('id', '=', $mentor->user_id)->first();
+            if ($user) {
+                $users[] = $user;  // Collect the user related to each mentor
+            }
+        }
+
+        // Return the mentors, relationships, and users to the view
+        return view('user.pages.after_subscription', compact('mentors', 'relationships', 'users'));
     }
+
+
+
 
     /**
      * Show the form for creating a new mentor-student relationship.

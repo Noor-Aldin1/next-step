@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <a href="{{ route('home') }}" class="btn btn-primary">🌟 Return to Home 🌟</a>
+            <a href="{{ route('home') }}" class="btn btn-primary">🌟 Back to Home 🌟</a>
         </div>
 
     </div>

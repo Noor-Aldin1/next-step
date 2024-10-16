@@ -58,24 +58,7 @@
                             <div class="invalid-feedback">Valid number of months is required (must be at least 1).</div>
                         </div>
                     </div>
-
                     <h4 class="mb-3">Payment</h4>
-                    <div class="d-block my-3">
-                        <div class="custom-control custom-radio">
-                            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked
-                                required>
-                            <label class="custom-control-label" for="credit">Credit card</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                            <label class="custom-control-label" for="debit">Debit card</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                            <label class="custom-control-label" for="paypal">Paypal</label>
-                        </div>
-                    </div>
-
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="cc-name">Name on card</label>
@@ -89,6 +72,10 @@
                             <div class="invalid-feedback">Credit card number is required.</div>
                         </div>
                     </div>
+
+
+
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -112,8 +99,27 @@
                             <div class="invalid-feedback">Security code required (3 or 4 digits).</div>
                         </div>
                     </div>
+                    <div class="d-block my-3">
+                        <div class="custom-control custom-radio">
+                            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked
+                                required>
+                            <label class="custom-control-label" for="credit">Credit card</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                            <label class="custom-control-label" for="debit">Debit card</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input"
+                                required>
+                            <label class="custom-control-label" for="paypal">Paypal</label>
+                        </div>
+                    </div>
                     <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                    </div>
+                    <br>
                 </form>
             </div>
         </div>

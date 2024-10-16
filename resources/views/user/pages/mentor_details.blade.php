@@ -52,10 +52,59 @@
                     </div>
                     <br>
                     <div class="candidate-profile">
-                        <iframe id="mentor-video" width="100%" height="200"
-                            src="{{ $mentor->video ? asset('storage/' . $mentor->video) : 'https://www.youtube.com/embed/tgbNymZ7vqY' }}"
-                            frameborder="0" allowfullscreen></iframe>
+                        <video id="mentor-video" width="100%" height="200" controls>
+                            <source src="{{ $mentor->video ? asset('storage/' . $mentor->video) : '' }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
+                        @if (!$mentor->video)
+                            <p>No video available. Watch this <a href="https://www.youtube.com/embed/tgbNymZ7vqY"
+                                    target="_blank">YouTube video</a> instead.</p>
+                        @endif
                     </div>
+                    <div class="candidate-profile">
+                        @if ($user && $user->subscriptions()->where('end_date', '>', now())->exists())
+                            <!-- Condition to check if the user has an active subscription -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <!-- Check if the user has already subscribed to this mentor -->
+                            @if ($hasSubscribed)
+                                <!-- If already subscribed, show a button to go to the mentor's content -->
+                                <div class="theme-btn">
+                                    {{-- {{ route('mentor.view', ['mentor_id' => $results->id]) }} --}}
+                                    <a href="#" class="default-btn">Go and Watch</a>
+                                </div>
+                            @else
+                                <!-- If not subscribed, show the form to book an intro lecture -->
+                                <form method="post" action="{{ route('usermentor.store') }}">
+                                    @csrf <!-- Include CSRF token for security -->
+
+                                    <!-- Add hidden input for mentor_id -->
+                                    <input type="hidden" name="mentor_id" value="{{ $results->id }}">
+
+                                    <!-- Add hidden input for student_id -->
+                                    <input type="hidden" name="student_id" value="{{ auth()->id() }}">
+
+                                    <div class="theme-btn">
+                                        <button type="submit" class="default-btn">Book Now</button>
+                                    </div>
+                                </form>
+                            @endif
+                        @else
+                            <div class="theme-btn">
+                                <a href="{{ route('packages.index') }}" class="default-btn">Join now</a>
+
+                            </div>
+                        @endif
+                    </div>
+
 
                 </div>
                 <div class="col-lg-8">
@@ -117,48 +166,7 @@
 
                     </div>
 
-                    <div class="candidate-info-text text-center">
-                        @if ($user && $user->subscriptions()->where('end_date', '>', now())->exists())
-                            <!-- Condition to check if the user has an active subscription -->
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                            <!-- Check if the user has already subscribed to this mentor -->
-                            @if ($hasSubscribed)
-                                <!-- If already subscribed, show a button to go to the mentor's content -->
-                                <div class="theme-btn">
-                                    {{-- {{ route('mentor.view', ['mentor_id' => $results->id]) }} --}}
-                                    <a href="#" class="default-btn">Go and Watch</a>
-                                </div>
-                            @else
-                                <!-- If not subscribed, show the form to book an intro lecture -->
-                                <form method="post" action="{{ route('usermentor.store') }}">
-                                    @csrf <!-- Include CSRF token for security -->
 
-                                    <!-- Add hidden input for mentor_id -->
-                                    <input type="hidden" name="mentor_id" value="{{ $results->id }}">
-
-                                    <!-- Add hidden input for student_id -->
-                                    <input type="hidden" name="student_id" value="{{ auth()->id() }}">
-
-                                    <div class="theme-btn">
-                                        <button type="submit" class="default-btn">Book an Intro Lecture</button>
-                                    </div>
-                                </form>
-                            @endif
-                        @else
-                            <div class="theme-btn">
-                                <a href="{{ route('packages.index') }}" class="default-btn">Join now</a>
-
-                            </div>
-                        @endif
-                    </div>
 
                 </div>
             </div>
