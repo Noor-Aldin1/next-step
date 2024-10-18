@@ -15,6 +15,10 @@ class Mentor extends Model
         'video',
         'status',
     ];
+    public function courses()
+    {
+        return $this->hasMany(Course::class, 'mentor_id');
+    }
 
     public function scopeActive($query)
     {

@@ -16,21 +16,21 @@ class CourseSeeder extends Seeder
             [
                 'title' => 'Introduction to Software Engineering',
                 'description' => 'This course provides an introduction to the fundamentals of software engineering.',
-                'supervisor_id' => 1, // Assuming user with ID 1 exists
+                'mentor_id' => 1, // Assuming user with ID 1 exists
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'title' => 'Advanced Data Science',
                 'description' => 'An advanced course that dives deep into machine learning and data science methodologies.',
-                'supervisor_id' => 2, // Assuming user with ID 2 exists
+                'mentor_id' => 2, // Assuming user with ID 2 exists
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'title' => 'Marketing Strategies',
                 'description' => 'Learn the fundamentals of marketing strategies and how to apply them in the real world.',
-                'supervisor_id' => 3, // Assuming user with ID 3 exists
+                'mentor_id' => 3, // Assuming user with ID 3 exists
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

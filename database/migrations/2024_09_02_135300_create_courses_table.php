@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->foreignId('supervisor_id')->constrained('users', 'id')->cascadeOnDelete();
+            $table->string('photo')->nullable(); // Use nullable() if you want the column to allow null values
+            $table->foreignId('mentor_id')->constrained('mentor', 'id')->cascadeOnDelete();
 
             $table->timestamps();
         });

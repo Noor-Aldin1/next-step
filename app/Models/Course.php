@@ -9,11 +9,11 @@ class Course extends Model
 {
     use HasFactory;
     protected $table = 'courses';
-    protected $fillable = ['title', 'description', 'supervisor_id'];
+    protected $fillable = ['title', 'description', 'mentor_id'];
 
-    public function supervisor()
+    public function mentor()
     {
-        return $this->belongsTo(User::class, 'supervisor_id');
+        return $this->belongsTo(Mentor::class, 'mentor_id');
     }
 
     public function materials()
@@ -34,5 +34,9 @@ class Course extends Model
     public function students()
     {
         return $this->belongsToMany(User::class, 'course_students', 'course_id', 'student_id');
+    }
+    public function courseStudents()
+    {
+        return $this->hasMany(CourseStudent::class, 'course_id');
     }
 }

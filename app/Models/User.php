@@ -100,10 +100,6 @@ class User extends Authenticatable
         return $this->hasOne(Verification::class, 'user_id');
     }
 
-    public function courses()
-    {
-        return $this->hasMany(Course::class, 'supervisor_id');
-    }
 
     public function studentTasks()
     {

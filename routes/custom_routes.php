@@ -15,6 +15,7 @@ use App\Http\Controllers\Customer\PackageController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Customer\MentorController;
 use App\Http\Controllers\Customer\UsermentorsController;
+use App\Http\Controllers\Customer\UserCoursesController;
 
 
 
@@ -132,3 +133,17 @@ Route::prefix('mentors')->name('mentors.')->group(function () {
 
 // usermenter
 Route::resource('usermentor', UsermentorsController::class);
+
+
+
+
+// -------------------------------------------------------user-mentors----------------------------------------
+Route::prefix('mentor/{mentorId}/courses')->group(function () {
+    Route::get('/', [UserCoursesController::class, 'index'])->name('courses.index'); // Display a listing of courses for a specific mentor
+    Route::get('/create', [UserCoursesController::class, 'create'])->name('courses.create'); // Show form for creating a new course
+    Route::post('/', [UserCoursesController::class, 'store'])->name('courses.store'); // Store a newly created course
+    Route::get('/{id}', [UserCoursesController::class, 'show'])->name('courses.show'); // Display the specified course
+    Route::get('/{id}/edit', [UserCoursesController::class, 'edit'])->name('courses.edit'); // Show form for editing a course
+    Route::put('/{id}', [UserCoursesController::class, 'update'])->name('courses.update'); // Update the specified course
+    Route::delete('/{id}', [UserCoursesController::class, 'destroy'])->name('courses.destroy'); // Remove the specified course
+});
