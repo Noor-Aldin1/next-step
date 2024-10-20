@@ -1,8 +1,8 @@
 @extends('user.m-user.main')
 @section('content')
     <!--**********************************
-                                Content body start
-                            ***********************************-->
+                                    Content body start
+                                ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -29,23 +29,8 @@
                             <img class="img-fluid" src="{{ url('mentors_css/images/courses/pic1.jpg') }}" alt="">
                             <div class="card-body">
                                 <h4>{{ $course->title }}</h4>
-                                <ul class="list-group mb-3 list-group-flush">
-                                    <li class="list-group-item px-0 border-top-0 d-flex justify-content-between"><span
-                                            class="mb-0 text-muted">April 23</span>
-                                        <a href="javascript:void(0);"><i
-                                                class="la la-heart-o mr-1"></i><strong>230</strong></a>
-                                    </li>
-                                    <li class="list-group-item px-0 d-flex justify-content-between">
-                                        <span class="mb-0">Duration :</span><strong>12 Months</strong>
-                                    </li>
-                                    <li class="list-group-item px-0 d-flex justify-content-between">
-                                        <span class="mb-0">Professor :</span><strong>Jack Ronan</strong>
-                                    </li>
-                                    <li class="list-group-item px-0 d-flex justify-content-between">
-                                        <span><i
-                                                class="fa fa-graduation-cap text-primary mr-2"></i>Student</span><strong>+120</strong>
-                                    </li>
-                                </ul>
+                                <p> {{ $course->description }}</p>
+
                                 <a href="about-courses.html" class="btn btn-primary">Read More</a>
                             </div>
                         </div>
@@ -57,6 +42,6 @@
         </div>
     </div>
     <!--**********************************
-                                Content body end
-                            ***********************************-->
+                                    Content body end
+                                ***********************************-->
 @endsection
