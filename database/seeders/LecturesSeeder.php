@@ -18,6 +18,8 @@ class LecturesSeeder extends Seeder
                 'title' => 'Introduction to Programming',
                 'description' => 'A comprehensive introduction to programming concepts and methodologies.',
                 'linke_lecture' => 'http://example.com/lecture1', // Replace with actual link
+                'start_session' => now()->addDays(1), // Example start session date
+                'end_session' => now()->addDays(5), // Example end session date
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -26,6 +28,8 @@ class LecturesSeeder extends Seeder
                 'title' => 'Advanced JavaScript',
                 'description' => 'Deep dive into JavaScript, including ES6 features and frameworks.',
                 'linke_lecture' => 'http://example.com/lecture2', // Replace with actual link
+                'start_session' => now()->addDays(2), // Example start session date
+                'end_session' => now()->addDays(6), // Example end session date
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -34,6 +38,8 @@ class LecturesSeeder extends Seeder
                 'title' => 'Database Management Systems',
                 'description' => 'Understanding different types of database systems and their applications.',
                 'linke_lecture' => 'http://example.com/lecture3', // Replace with actual link
+                'start_session' => now()->addDays(3), // Example start session date
+                'end_session' => now()->addDays(7), // Example end session date
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

@@ -1,8 +1,8 @@
 @extends('user.m-user.main')
 @section('content')
     <!--**********************************
-                                    Content body start
-                                ***********************************-->
+                                            Content body start
+                                        ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -31,7 +31,9 @@
                                 <h4>{{ $course->title }}</h4>
                                 <p> {{ $course->description }}</p>
 
-                                <a href="about-courses.html" class="btn btn-primary">Read More</a>
+                                <a href="{{ route('courses.show', ['mentorId' => $mentorId, 'id' => $course->id]) }}"
+                                    class="btn btn-primary">View Course</a>
+
                             </div>
                         </div>
                     @endforeach
@@ -42,6 +44,6 @@
         </div>
     </div>
     <!--**********************************
-                                    Content body end
-                                ***********************************-->
+                                            Content body end
+                                        ***********************************-->
 @endsection

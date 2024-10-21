@@ -9,7 +9,7 @@ class Lecture extends Model
 {
     use HasFactory;
     protected $table = 'lectures';
-    protected $fillable = ['mentor_id', 'title', 'description', 'linke_lecture'];
+    protected $fillable = ['mentor_id', 'title', 'description', 'linke_lecture', 'strat_session', 'end_session'];
 
     public function mentor()
     {

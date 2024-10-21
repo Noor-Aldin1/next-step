@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('lectures', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mentor_id')->constrained('mentors','id')->cascadeOnDelete();
+            $table->foreignId('mentor_id')->constrained('mentors', 'id')->cascadeOnDelete();
             $table->string('title');
             $table->text('description');
             $table->string('linke_lecture');
-          
+            $table->dateTime('start_session')->nullable(); // Add start_session column
+            $table->dateTime('end_session')->nullable();
+
 
 
             $table->timestamps();
