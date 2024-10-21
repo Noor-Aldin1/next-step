@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Models\Mentor;
+use App\Models\Task;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\CourseLecture;
@@ -17,6 +18,40 @@ class UserCoursesController extends Controller
      * @param int $mentorId
      * @return \Illuminate\Database\Eloquent\Collection
      */
+    public function tasks($mentorId, $id)
+    {
+        // Get the course by ID and mentor ID
+        $course = Course::where('mentor_id', $mentorId)
+            ->with('courseStudents') // Assuming this relation is defined in Course
+            ->findOrFail($id);
+
+        // Get the duration (lectures) associated with the course
+        $duration = CourseLecture::join('lectures', 'course_lectures.lecture_id', '=', 'lectures.id')
+            ->where('course_lectures.course_id', $id)
+            ->where('lectures.mentor_id', $mentorId)
+            ->select('lectures.*')
+            ->get();
+
+        // Get tasks associated with the course and mentor
+        $tasks = Task::where('mentor_id', $mentorId)
+            ->join('course_tasks', 'tasks.id', '=', 'course_tasks.task_id')
+            ->join('student_tasks', 'tasks.id', '=', 'student_tasks.task_id')
+            ->where('course_tasks.course_id', $id)
+            ->groupBy('tasks.id') // Group by task ID or another unique column
+            ->select('tasks.*') // Select all columns from tasks
+            ->get();
+
+        // Optionally, get students enrolled in the course if needed
+        // $students = $course->courseStudents;
+
+        return response()->json([
+            'course' => $course,
+            'duration' => $duration,
+            'tasks' => $tasks,
+        ]);
+    }
+
+
     public static function getCoursesByMentor($mentorId)
     {
         return Course::where('mentor_id', $mentorId)->with('courseStudents')->get();
@@ -71,6 +106,10 @@ class UserCoursesController extends Controller
         if (!$course) {
             return redirect()->route('courses.index', $mentorId)->with('error', 'Course not found.');
         }
+
+
+
+
 
         return view('user.m-user.pages.courses_detials', compact('course', 'duration'));
     }

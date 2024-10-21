@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('mentor_id')->constrained('mentors', 'id')->cascadeOnDelete();
             $table->string('title');
             $table->text('description');
+            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending')->after('due_date');
             $table->date('due_date');
 
 

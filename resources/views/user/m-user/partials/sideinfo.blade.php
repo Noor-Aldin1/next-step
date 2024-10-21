@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <div class="col-lg-12">
+        {{-- <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">About Course</h2>
@@ -54,6 +54,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
