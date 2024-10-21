@@ -141,6 +141,14 @@ Route::resource('usermentor', UsermentorsController::class);
 Route::prefix('mentor/{mentorId}/courses')->group(function () {
     Route::get('/', [UserCoursesController::class, 'index'])->name('courses.index'); // Display a listing of courses for a specific mentor
     Route::get('/create', [UserCoursesController::class, 'create'])->name('courses.create'); // Show form for creating a new course
+
+    // Add course ID to the tasks route
+    Route::get('/{id}/tasks', [UserCoursesController::class, 'tasks'])->name('courses.tasks'); // Display tasks for a specific course
+    Route::post('/tasks/{task_id}/submit', [UserCoursesController::class, 'submit_task'])->name('task.submit');
+
+    // Updated route for task download with mentorId parameter
+    Route::get('/tasks/{task_id}/download', [UserCoursesController::class, 'downloadTask'])->name('task.download');
+
     Route::post('/', [UserCoursesController::class, 'store'])->name('courses.store'); // Store a newly created course
     Route::get('/{id}', [UserCoursesController::class, 'show'])->name('courses.show'); // Display the specified course
     Route::get('/{id}/edit', [UserCoursesController::class, 'edit'])->name('courses.edit'); // Show form for editing a course

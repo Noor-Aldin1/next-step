@@ -7,8 +7,10 @@ use App\Models\Task;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\CourseLecture;
+use App\Models\StudentTask;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class UserCoursesController extends Controller
 {
@@ -25,31 +27,78 @@ class UserCoursesController extends Controller
             ->with('courseStudents') // Assuming this relation is defined in Course
             ->findOrFail($id);
 
-        // Get the duration (lectures) associated with the course
-        $duration = CourseLecture::join('lectures', 'course_lectures.lecture_id', '=', 'lectures.id')
-            ->where('course_lectures.course_id', $id)
-            ->where('lectures.mentor_id', $mentorId)
-            ->select('lectures.*')
-            ->get();
 
         // Get tasks associated with the course and mentor
+
         $tasks = Task::where('mentor_id', $mentorId)
             ->join('course_tasks', 'tasks.id', '=', 'course_tasks.task_id')
             ->join('student_tasks', 'tasks.id', '=', 'student_tasks.task_id')
             ->where('course_tasks.course_id', $id)
-            ->groupBy('tasks.id') // Group by task ID or another unique column
-            ->select('tasks.*') // Select all columns from tasks
+            ->groupBy('tasks.id') // Group by task ID only
+            ->select(
+                'tasks.id',
+                DB::raw('MAX(tasks.mentor_id) as mentor_id'),    // Use aggregate function MAX or MIN
+                DB::raw('MAX(tasks.title) as title'),
+                DB::raw('MAX(tasks.description) as description'),
+                DB::raw('MAX(tasks.created_at) as created_at'),
+                DB::raw('MAX(tasks.updated_at) as updated_at')
+            )
             ->get();
 
+        $tasks1 = Task::where('mentor_id', $mentorId)->get();
+        $courseId = $id;
+
+        // Fetch submissions by the authenticated student
+        // Fetch the submissions directly as a collection
+        $submissions = StudentTask::where('student_id', auth()->id())->pluck('submission', 'task_id');
+        // dd($submissions);
         // Optionally, get students enrolled in the course if needed
         // $students = $course->courseStudents;
 
-        return response()->json([
-            'course' => $course,
-            'duration' => $duration,
-            'tasks' => $tasks,
-        ]);
+        return view('user.m-user.pages.tasks', compact('course', 'tasks', 'tasks1', 'mentorId', 'id', 'submissions', 'courseId'));
     }
+
+    public function submit_task(Request $request, $mentorId)
+    {
+        // Validate the request
+        $validated = $request->validate([
+            'student_id' => 'required|exists:users,id',
+            'task_id' => 'required|exists:tasks,id',
+            'submission' => 'required|file|max:1000', // Change to 'file' for file uploads
+        ]);
+
+        // Find the task using the validated task_id
+        $task = Task::findOrFail($validated['task_id']);
+
+
+        $student_id = auth()->id();
+
+        // Handle file upload
+        if ($request->hasFile('submission')) {
+            // Store the file in the public storage and get the path
+            $filePath = $request->file('submission')->store('submissions', 'public');
+
+            // Create a new StudentTask
+            $create_task = new StudentTask();
+            $create_task->task_id = $validated['task_id'];
+            $create_task->student_id = auth()->id(); // You may want to check if $student_id is set
+            $create_task->submission = $filePath; // Store the file path
+
+            // Update the task status
+            $task->update(['status' => 'completed']);
+
+            // Save the new StudentTask
+            $create_task->save();
+        }
+
+
+        // Redirect to a specific route using mentorId
+        return redirect()->route('courses.tasks')->with('success', 'Task submitted successfully.');
+    }
+
+
+
+
 
 
     public static function getCoursesByMentor($mentorId)
@@ -100,7 +149,7 @@ class UserCoursesController extends Controller
             ->select('lectures.*')
             ->get();
 
-
+        $courseId = $id;
 
         // Check if the course belongs to the mentor
         if (!$course) {
@@ -111,7 +160,7 @@ class UserCoursesController extends Controller
 
 
 
-        return view('user.m-user.pages.courses_detials', compact('course', 'duration'));
+        return view('user.m-user.pages.courses_detials', compact('course', 'duration', 'courseId', 'mentorId'));
     }
 
     /**

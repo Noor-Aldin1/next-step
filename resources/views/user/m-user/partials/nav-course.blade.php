@@ -9,16 +9,34 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+                        <a class="nav-link text-white {{ request()->routeIs('courses.show', ['mentorId' => $mentorId, 'id' => $courseId]) ? 'active' : '' }}"
+                            href="{{ route('courses.show', ['mentorId' => $mentorId, 'id' => $courseId]) }}">
+                            Course Details
+                        </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Tasks</a>
+                        <a class="nav-link text-white {{ request()->routeIs('courses.tasks') ? 'active' : '' }}"
+                            href="{{ route('courses.tasks', ['mentorId' => $mentorId, 'id' => $courseId]) }}">
+                            Tasks
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Materials</a>
-                    </li>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('courses/*/materials') ? 'active' : '' }}"
+                            href="{{ route('courses.materials', ['mentorId' => $mentorId, 'id' => $courseId]) }}">
+                            Materials
+                        </a>
+                    </li> --}}
                 </ul>
             </div>
         </nav>
     </div>
 </div>
+<style>
+    .nav-link.active {
+        text-decoration: underline;
+        /* Underline the active link */
+        color: #f8f9fa;
+        /* Change color if needed */
+    }
+</style>
