@@ -1,7 +1,6 @@
 <div class="row page-titles mx-0" style="background-color: #6673fd;">
     <div class="col-12">
         <nav class="navbar navbar-expand-lg navbar-light px-3" style="background-color: #6673fd;">
-            <a class="navbar-brand text-white" href="#">Course Details</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,12 +20,12 @@
                             Tasks
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('courses/*/materials') ? 'active' : '' }}"
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->routeIs('courses.materials') ? 'active' : '' }}"
                             href="{{ route('courses.materials', ['mentorId' => $mentorId, 'id' => $courseId]) }}">
                             Materials
                         </a>
-                    </li> --}}
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -35,6 +34,8 @@
 <style>
     .nav-link.active {
         text-decoration: underline;
+        font-weight: bold;
+
         /* Underline the active link */
         color: #f8f9fa;
         /* Change color if needed */

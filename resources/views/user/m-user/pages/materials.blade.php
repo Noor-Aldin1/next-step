@@ -2,8 +2,8 @@
 
 @section('content')
     <!--**********************************
-                Content body start
-        ***********************************-->
+                        Content body start
+                ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -20,19 +20,27 @@
                             <!-- Scrollable container for materials -->
                             <div class="overflow-auto" style="max-height: 400px;">
                                 <div class="list-group mb-4">
-                                    <!-- Material 1 -->
-                                    <div class="list-group-item border rounded mb-3 shadow-sm p-4">
-                                        <h5 class="mb-2 font-weight-bold">Material 1: Early Education Overview</h5>
-                                        <p class="text-muted mb-3">A comprehensive introduction to early education, focusing
-                                            on foundational theories and practices that shape modern teaching strategies.
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="text-muted">File Size: 1.2MB</span>
-                                            <a href="material-1-download-link.html"
-                                                class="btn btn-outline-primary btn-sm">Download</a>
-                                        </div>
-                                    </div>
+                                    @forelse ($materials as $material)
+                                        <div class="list-group-item border rounded mb-3 shadow-sm p-4">
+                                            <!-- Material Title -->
+                                            <h5 class="mb-2 font-weight-bold">{{ $material->title }}</h5>
 
+                                            <!-- Material Description -->
+                                            <p class="text-muted mb-3">{{ $material->description }}</p>
+
+                                            <div class="d-flex justify-content-between align-items-center">
+
+                                                <!-- Download Button -->
+                                                <a href="{{ asset('storage/' . $material->file_path) }}"
+                                                    class="btn btn-outline-primary btn-sm">
+                                                    Download
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <!-- No Materials Found -->
+                                        <p class="text-muted">No materials available for this course.</p>
+                                    @endforelse
                                 </div>
                             </div>
                             <!-- End of scrollable container -->
@@ -45,6 +53,6 @@
         </div>
     </div>
     <!--**********************************
-                Content body end
-        ***********************************-->
+                        Content body end
+                ***********************************-->
 @endsection

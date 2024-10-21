@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Models\Mentor;
 use App\Models\Task;
+use App\Models\Material;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\CourseLecture;
@@ -20,6 +21,23 @@ class UserCoursesController extends Controller
      * @param int $mentorId
      * @return \Illuminate\Database\Eloquent\Collection
      */
+    public function materials($mentorId, $id)
+    {
+        $course = Course::where('mentor_id', $mentorId)
+            ->with('courseStudents') // Assuming this relation is defined in Course
+            ->findOrFail($id);
+
+        $materials = DB::table('course_materials')
+            ->join('materials', 'materials.id', '=', 'course_materials.material_id')
+            ->join('courses', 'courses.id', '=', 'course_materials.course_id')
+            ->select('materials.*')
+            ->where('courses.id', $id)           // Filter by course ID
+            ->where('courses.mentor_id', $mentorId) // Filter by mentor ID
+            ->get();
+        $courseId = $id;
+        return view('user.m-user.pages.materials', compact('materials', 'mentorId', 'courseId', 'course'));
+    }
+
     public function tasks($mentorId, $id)
     {
         // Get the course by ID and mentor ID

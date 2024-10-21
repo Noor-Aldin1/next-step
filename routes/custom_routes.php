@@ -148,6 +148,7 @@ Route::prefix('mentor/{mentorId}/courses')->group(function () {
 
     // Updated route for task download with mentorId parameter
     Route::get('/tasks/{task_id}/download', [UserCoursesController::class, 'downloadTask'])->name('task.download');
+    Route::get('{id}/materials', [UserCoursesController::class, 'materials'])->name('courses.materials');
 
     Route::post('/', [UserCoursesController::class, 'store'])->name('courses.store'); // Store a newly created course
     Route::get('/{id}', [UserCoursesController::class, 'show'])->name('courses.show'); // Display the specified course

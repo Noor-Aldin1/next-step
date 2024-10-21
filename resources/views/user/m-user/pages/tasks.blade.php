@@ -2,8 +2,8 @@
 
 @section('content')
     <!--**********************************
-                                                                                                        Content body start
-                                                                                                    ***********************************-->
+                                                                                                                Content body start
+                                                                                                            ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
             @include('user.m-user.partials.nav-course')
@@ -32,7 +32,7 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <!-- Task title -->
                                                 <a href="#" class="text-primary disabled">
-                                                    {{ $task->title }}
+                                                    {{ $loop->iteration }} - {{ $task->title }}
                                                 </a>
                                                 <!-- Task due date -->
                                                 <span class="badge badge-pill badge-primary">{{ $task->due_date }}</span>
@@ -91,8 +91,8 @@
         </div>
     </div>
     <!--**********************************
-                                                                                                        Content body end
-                                                                                                    ***********************************-->
+                                                                                                                Content body end
+                                                                                                            ***********************************-->
 
     <!-- Modal for task description -->
     <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel"
