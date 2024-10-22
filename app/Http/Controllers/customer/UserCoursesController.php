@@ -47,21 +47,20 @@ class UserCoursesController extends Controller
 
 
         // Get tasks associated with the course and mentor
-
         $tasks = Task::where('mentor_id', $mentorId)
             ->join('course_tasks', 'tasks.id', '=', 'course_tasks.task_id')
-            ->join('student_tasks', 'tasks.id', '=', 'student_tasks.task_id')
             ->where('course_tasks.course_id', $id)
-            ->groupBy('tasks.id') // Group by task ID only
             ->select(
                 'tasks.id',
-                DB::raw('MAX(tasks.mentor_id) as mentor_id'),    // Use aggregate function MAX or MIN
-                DB::raw('MAX(tasks.title) as title'),
-                DB::raw('MAX(tasks.description) as description'),
-                DB::raw('MAX(tasks.created_at) as created_at'),
-                DB::raw('MAX(tasks.updated_at) as updated_at')
+                'tasks.mentor_id',
+                'tasks.title',
+                'tasks.description',
+                'tasks.due_date',
+                'tasks.created_at',
+                'tasks.updated_at'
             )
             ->get();
+
 
         $tasks1 = Task::where('mentor_id', $mentorId)->get();
         $courseId = $id;
@@ -80,7 +79,6 @@ class UserCoursesController extends Controller
     {
         // Validate the request
         $validated = $request->validate([
-            'student_id' => 'required|exists:users,id',
             'task_id' => 'required|exists:tasks,id',
             'submission' => 'required|file|max:1000', // Change to 'file' for file uploads
         ]);
@@ -88,8 +86,11 @@ class UserCoursesController extends Controller
         // Find the task using the validated task_id
         $task = Task::findOrFail($validated['task_id']);
 
-
-        $student_id = auth()->id();
+        // Check if the user is logged in
+        $user_id = auth()->id();
+        if (!$user_id) {
+            return redirect()->route('login')->with('warning', 'You must be logged in to submit a task.');
+        }
 
         // Handle file upload
         if ($request->hasFile('submission')) {
@@ -99,20 +100,23 @@ class UserCoursesController extends Controller
             // Create a new StudentTask
             $create_task = new StudentTask();
             $create_task->task_id = $validated['task_id'];
-            $create_task->student_id = auth()->id(); // You may want to check if $student_id is set
+            $create_task->student_id = $user_id; // Assign the authenticated user's ID
             $create_task->submission = $filePath; // Store the file path
 
-            // Update the task status
+            // Update the task status to completed
             $task->update(['status' => 'completed']);
 
             // Save the new StudentTask
             $create_task->save();
+
+            // Optionally, redirect with a success message
+            return redirect()->back()->with('success', 'Task submitted successfully.');
         }
 
-
-        // Redirect to a specific route using mentorId
-        return redirect()->route('courses.tasks')->with('success', 'Task submitted successfully.');
+        // Redirect to a specific route using mentorId if no file is uploaded
+        return redirect()->route('courses.tasks')->with('warning', 'No submission was uploaded. Please try again.');
     }
+
 
 
 

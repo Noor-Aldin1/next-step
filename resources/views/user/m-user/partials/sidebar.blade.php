@@ -4,20 +4,21 @@
       <div class="dlabnav">
           <div class="dlabnav-scroll">
               <ul class="metismenu" id="menu">
-                  <li class="nav-label first">Main Menu</li>
-                  <li><a class="" href="index-3.html" aria-expanded="false">
 
-                          <span class="nav-text">Dashboard</span>
+                  <li>
+                      <a class="" href="{{ route('courses.index', ['mentorId' => $mentorId]) }}"
+                          aria-expanded="false">
+                          <i class="la la-graduation-cap"></i> <span class="nav-text">All Courses</span>
                       </a>
-
                   </li>
+
                   <li><a class="ai-icon" href="event-management.html" aria-expanded="false">
                           <i class="la la-calendar"></i>
                           <span class="nav-text">Event Management</span>
                       </a>
                   </li>
 
-                  <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                  {{-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                           <i class="la la-users"></i>
                           <span class="nav-text">Students</span>
                       </a>
@@ -36,7 +37,7 @@
                           <li><a href="add-courses.html">Add Courses</a></li>
 
                       </ul>
-                  </li>
+                  </li> --}}
 
 
 

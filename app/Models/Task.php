@@ -11,6 +11,7 @@ class Task extends Model
 
     protected $table = 'tasks';
     protected $fillable = ['mentor_id', 'title', 'description', 'due_date', 'status'];
+    protected $dates = ['due_date'];
 
     public function mentor()
     {

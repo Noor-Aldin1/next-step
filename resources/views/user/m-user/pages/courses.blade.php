@@ -1,8 +1,8 @@
 @extends('user.m-user.main')
 @section('content')
     <!--**********************************
-                                            Content body start
-                                        ***********************************-->
+                                                            Content body start
+                                                        ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -23,27 +23,43 @@
             </div>
 
             <div class="row">
-                <div class="col-xl-3 col-xxl-4 col-lg-4 col-md-6 col-sm-6">
-                    @foreach ($courses as $course)
-                        <div class="card">
-                            <img class="img-fluid" src="{{ url('mentors_css/images/courses/pic1.jpg') }}" alt="">
-                            <div class="card-body">
-                                <h4>{{ $course->title }}</h4>
-                                <p> {{ $course->description }}</p>
+                <div class="col-xl-12 col-xxl-12 col-lg-12 col-md-12 col-sm-12">
 
-                                <a href="{{ route('courses.show', ['mentorId' => $mentorId, 'id' => $course->id]) }}"
-                                    class="btn btn-primary">View Course</a>
-
+                    @if ($courses->isEmpty())
+                        <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+                            <div class="text-center">
+                                <h4 class="font-weight-bold">No Courses Available</h4>
+                                <p class="text-muted">No courses have been downloaded by the mentor yet.
+                                </p>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    @else
+                        <div class="row">
+                            @foreach ($courses as $course)
+                                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                                    <div class="card shadow-sm">
+                                        <img class="card-img-top img-fluid"
+                                            src="{{ url('mentors_css/images/courses/pic1.jpg') }}"
+                                            alt="{{ $course->title }}">
+                                        <div class="card-body">
+                                            <h4 class="card-title">{{ $course->title }}</h4>
+                                            <p class="card-text">{{ $course->description }}</p>
+                                            <a href="{{ route('courses.show', ['mentorId' => $mentorId, 'id' => $course->id]) }}"
+                                                class="btn btn-primary">View Course</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
 
+                </div>
             </div>
+
 
         </div>
     </div>
     <!--**********************************
-                                            Content body end
-                                        ***********************************-->
+                                                            Content body end
+                                                        ***********************************-->
 @endsection

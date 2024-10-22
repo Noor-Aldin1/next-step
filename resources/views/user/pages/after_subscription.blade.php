@@ -81,7 +81,7 @@
                     <div class="col-lg-4 col-sm-6 mb-4 d-flex justify-content-center">
                         <div class="custom-card h-100 shadow-sm d-flex flex-column">
                             <div class="custom-img position-relative">
-                                <a href="details-page.html" class="d-block">
+                                <a href="{{ route('courses.index', ['mentorId' => $mntor->id]) }}" class="d-block">
                                     <img src="{{ isset($users[$index]) && $users[$index]->photo ? asset('storage/' . $users[$index]->photo) : 'http://mydomain.com/default-image.png' }}"
                                         alt="Image description" class="img-fluid rounded-top"
                                         style="object-fit: cover; height: 200px; width: 100%;">

@@ -92,3 +92,4 @@
     @yield('content')
 
     @include('user.partials.footer')
+    {{-- @include('translate') --}}
