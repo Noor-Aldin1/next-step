@@ -1,8 +1,8 @@
 @extends('mentor.master_page')
 @section('content')
     <!--**********************************
-                                                                                                                                                                                                                        Content body start
-                                                                                                                                                                                                                    ***********************************-->
+                                                                                                                                                                                                                                        Content body start
+                                                                                                                                                                                                                                    ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -135,107 +135,69 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">Assign Task</h5>
+                            <div class="">
+                                <select id="studentFilter" class="form-control">
+                                    <option value="">All Students</option>
+                                    @foreach ($assignTask->unique('student_username') as $task)
+                                        <option value="{{ $task->student_username }}">{{ $task->student_username }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="card-body">
+                            <!-- Filter Dropdown -->
+
                             <div class="table-responsive">
                                 <table class="table header-border table-hover verticle-middle">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Task</th>
-                                            <th scope="col">Assigned Professors</th>
+                                            <th scope="col">Student Name</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Progress</th>
+                                            <th scope="col">Course Name</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>1</th>
-                                            <td>Working Design report</td>
-                                            <td>Herman Beck</td>
-                                            <td><span class="badge badge-rounded badge-primary">DONE</span></td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 70%;" role="progressbar">
-                                                        <span class="sr-only">70% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>2</th>
-                                            <td>Fees Collection report</td>
-                                            <td>Emma Watson</td>
-                                            <td><span class="badge badge-rounded badge-warning">Panding</span></td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-warning" style="width: 70%;"
-                                                        role="progressbar">
-                                                        <span class="sr-only">70% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>3</th>
-                                            <td>Management report</td>
-                                            <td>Mary Adams</td>
-                                            <td><span class="badge badge-rounded badge-warning">Panding</span></td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-warning" style="width: 70%;"
-                                                        role="progressbar">
-                                                        <span class="sr-only">70% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>4</th>
-                                            <td>Library book status</td>
-                                            <td>Caleb Richards</td>
-                                            <td><span class="badge badge-rounded badge-danger">Suspended</span></td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-danger" style="width: 70%;"
-                                                        role="progressbar">
-                                                        <span class="sr-only">70% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>5</th>
-                                            <td>Placement status</td>
-                                            <td>June Lane</td>
-                                            <td><span class="badge badge-rounded badge-warning">Panding</span></td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-warning" style="width: 70%;"
-                                                        role="progressbar">
-                                                        <span class="sr-only">70% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>6</th>
-                                            <td>Working Design report</td>
-                                            <td>Herman Beck</td>
-                                            <td><span class="badge badge-rounded badge-primary">DONE</span></td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 70%;" role="progressbar">
-                                                        <span class="sr-only">70% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                    <tbody id="taskTable">
+                                        @foreach ($assignTask as $index => $task)
+                                            <tr>
+                                                <th>{{ $index + 1 }}</th>
+                                                <td>{{ $task->task_title }}</td>
+                                                <td class="student-name">{{ $task->student_username }}</td>
+                                                <td>
+                                                    @if ($task->submission_status)
+                                                        <span class="badge badge-rounded badge-primary">DONE</span>
+                                                    @else
+                                                        <span class="badge badge-rounded badge-warning">PENDING</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $task->course_title }}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
+
+                    <!-- JavaScript to filter table rows based on selected student -->
+                    <script>
+                        document.getElementById('studentFilter').addEventListener('change', function() {
+                            let filter = this.value.toLowerCase();
+                            let rows = document.querySelectorAll('#taskTable tr');
+
+                            rows.forEach(row => {
+                                let studentName = row.querySelector('.student-name').textContent.toLowerCase();
+
+                                if (filter === "" || studentName === filter) {
+                                    row.style.display = ''; // Show the row
+                                } else {
+                                    row.style.display = 'none'; // Hide the row
+                                }
+                            });
+                        });
+                    </script>
+
                 </div>
 
 
@@ -243,6 +205,6 @@
         </div>
     </div>
     <!--**********************************
-                                                                                                                                                                                                                        Content body end
-                                                                                                                                                                                                                    ***********************************-->
+                                                                                                                                                                                                                                        Content body end
+                                                                                                                                                                                                                                    ***********************************-->
 @endsection

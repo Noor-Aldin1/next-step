@@ -84,6 +84,28 @@ class DashboardController extends Controller
             ->pluck('count')
             ->toArray(); // Convert the collection to an array
 
+
+        // --------------tasks----------
+
+        $assignTask = DB::table('tasks AS t')
+            ->join('student_tasks AS st', 'st.task_id', '=', 't.id')
+            ->join('users AS u', 'st.student_id', '=', 'u.id')
+            ->join('course_tasks AS ct', 't.id', '=', 'ct.task_id')
+            ->join('courses AS c', 'c.id', '=', 'ct.course_id')
+            ->select(
+                't.title AS task_title',
+                't.id AS task_id',
+                'st.submission AS submission_status',
+                'u.username AS student_username',
+                'c.title AS course_title'
+            )
+            ->whereNotNull('st.submission')      // Filter tasks that have been submitted
+            ->orderBy('c.title')                 // Sort by course title
+            ->orderBy('t.title')                 // Then sort by task title
+            // Limit the results to 50
+            ->get();
+
+
         // Prepare data for the view
         $data = compact(
             'mentor',
@@ -95,10 +117,12 @@ class DashboardController extends Controller
             'studentsCount',
             'newStudentsCount',
             'taskCompletedCount',
-            'totalStudentsData', // Include this
-            'newStudentsData',   // Include this
-            'coursesCountData',  // Include this
-            'completedTasksData' // Include this
+            'totalStudentsData',
+            'newStudentsData',
+            'coursesCountData',
+            'completedTasksData',
+            'assignTask',
+
         );
 
         // Return the view with the data
