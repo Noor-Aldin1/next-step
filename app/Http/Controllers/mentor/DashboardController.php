@@ -99,6 +99,7 @@ class DashboardController extends Controller
                 'u.username AS student_username',
                 'c.title AS course_title'
             )
+            ->where('t.mentor_id', '=', $mentor->id)
             ->whereNotNull('st.submission')      // Filter tasks that have been submitted
             ->orderBy('c.title')                 // Sort by course title
             ->orderBy('t.title')                 // Then sort by task title
