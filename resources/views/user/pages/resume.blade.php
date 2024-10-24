@@ -189,7 +189,7 @@
                         {{-- end projects --}}
 
                         {{-- Certifications --}}
-                        {{-- projects --}}
+
                         <div class="resume-content  experience-text">
                             <h3>
                                 <i class='bx bxs-award'></i>

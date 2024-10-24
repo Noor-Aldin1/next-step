@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Certification;
 use App\Models\UserSkill;
 use App\Models\Profile;
+use App\Models\StudentTask;
 use App\Models\User;
 
 use Illuminate\Support\Facades\DB;
@@ -53,40 +54,19 @@ class AllStudentController extends Controller
                 'profiles.id as profile_id',    // Alias for profile ID
                 'user_mentor.created_at'
             )
-            ->get();
+            ->paginate(10);
 
         // Check if there are students assigned to the mentor
         if ($studentAll->isNotEmpty()) {
             // Get the first student
-            $firstStudent = $studentAll->first();
+            // $firstStudent = $studentAll->first();
 
-            // Fetch experiences, projects, certifications, skills, and profile for this user
-            $experiences = Experience::where('user_id', $firstStudent->user_id)->get();
-            $projects = Project::where('user_id', $firstStudent->user_id)->get();
-            $certifications = Certification::where('user_id', $firstStudent->user_id)->get();
 
-            // Get skills and their rates for the user
-            $skill_name = DB::table('skills')
-                ->join('user_skill', 'user_skill.skill_id', '=', 'skills.id')
-                ->join('users', 'user_skill.user_id', '=', 'users.id')
-                ->select('skills.name', 'user_skill.rate')
-                ->where('users.id', $firstStudent->user_id)
-                ->get();
-
-            // Fetch user skills and profile
-            $userSkills = UserSkill::where('user_id', $firstStudent->user_id)->get();
-            $profile = Profile::where('user_id', $firstStudent->user_id)->first();
 
             // Prepare data to pass to the view
             $data = compact(
                 'studentAll',
-                'experiences',
-                'projects',
-                'certifications',
-                'skill_name',
-                'userSkills',
-                'profile',
-                'firstStudent'
+
             );
 
             // Return the view with the data
@@ -120,8 +100,46 @@ class AllStudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Fetch the user by ID
+        $user = User::findOrFail($id);
+
+        // Fetch related data for the user
+        $experiences = Experience::where('user_id', $user->id)->get();
+        $projects = Project::where('user_id', $user->id)->get();
+        $certifications = Certification::where('user_id', $user->id)->get(); // Fixed the variable name here
+        $skill_name = DB::table('skills')
+            ->join('user_skill', 'user_skill.skill_id', '=', 'skills.id')
+            ->join('users', 'user_skill.user_id', '=', 'users.id')
+            ->select('skills.name', 'user_skill.rate')
+            ->where('users.id', $user->id)
+            ->get();
+        $userSkills = UserSkill::where('user_id', $user->id)->get();
+        $profile = Profile::where('user_id', $user->id)->first(); // Fixed the variable name here
+        // dd($skill_name);
+        $projectsCount = Project::where('user_id', $user->id)->count();
+        $userTasksCount = StudentTask::where('student_id', $user->id)
+            ->where('submission', '!=', null)
+            ->count();
+        $certificationsCount = Certification::where('user_id', $user->id)->count();
+
+        // Prepare the data for the view
+        $data = compact(
+            'certifications',   // Consistent variable name
+            'experiences',
+            'projects',
+            'skill_name',
+            'userSkills',
+            'profile',
+            'projectsCount',
+            'user',
+            'certificationsCount',
+            'userTasksCount'
+        );
+
+        // Return the view with the data
+        return view('mentor.pages.about_student', $data);
     }
+
 
     /**
      * Show the form for editing the specified resource.

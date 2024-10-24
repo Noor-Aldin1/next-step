@@ -29,8 +29,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// Route::get('/', function () {
-//     return view('user.pages.home');
-// })->name('home');
 
 // test 
+// Route::get('/alls/about_student', function () {
+//     return view('mentor.pages.about_student');
+// });

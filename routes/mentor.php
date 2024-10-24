@@ -26,3 +26,4 @@ Route::delete('dashboard/{id}', [DashboardController::class, 'destroy'])->name('
 
 // allstudent 
 Route::get('/mentor/students', [AllStudentController::class, 'index'])->name('mentor.students.index');
+Route::get('/mentor/students/{id}', [AllStudentController::class, 'show'])->name('mentor.students.show');
