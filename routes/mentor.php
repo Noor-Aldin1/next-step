@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::group(['prefix' => 'mentor/courses', 'as' => 'courses.student.'], function () {
-    Route::get('/', [CoursesController::class, 'index'])->name('index'); // List all courses
+    Route::get('/all', [CoursesController::class, 'index'])->name('index'); // List all courses
     Route::get('/create', [CoursesController::class, 'create'])->name('create'); // Show create course form
     Route::post('/', [CoursesController::class, 'store'])->name('store'); // Store new course
     Route::get('/{id}', [CoursesController::class, 'show'])->name('show'); // Show specific course
