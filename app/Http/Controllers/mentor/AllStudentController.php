@@ -22,7 +22,7 @@ class AllStudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Get the mentor based on the authenticated user
         $mentor = Mentor::where('user_id', auth()->id())->first();
@@ -35,7 +35,11 @@ class AllStudentController extends Controller
         // Get the mentor's ID
         $mentorid = $mentor->id;
 
-        // Fetch all students assigned to this mentor
+        // Set default sort order and retrieve it from request if available
+        $order = $request->query('order', 'newest'); // Default to 'newest' if not specified
+        $sortOrder = $order === 'oldest' ? 'asc' : 'desc';
+
+        // Fetch all students assigned to this mentor with sorting
         $studentAll = DB::table('user_mentor')
             ->join('users', 'users.id', '=', 'user_mentor.student_id')
             ->join('mentors', 'user_mentor.mentor_id', '=', 'mentors.id')
@@ -43,39 +47,27 @@ class AllStudentController extends Controller
             ->where('mentors.id', '=', $mentorid)
             ->where('users.role_id', '=', 1)  // Assuming 1 is the role ID for students
             ->select(
-                'users.id as user_id',        // Alias for user ID
-                'users.username as name',      // User details
+                'users.id as user_id',
+                'users.username as name',
                 'users.photo as photo',
                 'profiles.major as major',
                 'profiles.phone as phone',
-                'users.email as user_email',   // Alias for email to avoid conflict
-                'profiles.email as pro_email',  // Alias for email to avoid conflict
-                'profiles.full_name as pro_full_name',  // Alias for email to avoid conflict
-                'profiles.id as profile_id',    // Alias for profile ID
+                'users.email as user_email',
+                'profiles.email as pro_email',
+                'profiles.full_name as pro_full_name',
+                'profiles.id as profile_id',
                 'user_mentor.created_at'
             )
+            ->orderBy('user_mentor.created_at', $sortOrder) // Apply sort order based on filter
             ->paginate(10);
 
-        // Check if there are students assigned to the mentor
-        if ($studentAll->isNotEmpty()) {
-            // Get the first student
-            // $firstStudent = $studentAll->first();
+        // Prepare data for the view
+        $data = compact('studentAll', 'order');
 
-
-
-            // Prepare data to pass to the view
-            $data = compact(
-                'studentAll',
-
-            );
-
-            // Return the view with the data
-            return view('mentor.pages.all_student', $data);
-        } else {
-            // If no students found, handle the case (you could return a view with an error or redirect)
-            return view('mentor.pages.all_student', ['message' => 'No students found for this mentor']);
-        }
+        // Return the view with the data
+        return view('mentor.pages.all_student', $data);
     }
+
 
 
 
