@@ -38,7 +38,7 @@ class C_ProfileController extends Controller
     // Function to update user details (excluding the image)
     public function update(Request $request)
     {  // Update the projects details
-        
+
         // ----------main information --------//
         $request->validate([
             'full_name' => 'required|string|max:255',

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Mentor\DashboardController;
 use App\Http\Controllers\mentor\AllStudentController;
+use App\Http\Controllers\mentor\CoursesController;
 
 
 
@@ -27,3 +28,20 @@ Route::delete('dashboard/{id}', [DashboardController::class, 'destroy'])->name('
 // allstudent 
 Route::get('/mentor/students', [AllStudentController::class, 'index'])->name('mentor.students.index');
 Route::get('/mentor/students/{id}', [AllStudentController::class, 'show'])->name('mentor.students.show');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/mentor/courses', CoursesController::class);
+});
+
+
+
+
+Route::group(['prefix' => 'mentor/courses', 'as' => 'courses.student.'], function () {
+    Route::get('/', [CoursesController::class, 'index'])->name('index'); // List all courses
+    Route::get('/create', [CoursesController::class, 'create'])->name('create'); // Show create course form
+    Route::post('/', [CoursesController::class, 'store'])->name('store'); // Store new course
+    Route::get('/{id}', [CoursesController::class, 'show'])->name('show'); // Show specific course
+    Route::get('/{id}/edit', [CoursesController::class, 'edit'])->name('edit'); // Show edit course form
+    Route::put('/{id}', [CoursesController::class, 'update'])->name('update'); // Update course
+    Route::delete('/{id}', [CoursesController::class, 'destroy'])->name('destroy'); // Delete course
+});

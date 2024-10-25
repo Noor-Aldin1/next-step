@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Customer;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\Mentor;
 use App\Models\Task;
 use App\Models\Material;
@@ -125,19 +127,24 @@ class UserCoursesController extends Controller
 
     public static function getCoursesByMentor($mentorId)
     {
-        return Course::where('mentor_id', $mentorId)->with('courseStudents')->get();
+
+        $course = Course::where('mentor_id', $mentorId)
+            ->with('courseStudents')
+            ->whereHas('courseStudents', function ($query) {
+                $query->where('student_id', Auth::user()->id);
+            })
+            ->get();
+
+
+        return $course;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param int $mentorId
-     * @return \Illuminate\View\View
-     */
+
     public function index($mentorId)
     {
         // Get courses associated with the specified mentor ID
         $courses = $this->getCoursesByMentor($mentorId);
+
 
         return view('user.m-user.pages.courses', compact('courses', 'mentorId'));
     }

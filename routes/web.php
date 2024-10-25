@@ -31,6 +31,6 @@ Route::middleware('auth')->group(function () {
 
 
 // test 
-// Route::get('/alls/about_student', function () {
-//     return view('mentor.pages.about_student');
-// });
+Route::get('/alls/test', function () {
+    return view('mentor.pages.create_courses');
+});

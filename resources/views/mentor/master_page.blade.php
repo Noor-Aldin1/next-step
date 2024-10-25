@@ -60,8 +60,9 @@
     <script src="{{ url('mentors_css/vendor/svganimation/svg.animation.js') }}"></script>
     <script src="{{ url('mentors_css/js/styleSwitcher.js') }}"></script>
 
-
-
+    {{-- -------------select 2 ---------------- --}}
+    <script src="{{ url('mentors_css/vendor/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ url('mentors_css/js/plugins-init/select2-init.js') }}"></script>
 </body>
 
 </html>

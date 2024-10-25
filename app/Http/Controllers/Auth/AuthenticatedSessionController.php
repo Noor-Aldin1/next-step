@@ -30,11 +30,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         $user = Auth::user();
 
-        // Redirect to appropriate dashboard based on user role
         if ($user->role_id === 1) {
             return redirect()->intended(RouteServiceProvider::HOME); // Normal user
         } elseif ($user->role_id === 2) {
-            return redirect()->intended('lessor/dashboard'); //mentor
+            return redirect()->intended(route('mentor.dashboard')); //mentor
         } elseif ($user->role_id === 3) {
             return redirect()->intended(route('employer.job_postings.dashbord')); //employer
         } elseif ($user->role_id === 4) {
