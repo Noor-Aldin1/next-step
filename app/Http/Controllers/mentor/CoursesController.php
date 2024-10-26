@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\mentor;
 
+use Illuminate\Http\JsonResponse;
+
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\User;
 use App\Models\UserMentor;
 use App\Models\CourseStudent;
 use App\Models\Mentor;
+use App\Models\Lecture;
+use App\Models\CourseLecture;
 use App\Models\UserSubscription;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
@@ -144,7 +148,138 @@ class CoursesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Find the course by ID
+        $course = Course::findOrFail($id);
+
+        // Ensure the authenticated user is the mentor of this course
+        $mentor = Mentor::where('user_id', auth()->id())->first();
+        if ($course->mentor_id !== $mentor->id) {
+            return redirect()->route('courses.index')->with('error', 'Unauthorized access!');
+        }
+
+        // Retrieve enrolled students with active subscriptions for this course
+        $studentIds = CourseStudent::where('course_id', $course->id)->pluck('student_id')->toArray();
+        $activeStudents = UserSubscription::whereIn('user_id', $studentIds)
+            ->where('end_date', '>', now())
+            ->pluck('user_id')
+            ->toArray();
+
+        $students = User::whereIn('id', $activeStudents)->get();
+        // Retrieve existing lectures for the course
+        $lectures = Lecture::whereHas('courseLectures', function ($query) use ($course) {
+            $query->where('course_id', $course->id);
+        })->get();
+        // Prepare data for the view
+        return view('mentor.pages.course.courses_detials', compact('course', 'students', 'lectures'));
+    }
+
+    public function scheduleLecture(Request $request, $courseId)
+    {
+        // Find the course by ID
+        $course = Course::findOrFail($courseId);
+
+        // Ensure the authenticated user is the mentor of this course
+        $mentor = Mentor::where('user_id', auth()->id())->first();
+        if ($course->mentor_id !== $mentor->id) {
+            return redirect()->route('courses.index')->with('error', 'Unauthorized access!');
+        }
+
+        // Check if this is a POST request to add a new lecture
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'linke_lecture' => 'nullable|url',
+                'start_session' => 'required|date',
+                'end_session' => 'required|date|after_or_equal:strat_session',
+            ]);
+
+            // Create a new lecture
+            $lecture = Lecture::create([
+                'mentor_id' => $mentor->id,
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'linke_lecture' => $request->input('linke_lecture'),
+                'start_session' => $request->input('start_session'),
+                'end_session' => $request->input('end_session'),
+            ]);
+
+            // Associate the lecture with the course
+            CourseLecture::create([
+                'course_id' => $course->id,
+                'lecture_id' => $lecture->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Lecture scheduled successfully!');
+        }
+
+        // Retrieve existing lectures for the course
+        $lectures = Lecture::whereHas('courseLectures', function ($query) use ($course) {
+            $query->where('course_id', $course->id);
+        })->get();
+
+        return view('mentor.pages.schedule_lecture', compact('lectures', 'course'));
+    }
+    public function getLectures(string $id): JsonResponse
+    {
+        // Fetch the specific lecture by ID
+        $lecture = Lecture::findOrFail($id);
+
+        // Get all lectures and their start and end times
+        $allLectures = Lecture::where('mentor_id', $lecture->mentor_id) // or other relevant criteria
+            ->where('id', '!=', $id) // Exclude the current lecture
+            ->get();
+
+        // Initialize an array to hold unavailable dates
+        $unavailableDates = [];
+
+        foreach ($allLectures as $existingLecture) {
+            $unavailableDates[] = [
+                'start' => $existingLecture->start_session,
+                'end' => $existingLecture->end_session,
+            ];
+        }
+
+        // Here, you can define your logic for determining available dates
+        // For simplicity, let's assume you are just returning the unavailable dates
+
+        // Return as JSON response
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'lecture' => $lecture,
+                'unavailable_dates' => $unavailableDates // Send unavailable dates
+            ],
+        ]);
+    }
+
+    public function getAllLectures(): JsonResponse
+    {
+        // Fetch all lectures
+        $lectures = Lecture::all();
+
+        // Initialize an array to hold unavailable dates
+        $unavailableDates = [];
+
+        foreach ($lectures as $lecture) {
+            $unavailableDates[] = [
+                'start' => $lecture->start_session,
+                'end' => $lecture->end_session,
+            ];
+        }
+
+        // Here you can define your logic for available dates
+        // For simplicity, let's assume you are returning unavailable dates
+        // and you will handle the logic on the client side to determine available dates
+
+        // Return as JSON response
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'lectures' => $lectures,               // Send all lectures
+                'unavailable_dates' => $unavailableDates // Send unavailable dates
+            ],
+        ]);
     }
 
     /**

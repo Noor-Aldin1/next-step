@@ -17,7 +17,8 @@ class CreateMentorMeetingsTable extends Migration
             $table->id('meeting_id'); // Auto-incrementing primary key
             $table->foreignId('mentor_id')->constrained('mentors', 'id')->onDelete('cascade'); // Foreign key referencing Mentors table
             $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade'); // Foreign key referencing Users table
-            $table->timestamp('meeting_time')->nullable(false); // Meeting time
+            $table->dateTime('start_session')->nullable(); // Add start_session column
+            $table->dateTime('end_session')->nullable();
             $table->string('meeting_link')->nullable(); // Meeting link
             $table->text('notes')->nullable(); // Notes for the meeting
             $table->enum('status', ['scheduled', 'completed', 'cancelled'])->default('scheduled'); // Status of the meeting

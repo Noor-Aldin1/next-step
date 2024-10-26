@@ -44,4 +44,6 @@ Route::group(['prefix' => 'mentor/courses', 'as' => 'courses.student.'], functio
     Route::get('/{id}/edit', [CoursesController::class, 'edit'])->name('edit'); // Show edit course form
     Route::put('/{id}', [CoursesController::class, 'update'])->name('update'); // Update course
     Route::delete('/{id}', [CoursesController::class, 'destroy'])->name('destroy'); // Delete course
+    Route::get('/courses/{id}', [CoursesController::class, 'show'])->name('show');
+    Route::match(['get', 'post'], '/courses/{courseId}/schedule', [CoursesController::class, 'scheduleLecture'])->name('schedule');
 });

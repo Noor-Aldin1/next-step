@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="{{ url('mentors_css/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ url('mentors_css/css/style.css') }}">
     <link rel="stylesheet" href="{{ url('mentors_css/css/skin-2.css') }}">
+    <link rel="stylesheet" href="{{ url('mentors_css/vendor/fullcalendar/css/fullcalendar.min.css') }}">
+
+
+    {{-- <link rel="stylesheet" href="https://cdn.mobiscroll.com/5.0.1/css/mobiscroll.min.css" />
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    <script src="{{ url('assets/jQuery.js') }}"></script>
+    <script src="{{ url('https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js') }}"></script>
+
 </head>
 
 <body>
@@ -38,7 +46,13 @@
     Scripts
 ***********************************-->
     <!-- Required vendors -->
+
+
+    <script src="{{ url('mentors_css/vendor/fullcalendar/js/fullcalendar.min.js') }}"></script>
+    <script src="{{ url('mentors_css/js/plugins-init/fullcalendar-init.js') }}"></script>
     <script src="{{ url('mentors_css/vendor/global/global.min.js') }}"></script>
+    <script src="{{ url('mentors_css/vendor/jqueryui/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ url('mentors_css/vendor/moment/moment.min.js') }}"></script>
     <script src="{{ url('mentors_css/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ url('mentors_css/js/custom.min.js') }}"></script>
     <script src="{{ url('mentors_css/js/dlabnav-init.js') }}"></script>

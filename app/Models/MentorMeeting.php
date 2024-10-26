@@ -17,11 +17,13 @@ class MentorMeeting extends Model
     protected $fillable = [
         'mentor_id',
         'user_id',
-        'meeting_time',
+        'start_session',
+        'end_session',
         'meeting_link',
         'notes',
         'status',
     ];
+
 
     /**
      * Get the mentor for the meeting.
