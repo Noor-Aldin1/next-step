@@ -17,9 +17,13 @@
                     </ol>
                 </div>
             </div>
+            {{-- Event Management --}}
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
+                    var events = @json($events); // Pass the events array
+
                     var calendarEl = document.getElementById('calendar');
+
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         initialView: 'dayGridMonth',
                         headerToolbar: {
@@ -27,30 +31,30 @@
                             center: 'title',
                             right: 'dayGridMonth,listMonth,timeGridDay'
                         },
-                        events: [{
-                                title: 'All Day Event',
-                                start: '2021-01-01'
-                            },
-                            {
-                                title: 'Long Event',
-                                start: '2021-01-07',
-                                end: '2021-01-10'
-                            },
-                            {
-                                title: 'Meeting',
-                                start: '2021-01-12T10:30:00',
-                                end: '2021-01-12T12:30:00',
-                                constraint: 'businessHours'
-                            },
-                            {
-                                title: 'Birthday Party',
-                                start: '2021-01-13T07:00:00'
+                        events: events, // Use the events array
+                        eventDidMount: function(info) {
+                            // Set the background color based on the event type
+                            if (info.event.title === 'Lecture') {
+                                info.el.style.backgroundColor = '#1BD5BA'; // Set color for lectures
+                                info.el.style.color = 'white'; // Set text color for contrast
+                            } else if (info.event.title === 'Meeting') {
+                                info.el.style.backgroundColor = '#1E7EDE'; // Set color for meetings
+                                info.el.style.color = 'white'; // Set text color for contrast
                             }
-                        ]
+
+                            // You can also add custom classes for further styling
+                            if (info.event.extendedProps.is_special) {
+                                info.el.classList.add('special-event'); // Example class for special events
+                            }
+                        }
                     });
+
                     calendar.render();
                 });
             </script>
+
+
+
 
             <div class="row">
                 <div class="col-lg-9">
@@ -84,7 +88,13 @@
                                 </div>
                                 <a href="javascript:void()" data-toggle="modal" data-target="#add-category"
                                     class="btn btn-primary btn-event w-100">
-                                    <span class="align-middle"><i class="ti-plus"></i></span> Create New
+                                    <span class="align-middle"><i class="ti-plus"></i></span> Arrange a Meeting
+                                </a>
+                                <br>
+                                <br>
+                                <a href="javascript:void()" data-toggle="modal" data-target="#add-category2"
+                                    class="btn btn-primary btn-event w-100">
+                                    <span class="align-middle"><i class="ti-plus"></i></span> Schedule a lecture
                                 </a>
                             </div>
                         </div>
@@ -110,45 +120,11 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal Add Category -->
-                <div class="modal fade none-border" id="add-category">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title"><strong>Add a category</strong></h4>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="control-label">Category Name</label>
-                                            <input class="form-control form-white" placeholder="Enter name" type="text"
-                                                name="category-name">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="control-label">Choose Category Color</label>
-                                            <select class="form-control form-white" data-placeholder="Choose a color..."
-                                                name="category-color">
-                                                <option value="success">Success</option>
-                                                <option value="danger">Danger</option>
-                                                <option value="info">Info</option>
-                                                <option value="pink">Pink</option>
-                                                <option value="primary">Primary</option>
-                                                <option value="warning">Warning</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default waves-effect"
-                                    data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger waves-effect waves-light save-category"
-                                    data-dismiss="modal">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Modal Add meeting -->
+                @include('mentor.partials.add_meeting')
+                {{-- -------Schedule a lecture------- --}}
+                @include('mentor.partials.add_lecture')
+
             </div>
 
         </div>

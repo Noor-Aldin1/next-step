@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mentor\DashboardController;
 use App\Http\Controllers\mentor\AllStudentController;
 use App\Http\Controllers\mentor\CoursesController;
+use App\Http\Controllers\mentor\EventManagementController;
 
 
 
@@ -46,4 +47,19 @@ Route::group(['prefix' => 'mentor/courses', 'as' => 'courses.student.'], functio
     Route::delete('/{id}', [CoursesController::class, 'destroy'])->name('destroy'); // Delete course
     Route::get('/courses/{id}', [CoursesController::class, 'show'])->name('show');
     Route::match(['get', 'post'], '/courses/{courseId}/schedule', [CoursesController::class, 'scheduleLecture'])->name('schedule');
+});
+
+
+
+
+
+// --------Event handlers------
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mentor/events', [EventManagementController::class, 'index'])->name('mentor.events.index'); // List all events
+    Route::get('/mentor/events/create', [EventManagementController::class, 'create'])->name('mentor.events.create'); // Show form to create a new event
+    Route::post('/mentor/events', [EventManagementController::class, 'store'])->name('mentor.events.store'); // Store a new event
+    Route::get('/mentor/events/{id}', [EventManagementController::class, 'show'])->name('mentor.events.show'); // Display a specific event
+    Route::get('/mentor/events/{id}/edit', [EventManagementController::class, 'edit'])->name('mentor.events.edit'); // Show form to edit an event
+    Route::put('/mentor/events/{id}', [EventManagementController::class, 'update'])->name('mentor.events.update'); // Update an event
+    Route::delete('/mentor/events/{id}', [EventManagementController::class, 'destroy'])->name('mentor.events.destroy'); // Delete an event
 });

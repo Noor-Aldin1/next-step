@@ -31,6 +31,6 @@ Route::middleware('auth')->group(function () {
 
 
 // test 
-Route::get('/alls/test', function () {
-    return view('mentor.pages.event_management');
-});
+// Route::get('/alls/test', function () {
+//     return view('mentor.pages.event_management');
+// });
