@@ -71,21 +71,15 @@
 
                             <div class="">
                                 <div id="external-events" class="my-3">
-                                    <p>Drag and drop your event or click in the calendar</p>
-                                    <div class="external-event" data-class="bg-primary"><i class="fa fa-move"></i>New Theme
-                                        Release</div>
-                                    <div class="external-event" data-class="bg-success"><i class="fa fa-move"></i>My Event
+                                    <p>An event management page enables Mentors to schedule and manage meetings and
+                                        lectures, details like dates, and times.</p>
+                                    <div class="external-event" data-class="bg-primary"><i class="fa fa-move"></i>Meeting
                                     </div>
-                                    <div class="external-event" data-class="bg-warning"><i class="fa fa-move"></i>Meet
-                                        manager</div>
-                                    <div class="external-event" data-class="bg-dark"><i class="fa fa-move"></i>Create New
-                                        theme</div>
+                                    <div class="external-event" data-class="bg-success"><i class="fa fa-move"></i>lecture
+                                    </div>
+
                                 </div>
-                                <!-- checkbox -->
-                                <div class="checkbox custom-control checkbox-event custom-checkbox pt-3 pb-5">
-                                    <input type="checkbox" class="custom-control-input" id="drop-remove">
-                                    <label class="custom-control-label" for="drop-remove">Remove After Drop</label>
-                                </div>
+
                                 <a href="javascript:void()" data-toggle="modal" data-target="#add-category"
                                     class="btn btn-primary btn-event w-100">
                                     <span class="align-middle"><i class="ti-plus"></i></span> Arrange a Meeting
