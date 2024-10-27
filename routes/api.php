@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\mentor\CoursesController;
+use App\Http\Controllers\mentor\EventManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // mentor 
 Route::get('/lectures/{id}', [CoursesController::class, 'getLectures']);
 Route::get('/lectures', [CoursesController::class, 'getAllLectures']);
+
+
+Route::middleware(['auth'])->group(function () {});
+Route::get('/available-times', [EventManagementController::class, 'getAvailableTimes']);

@@ -10,20 +10,26 @@ class MentorMeeting extends Model
     use HasFactory;
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'mentor_id',
         'user_id',
+        'mentor_id',
         'start_session',
         'end_session',
         'meeting_link',
         'notes',
         'status',
     ];
-
 
     /**
      * Get the mentor for the meeting.

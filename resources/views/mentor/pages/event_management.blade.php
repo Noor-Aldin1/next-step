@@ -122,8 +122,11 @@
                 </div>
                 <!-- Modal Add meeting -->
                 @include('mentor.partials.add_meeting')
-                {{-- -------Schedule a lecture------- --}}
+
                 @include('mentor.partials.add_lecture')
+
+
+                {{-- -------Schedule a lecture------- --}}
 
             </div>
 

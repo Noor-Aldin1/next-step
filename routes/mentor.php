@@ -57,7 +57,10 @@ Route::group(['prefix' => 'mentor/courses', 'as' => 'courses.student.'], functio
 Route::middleware(['auth'])->group(function () {
     Route::get('/mentor/events', [EventManagementController::class, 'index'])->name('mentor.events.index'); // List all events
     Route::get('/mentor/events/create', [EventManagementController::class, 'create'])->name('mentor.events.create'); // Show form to create a new event
-    Route::post('/mentor/events', [EventManagementController::class, 'store'])->name('mentor.events.store'); // Store a new event
+    Route::post('/mentor/addMeeting', [EventManagementController::class, 'store'])->name('mentor.events.store'); // Store a new event
+    Route::post('/mentor/events', [EventManagementController::class, 'addMeeting'])->name('meetings.add'); // Store a new event
+    Route::post('/mentor/addLecture', [EventManagementController::class, 'addLecture'])->name('addLecture.add'); // Store a new event
+
     Route::get('/mentor/events/{id}', [EventManagementController::class, 'show'])->name('mentor.events.show'); // Display a specific event
     Route::get('/mentor/events/{id}/edit', [EventManagementController::class, 'edit'])->name('mentor.events.edit'); // Show form to edit an event
     Route::put('/mentor/events/{id}', [EventManagementController::class, 'update'])->name('mentor.events.update'); // Update an event
