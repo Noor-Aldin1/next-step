@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <button type="submit" class="btn btn-primary">Submit</button>
-                                        <a href="{{ route('courses.index') }}" class="btn btn-light">Cancel</a>
+                                        <a href="{{ route('courses.student.index') }}" class="btn btn-light">Cancel</a>
                                     </div>
                                 </div>
                             </form>

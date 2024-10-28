@@ -97,7 +97,8 @@ class DashboardController extends Controller
                 't.id AS task_id',
                 'st.submission AS submission_status',
                 'u.username AS student_username',
-                'c.title AS course_title'
+                'c.title AS course_title',
+                'c.id AS course_id'
             )
             ->where('t.mentor_id', '=', $mentor->id)
             ->whereNotNull('st.submission')      // Filter tasks that have been submitted

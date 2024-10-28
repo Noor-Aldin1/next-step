@@ -1,8 +1,8 @@
 @extends('mentor.master_page')
 @section('content')
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                Content body start
-                                                                                                                                                                                                                                                                                                                            ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                            Content body start
+                                                                                                                                                                                                                                                                                                                                                                                        ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -134,8 +134,9 @@
                         <div class="card-header">
                             <h5 class="card-title">Assign Task</h5>
                             <div class="d-flex justify-content-between mb-3" style="gap: 10px">
-                                <div class="flex-fill me-2">
-                                    <select id="courseFilter" class="form-control">
+                                <div class="flex-fill me-2 text-secondary">
+                                    <select style="color:#000  " id="courseFilter"
+                                        class="form-control btn text-secondary btn-secondary ">
                                         <option value="">All Courses</option>
                                         @foreach ($assignTask->unique('course_title') as $task)
                                             <option value="{{ $task->course_title }}">{{ $task->course_title }}</option>
@@ -181,9 +182,12 @@
                                                     @endif
                                                 </td>
                                                 <td class="course-name">{{ $task->course_title }}</td>
-                                                <td class="course-name"><button style="background:#5D6771 ; color:#fff"
-                                                        class="btn ">
-                                                        View Task</button>
+                                                <td class="course-name"><button
+                                                        onclick="window.location.href='{{ route('courses.student.show', $task->course_id) }}'"
+                                                        style="background:#5D6771; color:#fff" class="btn">
+                                                        View Task
+                                                    </button>
+
                                                 </td>
 
                                             </tr>
@@ -230,6 +234,6 @@
         </div>
     </div>
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                Content body end
-                                                                                                                                                                                                                                                                                                                            ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                            Content body end
+                                                                                                                                                                                                                                                                                                                                                                                        ***********************************-->
 @endsection
