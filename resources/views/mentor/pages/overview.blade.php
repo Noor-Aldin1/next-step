@@ -1,8 +1,8 @@
 @extends('mentor.master_page')
 @section('content')
     <!--**********************************
-                                                                                                                                                                                                                                        Content body start
-                                                                                                                                                                                                                                    ***********************************-->
+                                                                                                                                                                                                                                                                                                                                Content body start
+                                                                                                                                                                                                                                                                                                                            ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -128,25 +128,33 @@
 
                 @endauth
 
-
                 {{-- Assign Task --}}
                 <div class="col-12 col-lg-8 col-xl-12 col-xxl-8">
-
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">Assign Task</h5>
-                            <div class="">
-                                <select id="studentFilter" class="form-control">
-                                    <option value="">All Students</option>
-                                    @foreach ($assignTask->unique('student_username') as $task)
-                                        <option value="{{ $task->student_username }}">{{ $task->student_username }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="d-flex justify-content-between mb-3" style="gap: 10px">
+                                <div class="flex-fill me-2">
+                                    <select id="courseFilter" class="form-control">
+                                        <option value="">All Courses</option>
+                                        @foreach ($assignTask->unique('course_title') as $task)
+                                            <option value="{{ $task->course_title }}">{{ $task->course_title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="flex-fill">
+                                    <select id="studentFilter" class="form-control">
+                                        <option value="">All Students</option>
+                                        @foreach ($assignTask->unique('student_username') as $task)
+                                            <option value="{{ $task->student_username }}">{{ $task->student_username }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
+
                         </div>
                         <div class="card-body">
-                            <!-- Filter Dropdown -->
-
                             <div class="table-responsive">
                                 <table class="table header-border table-hover verticle-middle">
                                     <thead>
@@ -156,6 +164,7 @@
                                             <th scope="col">Student Name</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Course Name</th>
+                                            {{-- <th scope="col">show Task</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody id="taskTable">
@@ -171,7 +180,12 @@
                                                         <span class="badge badge-rounded badge-warning">PENDING</span>
                                                     @endif
                                                 </td>
-                                                <td>{{ $task->course_title }}</td>
+                                                <td class="course-name">{{ $task->course_title }}</td>
+                                                <td class="course-name"><button style="background:#5D6771 ; color:#fff"
+                                                        class="btn ">
+                                                        View Task</button>
+                                                </td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -180,31 +194,42 @@
                         </div>
                     </div>
 
-                    <!-- JavaScript to filter table rows based on selected student -->
+                    <!-- JavaScript to filter table rows based on selected course and student -->
                     <script>
-                        document.getElementById('studentFilter').addEventListener('change', function() {
-                            let filter = this.value.toLowerCase();
-                            let rows = document.querySelectorAll('#taskTable tr');
+                        const courseFilter = document.getElementById('courseFilter');
+                        const studentFilter = document.getElementById('studentFilter');
+
+                        function filterTasks() {
+                            const courseValue = courseFilter.value.toLowerCase();
+                            const studentValue = studentFilter.value.toLowerCase();
+                            const rows = document.querySelectorAll('#taskTable tr');
 
                             rows.forEach(row => {
-                                let studentName = row.querySelector('.student-name').textContent.toLowerCase();
+                                const studentName = row.querySelector('.student-name').textContent.toLowerCase();
+                                const courseName = row.querySelector('.course-name').textContent.toLowerCase();
 
-                                if (filter === "" || studentName === filter) {
+                                const matchesCourse = courseValue === "" || courseName === courseValue;
+                                const matchesStudent = studentValue === "" || studentName === studentValue;
+
+                                if (matchesCourse && matchesStudent) {
                                     row.style.display = ''; // Show the row
                                 } else {
                                     row.style.display = 'none'; // Hide the row
                                 }
                             });
-                        });
-                    </script>
+                        }
 
+                        courseFilter.addEventListener('change', filterTasks);
+                        studentFilter.addEventListener('change', filterTasks);
+                    </script>
                 </div>
+
 
 
             </div>
         </div>
     </div>
     <!--**********************************
-                                                                                                                                                                                                                                        Content body end
-                                                                                                                                                                                                                                    ***********************************-->
+                                                                                                                                                                                                                                                                                                                                Content body end
+                                                                                                                                                                                                                                                                                                                            ***********************************-->
 @endsection

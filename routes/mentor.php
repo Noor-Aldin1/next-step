@@ -6,6 +6,8 @@ use App\Http\Controllers\Mentor\DashboardController;
 use App\Http\Controllers\mentor\AllStudentController;
 use App\Http\Controllers\mentor\CoursesController;
 use App\Http\Controllers\mentor\EventManagementController;
+use App\Http\Controllers\mentor\TasksController;
+
 
 
 
@@ -66,3 +68,28 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/mentor/events/{id}', [EventManagementController::class, 'update'])->name('mentor.events.update'); // Update an event
     Route::delete('/mentor/events/{id}', [EventManagementController::class, 'destroy'])->name('mentor.events.destroy'); // Delete an event
 });
+
+
+// --------Task handlers------ 
+
+Route::get('mentor/courses/{id}/tasks', [TasksController::class, 'index'])->name('mentor.tasks.index');
+
+// // Route for showing a specific task
+Route::get('mentor/tasks/{id}', [TasksController::class, 'show'])->name('mentor.tasks.show');
+
+// Route for creating a new task
+Route::get('mentor/tasks/create', [TasksController::class, 'create'])->name('mentor.tasks.create');
+
+// Route for storing a new task
+Route::post('mentor/tasks', [TasksController::class, 'store'])->name('mentor.tasks.store');
+
+// Route for editing a specific task
+Route::get('mentor/tasks/{id}/edit', [TasksController::class, 'edit'])->name('mentor.tasks.edit');
+
+Route::get('mentor/tasks/{id}/AnswerTask', [TasksController::class, 'AnswerTask'])->name('mentor.AnswerTask');
+
+// Route for updating a specific task
+Route::put('mentor/tasks/{id}', [TasksController::class, 'update'])->name('mentor.tasks.update');
+
+// Route for deleting a specific task
+Route::delete('mentor/tasks/{id}', [TasksController::class, 'destroy'])->name('mentor.tasks.destroy');

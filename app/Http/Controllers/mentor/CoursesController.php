@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage; // Add this line
+use App\Models\Task;
 
 class CoursesController extends Controller
 {
@@ -143,9 +144,16 @@ class CoursesController extends Controller
         return redirect()->route('courses.index')->with('success', 'Course created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
+    public function gettasks($id, $mentorId)
+    {
+        $tasks = Task::join('course_tasks', 'course_tasks.task_id', '=', 'tasks.id')
+            ->where('course_tasks.course_id', $id)
+            ->where('tasks.mentor_id', $mentorId->id)
+            ->select('tasks.*')
+            ->get();
+    }
+
     public function show(string $id)
     {
         // Find the course by ID
@@ -170,6 +178,12 @@ class CoursesController extends Controller
             $query->where('course_id', $course->id);
         })->get();
         // Prepare data for the view
+        session([
+            'course' => $course,
+            'students' => $students,
+            'lectures' => $lectures,
+            'mentor' => $mentor,
+        ]);
         return view('mentor.pages.course.courses_detials', compact('course', 'students', 'lectures'));
     }
 

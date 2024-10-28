@@ -22,7 +22,9 @@
     <link rel="stylesheet" href="{{ url('mentors_css/css/skin-2.css') }}">
 
 
-
+    <!-- Include SweetAlert2 CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- jQuery -->
     <script src="{{ url('assets/jQuery.js') }}"></script>
