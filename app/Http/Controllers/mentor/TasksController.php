@@ -159,7 +159,7 @@ class TasksController extends Controller
             ->join('course_tasks', 'course_tasks.task_id', '=', 'tasks.id')
             ->where('tasks.mentor_id', $mentor->id)
             ->where('course_tasks.course_id', $id)
-            ->select('tasks.*', 'student_tasks.*' , 'student_tasks.created_at AS completion_date')
+            ->select('tasks.*', 'student_tasks.*', 'student_tasks.created_at AS completion_date')
             ->get();
 
         return view('mentor.pages.course.task_answer', compact('tasks', 'course'));

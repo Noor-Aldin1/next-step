@@ -7,7 +7,7 @@ use App\Http\Controllers\mentor\AllStudentController;
 use App\Http\Controllers\mentor\CoursesController;
 use App\Http\Controllers\mentor\EventManagementController;
 use App\Http\Controllers\mentor\TasksController;
-
+use App\Http\Controllers\Mentor\MaterialController;
 
 
 
@@ -93,3 +93,22 @@ Route::put('mentor/tasks/{id}', [TasksController::class, 'update'])->name('mento
 
 // Route for deleting a specific task
 Route::delete('mentor/tasks/{id}', [TasksController::class, 'destroy'])->name('mentor.tasks.destroy');
+
+
+
+
+
+// Mentor materials routes
+Route::prefix('mentor/materials')->name('mentor.materials.')->middleware('auth')->group(function () {
+    // Display a list of materials for a specific course
+    Route::get('/course/{id}', [MaterialController::class, 'index'])->name('index');
+
+    // Other material management routes...
+    Route::get('/', [MaterialController::class, 'index'])->name('index'); // List all materials
+    Route::get('/create', [MaterialController::class, 'create'])->name('create'); // Create material form
+    Route::post('/', [MaterialController::class, 'store'])->name('store'); // Store new material
+    Route::get('/{id}', [MaterialController::class, 'show'])->name('show'); // Show specific material
+    Route::get('/{id}/edit', [MaterialController::class, 'edit'])->name('edit'); // Edit specific material
+    Route::put('/{id}', [MaterialController::class, 'update'])->name('update'); // Update specific material
+    Route::delete('/{id}', [MaterialController::class, 'destroy'])->name('destroy'); // Delete specific material
+});
