@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TranslateController;
-
+use App\Http\Controllers\MentorController;
 // ---------------Another Routes-------
 require base_path('routes/custom_routes.php');
 require base_path('routes/auth.php');
@@ -34,3 +34,14 @@ Route::middleware('auth')->group(function () {
 // Route::get('/alls/test', function () {
 //     return view('mentor.pages.event_management');
 // });
+
+// Mentor Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/mentors', [MentorController::class, 'index'])->name('mentorsuser.index'); // List all mentors
+    Route::get('/profile/mentors/create', [MentorController::class, 'create'])->name('mentorsuser.create'); // Show form to create a new mentor
+    Route::post('/profile/mentors', [MentorController::class, 'store'])->name('mentorsuser.store'); // Store a new mentor
+    Route::get('/profile/mentors/{id}', [MentorController::class, 'show'])->name('mentorsuser.show'); // Show specific mentor details
+    Route::get('/profile/mentors/{id}/edit', [MentorController::class, 'edit'])->name('mentorsuser.edit'); // Show form to edit a mentor
+    Route::put('/profile/mentors/{id}', [MentorController::class, 'update'])->name('mentorsuser.update'); // Update a specific mentor
+    Route::delete('/profile/mentors/{id}', [MentorController::class, 'destroy'])->name('mentorsuser.destroy'); // Delete a specific mentor
+});

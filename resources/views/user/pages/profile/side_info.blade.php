@@ -25,46 +25,47 @@
                 </form>
             </div>
         </div>
-
-        <ul>
-            <li>
-                <a href="{{ route('profile.edit') }}" class="{{ request()->routeIs('profile.edit') ? 'active' : '' }}">
-                    <i class='bx bx-user'></i>
-                    My Profile
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('resumes.show', Auth::user()->id) }}" class="">
-                    <i class='bx bxs-file-doc'></i>
-                    My Resume
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('applications.index') }}">
-                    <i class='bx bx-briefcase'></i>
-                    Applied Job
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-envelope'></i>
-                    Messages
-                </a>
-            </li>
-            <li>
-                <a href="#" class="">
-                    <i class='bx bx-heart'></i>
-                    Saved Jobs
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('change.password') }}"
-                    class="{{ request()->routeIs('change.password') ? 'active' : '' }}">
-                    <i class='bx bx-lock-alt'></i>
-                    Change Password
-                </a>
-            </li>
-            {{-- <li>
+        @if (Auth::user()->role_id != 2)
+            <ul>
+                <li>
+                    <a href="{{ route('profile.edit') }}"
+                        class="{{ request()->routeIs('profile.edit') ? 'active' : '' }}">
+                        <i class='bx bx-user'></i>
+                        My Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('resumes.show', Auth::user()->id) }}" class="">
+                        <i class='bx bxs-file-doc'></i>
+                        My Resume
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('applications.index') }}">
+                        <i class='bx bx-briefcase'></i>
+                        Applied Job
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-envelope'></i>
+                        Messages
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="">
+                        <i class='bx bx-heart'></i>
+                        Saved Jobs
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('change.password') }}"
+                        class="{{ request()->routeIs('change.password') ? 'active' : '' }}">
+                        <i class='bx bx-lock-alt'></i>
+                        Change Password
+                    </a>
+                </li>
+                {{-- <li>
                 <div x-data="{ showDeleteAccountModal() { showDeleteModal() } }" class="ps-5 mb-2">
                     <!-- Delete Account Button triggers SweetAlert2 -->
                     <button x-on:click.prevent='showDeleteAccountModal()'
@@ -75,7 +76,40 @@
                 </div>
             </li> --}}
 
-        </ul>
+            </ul>
+        @else
+            <ul>
+                <li>
+                    <a href="{{ route('profile.edit') }}"
+                        class="{{ request()->routeIs('profile.edit') ? 'active' : '' }}">
+                        <i class='bx bx-user'></i>
+                        My Profile
+                    </a>
+                </li>
+
+
+
+
+                <li>
+                    <a href="{{ route('change.password') }}"
+                        class="{{ request()->routeIs('change.password') ? 'active' : '' }}">
+                        <i class='bx bx-lock-alt'></i>
+                        Change Password
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('mentorsuser.show', Auth::user()->id) }}"
+                        class="{{ request()->routeIs('mentorsuser.show', Auth::user()->id) ? 'active' : '' }}">
+                        <i class='bx bx-video'></i>
+                        Add an introductory video
+                    </a>
+
+                </li>
+
+
+            </ul>
+        @endif
+
     </div>
 </div>
 
