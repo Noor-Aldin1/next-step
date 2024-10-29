@@ -71,10 +71,10 @@
                             </div>
 
                             <div class="d-flex justify-content-between mb-3">
+                                <div></div>
 
 
-
-                                <button class="btn btn-warning mr-2" data-toggle="modal"
+                                <button class="btn btn-success mr-2" data-toggle="modal"
                                     data-target="#editVideoModal-{{ $mentor->id }}">Edit Video</button>
 
                             </div>
