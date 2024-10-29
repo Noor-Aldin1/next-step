@@ -3,8 +3,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <img class="img-fluid"
-                    src="https://images.shiksha.com/mediadata/ugcDocuments/images/wordpressImages/2022_08_MicrosoftTeams-image-13-2-1.jpg"
-                    alt="Course Image">
+                    src="{{ $course->photo ? asset('storage/' . $course->photo) : url('https://images.shiksha.com/mediadata/ugcDocuments/images/wordpressImages/2022_08_MicrosoftTeams-image-13-2-1.jpg') }}"
+                    alt="Course Image" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
                 <div class="card-body">
                     <h4 class="mb-0">{{ $course->title }}</h4>
                 </div>

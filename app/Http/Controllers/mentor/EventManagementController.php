@@ -275,7 +275,12 @@ class EventManagementController extends Controller
     public function index()
     {
         // --------User Names ------
-        $userIds = UserMentor::where('mentor_id', auth()->id())->pluck('student_id')->toArray();
+        $mentor = Mentor::where('user_id', auth()->id())->first();
+
+
+
+
+        $userIds = UserMentor::where('mentor_id', $mentor->id)->pluck('student_id')->toArray();
 
         // Retrieve active subscriptions for each user in the list
         $subscriptions = UserSubscription::whereIn('user_id', $userIds)

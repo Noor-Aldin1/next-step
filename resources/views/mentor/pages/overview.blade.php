@@ -1,8 +1,8 @@
 @extends('mentor.master_page')
 @section('content')
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                                                                            Content body start
-                                                                                                                                                                                                                                                                                                                                                                                        ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    Content body start
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -176,14 +176,15 @@
                                                 <td class="student-name">{{ $task->student_username }}</td>
                                                 <td>
                                                     @if ($task->submission_status)
-                                                        <span class="badge badge-rounded badge-primary">DONE</span>
+                                                        <span style="color :#fff"
+                                                            class="badge badge-rounded badge-success">Submitted</span>
                                                     @else
-                                                        <span class="badge badge-rounded badge-warning">PENDING</span>
+                                                        <span class="badge badge-rounded badge-danger">Not Submitted</span>
                                                     @endif
                                                 </td>
                                                 <td class="course-name">{{ $task->course_title }}</td>
                                                 <td class="course-name"><button
-                                                        onclick="window.location.href='{{ route('courses.student.show', $task->course_id) }}'"
+                                                        onclick="window.location.href='{{ route('mentor.AnswerTask', $task->course_id) }}'"
                                                         style="background:#5D6771; color:#fff" class="btn">
                                                         View Task
                                                     </button>
@@ -234,6 +235,6 @@
         </div>
     </div>
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                                                                            Content body end
-                                                                                                                                                                                                                                                                                                                                                                                        ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    Content body end
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ***********************************-->
 @endsection

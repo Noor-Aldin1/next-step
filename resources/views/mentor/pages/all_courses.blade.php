@@ -106,10 +106,13 @@
                                         <h4 class="card-title">{{ $course->title }}</h4>
                                         <p class="card-text">{{ $course->description }}</p>
                                         <div class="d-flex align-items-center">
-                                            <a href="#" class="btn btn-primary">View Course</a>
-                                            <form>
-                                                <button class="btn btn-primary m-3 ">Edit Course </button>
-                                            </form>
+                                            <a href="{{ route('courses.student.show1', $course->id) }}"
+                                                class="btn btn-primary">View Course</a>
+
+                                            <a href="{{ route('courses.student.edit', $course->id) }}"
+                                                class="btn btn-primary m-3">Edit Course</a>
+
+
 
                                         </div>
                                     </div>

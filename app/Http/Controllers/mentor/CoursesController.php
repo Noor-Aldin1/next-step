@@ -33,7 +33,7 @@ class CoursesController extends Controller
         $query = Course::where('mentor_id', $mentor->id);
 
         // Get the IDs of the students associated with the logged-in mentor
-        $userIds = UserMentor::where('mentor_id', auth()->id())->pluck('student_id')->toArray();
+        $userIds = UserMentor::where('mentor_id', $mentor->id)->pluck('student_id')->toArray();
 
         // Retrieve active subscriptions for each user in the list
         $subscriptions = UserSubscription::whereIn('user_id', $userIds)
@@ -81,8 +81,9 @@ class CoursesController extends Controller
      */
     public function create()
     {
+        $mentor = Mentor::where('user_id', auth()->id())->first();
 
-        $userIds = UserMentor::where('mentor_id', auth()->id())->pluck('student_id')->toArray();
+        $userIds = UserMentor::where('mentor_id', $mentor->id)->pluck('student_id')->toArray();
 
         // Retrieve active subscriptions for each user in the list
         $subscriptions = UserSubscription::whereIn('user_id', $userIds)
@@ -145,14 +146,6 @@ class CoursesController extends Controller
     }
 
 
-    public function gettasks($id, $mentorId)
-    {
-        $tasks = Task::join('course_tasks', 'course_tasks.task_id', '=', 'tasks.id')
-            ->where('course_tasks.course_id', $id)
-            ->where('tasks.mentor_id', $mentorId->id)
-            ->select('tasks.*')
-            ->get();
-    }
 
     public function show(string $id)
     {
@@ -305,12 +298,9 @@ class CoursesController extends Controller
         $course = Course::findOrFail($id);
 
         // Ensure the authenticated user is the mentor of this course
-        if ($course->mentor_id !== auth()->id()) {
-            return redirect()->route('courses.index')->with('error', 'Unauthorized access!');
-        }
-
+        $mentor = Mentor::where('user_id', auth()->id())->first();
         // Get usernames of students with active subscriptions
-        $userIds = UserMentor::where('mentor_id', auth()->id())->pluck('student_id')->toArray();
+        $userIds = UserMentor::where('mentor_id', $mentor->id)->pluck('student_id')->toArray();
         $subscriptions = UserSubscription::whereIn('user_id', $userIds)
             ->where('end_date', '>', now())
             ->pluck('user_id')
@@ -374,8 +364,32 @@ class CoursesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
-        //
+        // Find the course by ID
+        $course = Course::findOrFail($id);
+
+        // Ensure the authenticated user is the mentor of this course
+        $mentor = Mentor::where('user_id', auth()->id())->first();
+        if ($course->mentor_id !== $mentor->id) {
+            return redirect()->route('courses.index')->with('error', 'Unauthorized access!');
+        }
+
+        // Delete the course photo from storage if it exists
+        if ($course->photo) {
+            Storage::disk('public')->delete($course->photo);
+        }
+
+        // Delete the course
+        $course->delete();
+
+        // Optionally, delete related records, like CourseStudent
+        CourseStudent::where('course_id', $course->id)->delete();
+
+        // Return a response or redirect
+        return redirect()->route('courses.index')->with('success', 'Course deleted successfully!');
     }
 }

@@ -43,7 +43,7 @@ Route::group(['prefix' => 'mentor/courses', 'as' => 'courses.student.'], functio
     Route::get('/all', [CoursesController::class, 'index'])->name('index'); // List all courses
     Route::get('/create', [CoursesController::class, 'create'])->name('create'); // Show create course form
     Route::post('/', [CoursesController::class, 'store'])->name('store'); // Store new course
-    Route::get('/{id}', [CoursesController::class, 'show'])->name('show'); // Show specific course
+    Route::get('/{id}', [CoursesController::class, 'show'])->name('show1'); // Show specific course
     Route::get('/{id}/edit', [CoursesController::class, 'edit'])->name('edit'); // Show edit course form
     Route::put('/{id}', [CoursesController::class, 'update'])->name('update'); // Update course
     Route::delete('/{id}', [CoursesController::class, 'destroy'])->name('destroy'); // Delete course
@@ -101,10 +101,12 @@ Route::delete('mentor/tasks/{id}', [TasksController::class, 'destroy'])->name('m
 // Mentor materials routes
 Route::prefix('mentor/materials')->name('mentor.materials.')->middleware('auth')->group(function () {
     // Display a list of materials for a specific course
-    Route::get('/course/{id}', [MaterialController::class, 'index'])->name('index');
+    Route::get('/course/{id}', [MaterialController::class, 'index'])->name('course'); // Unique name for course-specific materials
 
-    // Other material management routes...
-    Route::get('/', [MaterialController::class, 'index'])->name('index'); // List all materials
+    // List all materials
+    Route::get('/', [MaterialController::class, 'all'])->name('index');
+
+    // Other material management routes
     Route::get('/create', [MaterialController::class, 'create'])->name('create'); // Create material form
     Route::post('/', [MaterialController::class, 'store'])->name('store'); // Store new material
     Route::get('/{id}', [MaterialController::class, 'show'])->name('show'); // Show specific material

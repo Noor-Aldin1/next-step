@@ -10,6 +10,7 @@ use App\Models\Certification;
 use App\Models\UserSkill;
 use App\Models\Profile;
 use App\Models\StudentTask;
+use App\Models\UserSubscription;
 use App\Models\User;
 
 use Illuminate\Support\Facades\DB;
@@ -39,13 +40,23 @@ class AllStudentController extends Controller
         $order = $request->query('order', 'newest'); // Default to 'newest' if not specified
         $sortOrder = $order === 'oldest' ? 'asc' : 'desc';
 
-        // Fetch all students assigned to this mentor with sorting
+        // Get student IDs associated with the mentor
+        $userIds = UserMentor::where('mentor_id', $mentorid)->pluck('student_id')->toArray();
+
+        // Retrieve active subscriptions for each user in the list
+        $activeSubscriptions = UserSubscription::whereIn('user_id', $userIds)
+            ->where('end_date', '>', now()) // Check for active subscriptions
+            ->pluck('user_id')
+            ->toArray();
+
+        // Fetch all students assigned to this mentor with active subscriptions and sorting
         $studentAll = DB::table('user_mentor')
             ->join('users', 'users.id', '=', 'user_mentor.student_id')
             ->join('mentors', 'user_mentor.mentor_id', '=', 'mentors.id')
             ->join('profiles', 'profiles.user_id', '=', 'users.id')
             ->where('mentors.id', '=', $mentorid)
             ->where('users.role_id', '=', 1)  // Assuming 1 is the role ID for students
+            ->whereIn('users.id', $activeSubscriptions) // Filter for active subscriptions
             ->select(
                 'users.id as user_id',
                 'users.username as name',
@@ -58,8 +69,9 @@ class AllStudentController extends Controller
                 'profiles.id as profile_id',
                 'user_mentor.created_at'
             )
-            ->orderBy('user_mentor.created_at', $sortOrder) // Apply sort order based on filter
+            ->orderBy('user_mentor.created_at', $sortOrder) // Apply sort order based on filter 
             ->paginate(10);
+
 
         // Prepare data for the view
         $data = compact('studentAll', 'order');
