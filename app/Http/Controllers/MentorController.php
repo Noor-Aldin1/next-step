@@ -67,34 +67,44 @@ class MentorController extends Controller
     }
 
     /**
-     * Update the specified mentor in storage.
+     * Update the specified mentor in storage.  
      */
     public function update(Request $request, string $id)
     {
         // Validate incoming request
-        $request->validate([
+        $validatedData = $request->validate([
             'user_id' => 'required|integer|exists:users,id', // Ensure user exists
             'availability' => 'required|string|in:available,unavailable',
-            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:10240', // Validate video file, nullable for updates
+            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:1048000',
+            // Limit size to 2 GB
+            // Validate video file, nullable for updates
             'status' => 'required|string|in:active,inactive',
         ]);
 
-        $mentor = Mentor::findOrFail($id); // Find the mentor or fail
+        // Retrieve the mentor using the user_id
+        $mentor = Mentor::where('user_id', $id)->firstOrFail(); // Use firstOrFail directly
 
-        // Update mentor data
+        // Debugging data at this point
+        // dd($mentor, $validatedData);
+
+        // Update mentor data with validated inputs
         $data = $request->only('user_id', 'availability', 'status');
 
         // If a new video file is uploaded, store it and update the path
         if ($request->hasFile('video')) {
-            // Delete the old video file if necessary
-            Storage::disk('public')->delete($mentor->video);
+            // Delete the old video file if it exists
+            if ($mentor->video) {
+                Storage::disk('public')->delete($mentor->video);
+            }
+            // Store new video
             $data['video'] = $request->file('video')->store('videos', 'public');
         }
 
         $mentor->update($data); // Update the mentor record
 
-        return redirect()->route('mentors.index')->with('success', 'Mentor updated successfully.'); // Redirect to index with success message
+        return back()->with('success', 'Mentor updated successfully.');
     }
+
 
     /**
      * Remove the specified mentor from storage.
