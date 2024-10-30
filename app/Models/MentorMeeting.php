@@ -15,6 +15,7 @@ class MentorMeeting extends Model
      * @var bool
      */
     public $timestamps = false;
+    protected $primaryKey = 'meeting_id'; // Specify your primary key
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,7 @@ class MentorMeeting extends Model
      */
     protected $fillable = [
         'user_id',
+        'meeting_id',
         'mentor_id',
         'start_session',
         'end_session',

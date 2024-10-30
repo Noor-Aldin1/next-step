@@ -32,6 +32,11 @@
                     <!-- Changed "Add Courses" to "Add Course" for consistency -->
                 </ul>
             </li>
+            <li>
+                <a class="ai-icon" href="{{ route('meetings.index') }}" aria-expanded="false">
+                    <i class="fa-solid fa-handshake"></i>
+                    <span class="nav-text">Meetings</span></a> <!-- Fixed missing closing tag -->
+            </li>
         </ul>
     </div>
 </div>

@@ -18,9 +18,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage; // Add this line
 use App\Models\Task;
+use App\Http\Controllers\Customer\UserCoursesController;
 
 class CoursesController extends Controller
 {
+    protected $coursesControllerUser;
+
+    public function __construct(UserCoursesController $UsercoursesController)
+    {
+        $this->coursesControllerUser = $UsercoursesController;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -177,7 +185,13 @@ class CoursesController extends Controller
             'lectures' => $lectures,
             'mentor' => $mentor,
         ]);
-        return view('mentor.pages.course.courses_detials', compact('course', 'students', 'lectures'));
+
+        $this->coursesControllerUser->show($mentor->id, $id);
+        $duration = session('duration');
+
+
+
+        return view('mentor.pages.course.courses_detials', compact('course', 'students', 'lectures', 'duration'));
     }
 
     public function scheduleLecture(Request $request, $courseId)

@@ -15,13 +15,25 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="control-label">Choose Course</label>
-                            <select class="form-control form-white" id="course-select" name="course_id" required>
-                                <option disabled selected>Choose a course...</option>
-                                @foreach ($courseName as $course)
-                                    <option value="{{ $course->id }}">{{ $course->title }}</option>
-                                @endforeach
-                            </select>
+
+                            @if (!empty($courseName))
+                                <label class="control-label">Choose Course</label>
+                                <select class="form-control form-white" id="course-select" name="course_id" required>
+                                    <option disabled selected>Choose a course...</option>
+
+                                    @foreach ($courseName as $course)
+                                        <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <label class="control-label">This Course</label>
+                                <select disabled class="form-control form-white" id="course-select" required>
+                                    <option selected>{{ $course->title }}</option>
+                                </select>
+                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            @endif
+
+
                         </div>
 
                         <!-- Start Session Datepicker -->
@@ -114,7 +126,7 @@
                             } else {
                                 // For other days, show all available times
                                 appendTimeSlot(time, timeSlotsId, sessionType,
-                                selectedDate);
+                                    selectedDate);
                             }
                         });
                     } else {

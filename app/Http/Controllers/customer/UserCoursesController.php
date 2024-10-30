@@ -180,6 +180,13 @@ class UserCoursesController extends Controller
 
         $courseId = $id;
 
+        session([
+            'course' => $course,
+            'duration' => $duration,
+            'courseId' => $courseId,
+            'mentorId' => $mentorId,
+        ]);
+
         // Check if the course belongs to the mentor
         if (!$course) {
             return redirect()->route('courses.index', $mentorId)->with('error', 'Course not found.');

@@ -23,26 +23,34 @@
 
                     <div class="row">
                         <!-- Student Name Selection -->
-                        <div class="col-md-6 mb-3">
-                            <label class="control-label">Choose Student Name</label>
-                            <select class="form-control form-white" id="single-select" name="user_id" required>
-                                <option disabled selected>Choose a name...</option>
-                                @foreach ($usernames as $user)
-                                    <option value="{{ $user->id }}">{{ $user->username }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        @if (!empty($statuses))
+                            <div class="col-md-6 mb-3">
+                            @else
+                                <div class="col-md-12 mb-3">
+                                    <label class="control-label">Choose Student Name</label>
+                                    <select class="form-control form-white" id="single-select" name="user_id" required>
+                                        <option disabled selected>Choose a name...</option>
+                                        @foreach ($usernames as $user)
+                                            <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                        @endif
 
                         <!-- Meeting Status Selection -->
-                        <div class="col-md-6 mb-3">
-                            <label class="control-label">Choose Status</label>
-                            <select class="form-control form-white" name="status" required>
-                                <option disabled selected>Status</option>
-                                @foreach ($statuses as $stat)
-                                    <option value="{{ $stat }}">{{ $stat }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        @if (!empty($statuses))
+                            <div class="col-md-6 mb-3">
+                                <label class="control-label">Choose Status</label>
+                                <select class="form-control form-white" name="status" required>
+                                    <option disabled selected>Select Status</option>
+                                    @foreach ($statuses as $stat)
+                                        <option value="{{ $stat }}">{{ $stat }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @else
+                            <input type="hidden" value="scheduled" name="status" />
+                        @endif
 
                         <!-- Start Session Datepicker -->
                         <div class="col-md-6 mb-3">

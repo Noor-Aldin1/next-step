@@ -246,12 +246,15 @@ class EventManagementController extends Controller
 
         try {
             // Create a new Lecture instance with validated data
-            Lecture::create($validatedData);
-            $CourseLecture = new CourseLecture;
-            $CourseLecture->course_id = $request->course_id;
-            $CourseLecture->lecture_id = Lecture::latest()->value('id');
-            $CourseLecture->save();
+            // Create a new Lecture instance and store it in a variable
+            $lecture = Lecture::create($validatedData);
 
+            // Create a new CourseLecture and associate it with the course and lecture IDs
+            $CourseLecture = new CourseLecture;
+            $CourseLecture->course_id = $request->input('course_id');
+
+            $CourseLecture->lecture_id = $lecture->id; // Directly use the ID from the newly created Lecture instance
+            $CourseLecture->save();
 
 
             // Redirect to the lectures index page with a success message
@@ -291,6 +294,11 @@ class EventManagementController extends Controller
         // Retrieve usernames for users with active subscriptions
         $usernames = !empty($subscriptions) ? User::whereIn('id', $subscriptions)->get() : collect();
 
+        session([
+            'usernames' => $usernames,
+
+
+        ]);
         // ----------Meeting Status ------
         $columnInfo = DB::select("SHOW COLUMNS FROM mentor_meetings WHERE Field = 'status'");
         $statuses = [];
@@ -364,8 +372,11 @@ class EventManagementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function LectureDestroy($id)
     {
-        //
+        $lecture = Lecture::findOrFail($id);
+        $lecture->delete(); // Call the destroy method
+
+        return back()->with('success', 'Lecture deleted successfully.');
     }
 }

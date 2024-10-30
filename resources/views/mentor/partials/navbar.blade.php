@@ -55,12 +55,20 @@
                         <ul class="navbar-nav header-right">
 
                             <li class="nav-item dropdown header-profile">
-                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                                <a class="nav-link p-0 d-flex align-items-center" href="#" role="button"
+                                    data-toggle="dropdown" style="position: relative;">
                                     <img src="{{ Auth::check() && Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('storage/default.jpg') }}"
-                                        alt="image" width="20">
-
-
+                                        alt="Profile Image" class="rounded-circle shadow-sm border border-secondary"
+                                        style="width: 40px; height: 40px; object-fit: cover; transition: transform 0.2s ease-in-out;">
                                 </a>
+
+                                <style>
+                                    /* Profile Image Hover Effect */
+                                    .nav-link img:hover {
+                                        transform: scale(1.1);
+                                        /* Slightly enlarge on hover */
+                                    }
+                                </style>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="{{ route('profile.edit') }}" class="dropdown-item ai-icon">
                                         <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" width="18"

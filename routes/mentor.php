@@ -8,7 +8,7 @@ use App\Http\Controllers\mentor\CoursesController;
 use App\Http\Controllers\mentor\EventManagementController;
 use App\Http\Controllers\mentor\TasksController;
 use App\Http\Controllers\Mentor\MaterialController;
-
+use App\Http\Controllers\Mentor\MeetingsController;
 
 
 
@@ -66,7 +66,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mentor/events/{id}', [EventManagementController::class, 'show'])->name('mentor.events.show'); // Display a specific event
     Route::get('/mentor/events/{id}/edit', [EventManagementController::class, 'edit'])->name('mentor.events.edit'); // Show form to edit an event
     Route::put('/mentor/events/{id}', [EventManagementController::class, 'update'])->name('mentor.events.update'); // Update an event
-    Route::delete('/mentor/events/{id}', [EventManagementController::class, 'destroy'])->name('mentor.events.destroy'); // Delete an event
+    Route::delete('/mentor/events/{id}', [EventManagementController::class, 'LectureDestroy'])->name('mentor.events.destroy'); // Delete an event
 });
 
 
@@ -113,4 +113,11 @@ Route::prefix('mentor/materials')->name('mentor.materials.')->middleware('auth')
     Route::get('/{id}/edit', [MaterialController::class, 'edit'])->name('edit'); // Edit specific material
     Route::put('/{id}', [MaterialController::class, 'update'])->name('update'); // Update specific material
     Route::delete('/{id}', [MaterialController::class, 'destroy'])->name('destroy'); // Delete specific material
+});
+
+
+
+// ----------meetings -----------
+Route::middleware(['auth'])->group(function () {
+    Route::resource('meetings', MeetingsController::class);
 });
