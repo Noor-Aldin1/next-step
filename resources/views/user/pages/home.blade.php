@@ -32,7 +32,7 @@
     <!-- Find Section End -->
 
     <!-- Job Category Section Start -->
-    <div class="category-style-two pb-70">
+    {{-- <div class="category-style-two pb-70">
         <div class="container">
             <div class="section-title text-center">
                 <h2>Popular Jobs Category</h2>
@@ -121,7 +121,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Job Category Section End -->
 
 
@@ -348,8 +348,8 @@
 
                 <div class="col-md-6">
                     <form class="newsletter-form" data-toggle="validator">
-                        <input type="email" class="form-control" placeholder="Enter your email" name="EMAIL"
-                            required autocomplete="off">
+                        <input type="email" class="form-control" placeholder="Enter your email" name="EMAIL" required
+                            autocomplete="off">
 
                         <button class="default-btn sub-btn" type="submit">
                             Subscribe

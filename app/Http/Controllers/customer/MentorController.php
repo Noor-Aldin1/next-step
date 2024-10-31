@@ -41,57 +41,20 @@ class MentorController extends Controller
         });
 
         $this->sql = DB::table('users')
-            ->join('profiles', 'profiles.user_id', '=', 'users.id')
             ->join('mentors', 'mentors.user_id', '=', 'users.id')
-            ->join('user_skill', 'user_skill.user_id', '=', 'users.id')
-            ->join('skills', 'skills.id', '=', 'user_skill.skill_id')
+            ->leftJoin('profiles', 'profiles.user_id', '=', 'users.id')
             ->select(
-                'profiles.id',
-                'profiles.user_id',
-                'profiles.full_name',
-                'users.photo',
-                'profiles.phone',
-                'profiles.email',
-                'profiles.job_title',
-                'profiles.country',
-                'profiles.city',
-                'profiles.age',
-                'profiles.language',
-                'profiles.major',
-                'profiles.gender',
-                'profiles.about_me',
-                'profiles.linkedin',
-                'profiles.github',
-                'profiles.university',
-                'profiles.gap',
+                'mentors.id',
                 'users.username',
-
-                'mentors.video',
-                DB::raw('GROUP_CONCAT(skills.name) AS skills')
+                'users.photo',
+                'mentors.status',
+                'profiles.full_name',
+                'profiles.job_title',
+                'profiles.linkedin',
+                'profiles.github'
             )
             ->where('users.role_id', 2)
-            ->groupBy(
-                'profiles.id',
-                'profiles.user_id',
-                'profiles.full_name',
-                'profiles.phone',
-                'profiles.email',
-                'profiles.job_title',
-                'profiles.country',
-                'profiles.city',
-                'profiles.age',
-                'profiles.language',
-                'profiles.major',
-                'profiles.gender',
-                'profiles.about_me',
-                'profiles.linkedin',
-                'profiles.github',
-                'profiles.university',
-                'profiles.gap',
-                'users.username',
-                'users.photo',
-                'mentors.video'
-            );
+            ->where('mentors.status', 'active');
     }
 
     /**
@@ -102,6 +65,7 @@ class MentorController extends Controller
         // Fetch paginated results
         $results = $this->sql
             ->paginate(10); // Change this number to how many items you want per page
+        // dd($results);
         $mentors = Mentor::with('user')->get(); // Fetch all mentors with their associated user data
 
         return view('user.pages.mentors', compact('mentors', 'results'));
@@ -152,60 +116,64 @@ class MentorController extends Controller
     public function show($id)
     {
         $this->sql = DB::table('users')
-            ->join('profiles', 'profiles.user_id', '=', 'users.id')
-            ->join('mentors', 'mentors.user_id', '=', 'users.id')
-            ->join('user_skill', 'user_skill.user_id', '=', 'users.id')
-            ->join('skills', 'skills.id', '=', 'user_skill.skill_id')
             ->select(
-                'users.id', // Necessary for grouping
+                'users.id',
+                'mentors.id',
                 'users.username',
-                'users.email', // Include the specific field 'email'
-                'users.photo', // Include the specific field 'email'
-                'profiles.id',
-                'profiles.user_id',
-                'profiles.full_name',
-                'profiles.phone',
-                'profiles.email',
-                'profiles.job_title',
-                'profiles.country',
-                'profiles.city',
-                'profiles.age',
-                'profiles.language',
-                'profiles.major',
-                'profiles.gender',
-                'profiles.about_me',
-                'profiles.linkedin',
-                'profiles.github',
-                'profiles.university',
-                'profiles.gap',
-                'mentors.video',
-                DB::raw('GROUP_CONCAT(skills.name) AS skills_list') // Aggregated field
-            )
-            ->where('users.role_id', 2) // Filter by role_id (mentors)
-            ->groupBy(
-                'users.id',         // All non-aggregated fields need to be included here
-                'users.username',
-                'users.email',      // Added 'email' field
-                'users.photo',      // Added 'email' field
-                'profiles.id',
-                'profiles.user_id',
-                'profiles.full_name',
-                'profiles.phone',
-                'profiles.email',
-                'profiles.job_title',
-                'profiles.country',
-                'profiles.city',
-                'profiles.age',
-                'profiles.language',
-                'profiles.major',
-                'profiles.gender',
-                'profiles.about_me',
-                'profiles.linkedin',
-                'profiles.github',
-                'profiles.university',
-                'profiles.gap',
-                'mentors.video',
+                'users.email',
                 'users.photo',
+                'profiles.id AS profile_id',
+                'profiles.user_id',
+                'profiles.full_name',
+                'profiles.phone',
+                'profiles.email AS profile_email',
+                'profiles.job_title',
+                'profiles.country',
+                'profiles.city',
+                'profiles.age',
+                'profiles.language',
+                'profiles.major',
+                'profiles.gender',
+                'profiles.about_me',
+                'profiles.linkedin',
+                'profiles.github',
+                'profiles.university',
+                'profiles.gap',
+                'mentors.video',
+                DB::raw('GROUP_CONCAT(DISTINCT skills.name) AS skills_list'),
+                DB::raw('GROUP_CONCAT(DISTINCT projects.name) AS projects_list')
+            )
+            ->leftJoin('mentors', 'mentors.user_id', '=', 'users.id')
+            ->leftJoin('profiles', 'profiles.user_id', '=', 'users.id')
+            ->leftJoin('experience', 'experience.user_id', '=', 'users.id')
+            ->leftJoin('user_skill', 'user_skill.user_id', '=', 'users.id')
+            ->leftJoin('skills', 'skills.id', '=', 'user_skill.skill_id')
+            ->leftJoin('projects', 'projects.user_id', '=', 'users.id')
+            ->where('users.role_id', 2)
+            ->groupBy(
+                'users.id',
+                'mentors.id',
+                'users.username',
+                'users.email',
+                'users.photo',
+                'profiles.id',
+                'profiles.user_id',
+                'profiles.full_name',
+                'profiles.phone',
+                'profiles.email',
+                'profiles.job_title',
+                'profiles.country',
+                'profiles.city',
+                'profiles.age',
+                'profiles.language',
+                'profiles.major',
+                'profiles.gender',
+                'profiles.about_me',
+                'profiles.linkedin',
+                'profiles.github',
+                'profiles.university',
+                'profiles.gap',
+                'mentors.video'
             );
 
         // Get the mentor's details based on the given ID
@@ -214,7 +182,9 @@ class MentorController extends Controller
         $user = auth()->user();
 
         $userId = auth()->id(); // Assuming the user is authenticated
+
         $mentorId = $results->id; // Assuming you're passing the mentor's ID
+        // dd($results->id);
 
         // Check if the user has already subscribed to this mentor
         $hasSubscribed = UserMentor::where('student_id', $userId)
@@ -227,6 +197,7 @@ class MentorController extends Controller
         //     ->exists();
 
 
+
         // Get users with experience
         $usersWithExperience = User::where('role_id', 2)
             ->whereHas('mentors', function ($query) use ($id) {
@@ -236,12 +207,20 @@ class MentorController extends Controller
             ->get(); // Get the users
 
         // Now, create a flat collection of all experiences
-        $experience = $this->experience = $usersWithExperience->flatMap(function ($user) {
-            return $user->experience; // This will create a flat collection of all experiences 
-        });
+        // $experience = $this->experience = $usersWithExperience->flatMap(function ($user) {
+        //     return $user->experience; // This will create a flat collection of all experiences 
+        // });
 
         // Now $this->experience contains all experiences across users
+        $experience = DB::table('users')
+            ->join('mentors', 'mentors.user_id', '=', 'users.id')
+            ->leftJoin('experience', 'experience.user_id', '=', 'users.id')
+            ->where('users.role_id', 2)
 
+            ->where('mentors.id', $mentorId)
+            ->select('experience.*')
+            ->get();
+        // dd($experience);
         // Get the mentor details along with related information
         $mentor = Mentor::with(['user', 'students', 'materials', 'tasks', 'lectures', 'ratings', 'meetings'])->findOrFail($id);
 

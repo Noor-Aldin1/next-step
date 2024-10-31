@@ -77,10 +77,12 @@
                                 <div class="image-container" style="cursor: pointer;">
                                     <!-- Use img tag to display the mentor's photo -->
                                     <div class="candidate-img">
-                                        <img id="mentor-image" width="100%" height="200"
-                                            src="{{ $mentor->photo ? asset('storage/' . $mentor->photo) : 'http://mydomain.com/default-image.png' }}"
-                                            alt="Mentor Image" style="object-fit: cover;">
-                                        <!-- Use a default image if no photo is set -->
+                                        <a href="{{ route('mentors.show', $mentor->id) }}">
+
+                                            <img id="mentor-image" width="100%" height="200"
+                                                src="{{ $mentor->photo ? asset('storage/' . $mentor->photo) : 'http://mydomain.com/default-image.png' }}"
+                                                alt="Mentor Image" style="object-fit: cover;"></a>
+
                                     </div>
                                 </div>
                             </div>

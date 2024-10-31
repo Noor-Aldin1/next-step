@@ -42,9 +42,10 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="about-img">
-                        <img src="{{ url('https://inspireacademy.com.np/wp-content/uploads/2020/08/managers-management.jpg') }}"
+                        <img src="https://inspireacademy.com.np/wp-content/uploads/2020/08/managers-management.jpg"
                             alt="about image">
                     </div>
+
                 </div>
             </div>
         </div>
