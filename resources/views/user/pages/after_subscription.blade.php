@@ -81,7 +81,7 @@
                     <div class="col-lg-4 col-sm-6 mb-4 d-flex justify-content-center">
                         <div class="custom-card h-100 shadow-sm d-flex flex-column">
                             <div class="custom-img position-relative">
-                                <a href="{{ route('courses.index', ['mentorId' => $mntor->id]) }}" class="d-block">
+                                <a href="{{ route('UserCourses.index', ['mentorId' => $mntor->id]) }}" class="d-block">
                                     <img src="{{ isset($users[$index]) && $users[$index]->photo ? asset('storage/' . $users[$index]->photo) : 'http://mydomain.com/default-image.png' }}"
                                         alt="Image description" class="img-fluid rounded-top"
                                         style="object-fit: cover; height: 200px; width: 100%;">
@@ -94,7 +94,8 @@
                                         <strong>Booking Date: </strong>
                                         @foreach ($relationships as $rr)
                                             @if ($rr->mentor_id == $mntor->id)
-                                                {{ $rr->created_at->format('F j, Y') }} <!-- Formats the date -->
+                                                {{ $rr->created_at ? $rr->created_at->format('F j, Y') : 'no date' }}
+                                                <!-- Formats the date -->
                                             @endif
                                         @endforeach
                                     </li>
@@ -104,7 +105,7 @@
                                     </li>
                                 </ul>
                                 <div class="text-center mt-auto">
-                                    <a href="details-page.html"
+                                    <a href="{{ route('UserCourses.index', ['mentorId' => $mntor->id]) }}"
                                         class="custom-btn btn btn-primary d-inline-flex align-items-center">
                                         Let's get started
                                         <i style="padding-left: 10px;" class='bx bx-book-open'></i>

@@ -6,7 +6,7 @@
               <ul class="metismenu" id="menu">
 
                   <li>
-                      <a class="" href="{{ route('courses.index', ['mentorId' => $mentorId]) }}"
+                      <a class="" href="{{ route('UserCourses.index', ['mentorId' => $mentorId]) }}"
                           aria-expanded="false">
                           <i class="la la-graduation-cap"></i> <span class="nav-text">All Courses</span>
                       </a>

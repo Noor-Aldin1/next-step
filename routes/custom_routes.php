@@ -139,7 +139,7 @@ Route::resource('usermentor', UsermentorsController::class);
 
 // -------------------------------------------------------user-mentors----------------------------------------
 Route::prefix('mentor/{mentorId}/courses')->group(function () {
-    Route::get('/', [UserCoursesController::class, 'index'])->name('courses.index'); // Display a listing of courses for a specific mentor
+    Route::get('/', [UserCoursesController::class, 'index'])->name('UserCourses.index'); // Display a listing of courses for a specific mentor
     Route::get('/create', [UserCoursesController::class, 'create'])->name('courses.create'); // Show form for creating a new course
 
     // Add course ID to the tasks route
@@ -151,7 +151,7 @@ Route::prefix('mentor/{mentorId}/courses')->group(function () {
     Route::get('{id}/materials', [UserCoursesController::class, 'materials'])->name('courses.materials');
 
     Route::post('/', [UserCoursesController::class, 'store'])->name('courses.store'); // Store a newly created course
-    Route::get('/{id}', [UserCoursesController::class, 'show'])->name('courses.show'); // Display the specified course
+    Route::get('/{id}', [UserCoursesController::class, 'show'])->name('Usercourses.show'); // Display the specified course
     Route::get('/{id}/edit', [UserCoursesController::class, 'edit'])->name('courses.edit'); // Show form for editing a course
     Route::put('/{id}', [UserCoursesController::class, 'update'])->name('courses.update'); // Update the specified course
     Route::delete('/{id}', [UserCoursesController::class, 'destroy'])->name('courses.destroy'); // Remove the specified course

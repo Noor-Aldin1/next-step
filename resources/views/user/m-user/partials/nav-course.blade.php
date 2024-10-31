@@ -8,8 +8,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->routeIs('courses.show', ['mentorId' => $mentorId, 'id' => $courseId]) ? 'active' : '' }}"
-                            href="{{ route('courses.show', ['mentorId' => $mentorId, 'id' => $courseId]) }}">
+                        <a class="nav-link text-white {{ request()->routeIs('Usercourses.show', ['mentorId' => $mentorId, 'id' => $courseId]) ? 'active' : '' }}"
+                            href="{{ route('Usercourses.show', ['mentorId' => $mentorId, 'id' => $courseId]) }}">
                             Course Details
                         </a>
                     </li>

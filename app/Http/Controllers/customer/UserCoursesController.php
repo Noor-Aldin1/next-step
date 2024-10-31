@@ -189,7 +189,7 @@ class UserCoursesController extends Controller
 
         // Check if the course belongs to the mentor
         if (!$course) {
-            return redirect()->route('courses.index', $mentorId)->with('error', 'Course not found.');
+            return redirect()->route('UserCourses.index', $mentorId)->with('error', 'Course not found.');
         }
 
 
