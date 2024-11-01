@@ -16,6 +16,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Customer\MentorController;
 use App\Http\Controllers\Customer\UsermentorsController;
 use App\Http\Controllers\Customer\UserCoursesController;
+use App\Http\Controllers\Customer\UserEventManagementController;
 
 
 
@@ -156,3 +157,12 @@ Route::prefix('mentor/{mentorId}/courses')->group(function () {
     Route::put('/{id}', [UserCoursesController::class, 'update'])->name('courses.update'); // Update the specified course
     Route::delete('/{id}', [UserCoursesController::class, 'destroy'])->name('courses.destroy'); // Remove the specified course
 });
+
+
+
+// ------------------meetings routes ----------
+
+
+Route::middleware(['auth'])->group(function () {});
+Route::get('/getMeetingsEvents/{mentorId}/Meeting', [UserEventManagementController::class, 'getMeetingsEvents'])->name('UsergetMeetingsEvents.index');
+Route::get('/getCourseEvents/{mentorId}/Events', [UserEventManagementController::class, 'getCourseEvents'])->name('UsergetCourseEvents.index');

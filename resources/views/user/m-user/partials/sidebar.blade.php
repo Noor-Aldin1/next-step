@@ -12,10 +12,19 @@
                       </a>
                   </li>
 
-                  <li><a class="ai-icon" href="event-management.html" aria-expanded="false">
+                  <li><a class="ai-icon" href="{{ route('UsergetCourseEvents.index', ['mentorId' => $mentorId]) }}"
+                          aria-expanded="false">
                           <i class="la la-calendar"></i>
                           <span class="nav-text">Event Management</span>
                       </a>
+                  </li>
+                  <li>
+                      <a class="ai-icon" href="{{ route('UsergetMeetingsEvents.index', ['mentorId' => $mentorId]) }}"
+                          aria-expanded="false">
+                          <i class="fa-solid fa-handshake"></i>
+                          <span class="nav-text">Meetings</span>
+                      </a>
+                      <!-- Fixed missing closing tag -->
                   </li>
 
                   {{-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

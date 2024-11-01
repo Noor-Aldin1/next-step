@@ -144,7 +144,10 @@ class UserCoursesController extends Controller
     {
         // Get courses associated with the specified mentor ID
         $courses = $this->getCoursesByMentor($mentorId);
+        session([
 
+            'mentorId' => $mentorId,
+        ]);
 
         return view('user.m-user.pages.courses', compact('courses', 'mentorId'));
     }
