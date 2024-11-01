@@ -67,22 +67,40 @@ class job_postingController extends Controller
         return view('employer.pages.joblist', compact('jobs', 'categories_name'));
     }
 
+    public function dashboard()
+    {
+        $employer = Employer::where('user_id', auth()->id())->first();
+        $jobCount = $this->jobPostings = JobPosting::where('employer_id', $employer->id)->count();
+        $jobApplicationCount = DB::table('applications')
+            ->join('job_postings', 'job_postings.id', '=', 'applications.job_id')
+            ->where('job_postings.employer_id', $employer->id)
+            ->count('applications.id');
+        $dataDashboard = ['jobCount' => $jobCount, 'jobApplicationCount' => $jobApplicationCount];
+
+        return $dataDashboard;
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $employer = Employer::where('user_id', auth()->id())->first(); // Get the first employer found
+        $employer = Employer::where('user_id', auth()->id())->first();
 
 
+        $dashboard = $this->dashboard();
         $this->jobPostings = JobPosting::where('employer_id', $employer->id)->get();
         $jobPostings = $this->jobPostings;
 
         $categories_name = $this->categories_name;
+        session([
+            'jobPostings' => $jobPostings,
+            'categories_name' => $categories_name,
+
+        ]);
 
         // dd($jobPostings);
-        return view('employer.pages.dashbooard', ['categories_name' => $categories_name, 'jobPostings' => $jobPostings]);
+        return view('employer.pages.dashbooard', ['categories_name' => $categories_name, 'jobPostings' => $jobPostings], $dashboard);
     }
 
     /**
