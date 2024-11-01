@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <img class="img-fluid"
-                    src="https://images.shiksha.com/mediadata/ugcDocuments/images/wordpressImages/2022_08_MicrosoftTeams-image-13-2-1.jpg"
-                    alt="Course Image">
+                <img class="card-img-top img-fluid"
+                    src="{{ $course->photo ? asset('storage/' . $course->photo) : url('mentors_css/images/courses/pic1.jpg') }}"
+                    alt="{{ $course->title }}">
                 <div class="card-body">
                     <h4 class="mb-0">{{ $course->title }}</h4>
                 </div>

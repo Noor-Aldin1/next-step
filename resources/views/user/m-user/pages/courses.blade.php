@@ -1,8 +1,8 @@
 @extends('user.m-user.main')
 @section('content')
     <!--**********************************
-                                                                Content body start
-                                                            ***********************************-->
+                                                                    Content body start
+                                                                ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -39,7 +39,7 @@
                                 <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
                                     <div class="card shadow-sm">
                                         <img class="card-img-top img-fluid"
-                                            src="{{ url('mentors_css/images/courses/pic1.jpg') }}"
+                                            src="{{ $course->photo ? asset('storage/' . $course->photo) : url('mentors_css/images/courses/pic1.jpg') }}"
                                             alt="{{ $course->title }}">
                                         <div class="card-body">
                                             <h4 class="card-title">{{ $course->title }}</h4>
@@ -60,6 +60,6 @@
         </div>
     </div>
     <!--**********************************
-                                                                Content body end
-                                                            ***********************************-->
+                                                                    Content body end
+                                                                ***********************************-->
 @endsection
