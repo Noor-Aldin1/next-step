@@ -123,8 +123,10 @@ class UserEventManagementController extends Controller
             ->join('users', 'mentors.user_id', '=', 'users.id')
             ->select('users.username', 'mentor_meetings.*')
             ->where('mentor_meetings.user_id', auth()->id())
-            // ->where('mentor_meetings.mentor_id', $mentorId) // Uncommented this line to filter by mentorId
+            // ->where('mentor_meetings.mentor_id', $mentorId) // Uncomment if you need to filter by mentorId
+            ->orderBy('mentor_meetings.start_session', 'desc') // Order by start_session date in ascending order
             ->paginate(10);
+
 
         // Optionally set mentorId from session if needed
         $mentorId = session('mentorId');

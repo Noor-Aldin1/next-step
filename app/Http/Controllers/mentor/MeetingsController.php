@@ -121,10 +121,11 @@ class MeetingsController extends Controller
      */
     public function destroy(string $meeting_id)
     {
-        // Find the meeting by meeting_id and delete it
+        // Find the meeting by meeting_id and update its status to 'cancelled'
         $meeting = MentorMeeting::where('meeting_id', $meeting_id)->firstOrFail();
-        $meeting->delete();
+        $meeting->status = 'cancelled';
+        $meeting->save();
 
-        return back()->with('success', 'Meeting deleted successfully.');
+        return back()->with('success', 'Meeting status updated to cancelled successfully.');
     }
 }

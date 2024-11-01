@@ -11,21 +11,27 @@
                             <h4 class="text-primary">My Meetings with Mentors</h4>
                             <hr>
 
-                            <!-- Button to schedule a new meeting -->
+                            <!-- Filter options -->
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div></div>
-
                                 <!-- Dropdown to filter by Mentor Name -->
-                                <select id="mentorFilter" class="form-control w-50" onchange="filterMeetings()">
+                                <select id="mentorFilter" class="form-control w-25" onchange="filterMeetings()">
                                     <option value="">Select a Mentor</option>
                                     @foreach ($meetings->unique('mentor_id') as $mentor)
                                         <option value="{{ $mentor->mentor_id }}">{{ $mentor->username }}</option>
                                     @endforeach
                                 </select>
 
-                                <!-- Button to clear the filter -->
-                                <button id="clearFilterBtn" class="btn btn-secondary" onclick="clearFilter()" disabled>Clear
-                                    Filter</button>
+                                <!-- Dropdown to filter by Status -->
+                                <select id="statusFilter" class="form-control w-25 ml-2" onchange="filterMeetings()">
+                                    <option value="">Select a Status</option>
+                                    <option value="scheduled">Scheduled</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+
+                                <!-- Button to clear the filters -->
+                                <button id="clearFilterBtn" class="btn btn-secondary ml-2" onclick="clearFilter()"
+                                    disabled>Clear Filter</button>
                             </div>
 
                             <!-- Check if there are any meetings -->
@@ -47,20 +53,33 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($meetings as $meeting)
-                                                <tr data-mentor-id="{{ $meeting->mentor_id }}">
+                                                @php
+                                                    $status = \Carbon\Carbon::parse($meeting->end_session)->lessThan(
+                                                        now(),
+                                                    )
+                                                        ? 'completed'
+                                                        : $meeting->status;
+                                                @endphp
+                                                <tr data-mentor-id="{{ $meeting->mentor_id }}"
+                                                    data-status="{{ $status }}">
                                                     <td>{{ $meeting->username }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($meeting->start_session)->format('Y-m-d H:i') }}
                                                     </td>
                                                     <td>{{ \Carbon\Carbon::parse($meeting->end_session)->format('Y-m-d H:i') }}
                                                     </td>
-                                                    <td>
-                                                        <a href="{{ $meeting->meeting_link }}" target="_blank"
-                                                            class="btn btn-link">Join Meeting</a>
-                                                    </td>
+                                                    <td><a href="{{ $meeting->meeting_link }}" target="_blank"
+                                                            class="btn btn-link">Join Meeting</a></td>
                                                     <td>
                                                         <span
-                                                            class="badge {{ $meeting->status == 'Completed' ? 'badge-success' : ($meeting->status == 'Pending' ? 'badge-warning' : 'badge-danger') }}">
-                                                            {{ $meeting->status }}
+                                                            class="badge 
+                                                            {{ $status === 'completed'
+                                                                ? 'badge-warning'
+                                                                : ($status === 'scheduled'
+                                                                    ? 'badge-success'
+                                                                    : ($status === 'cancelled'
+                                                                        ? 'badge-danger'
+                                                                        : 'badge-warning')) }}">
+                                                            {{ ucfirst($status) }}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -81,28 +100,37 @@
         </div>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function filterMeetings() {
-            const filterValue = document.getElementById('mentorFilter').value;
+            const mentorFilterValue = document.getElementById('mentorFilter').value;
+            const statusFilterValue = document.getElementById('statusFilter').value;
             const rows = document.querySelectorAll('#meetingsTable tbody tr');
             let hasFiltered = false;
 
             rows.forEach(row => {
-                if (filterValue === "" || row.getAttribute('data-mentor-id') === filterValue) {
+                const mentorId = row.getAttribute('data-mentor-id');
+                const status = row.getAttribute('data-status');
+
+                // Check if the row matches both filters
+                const matchesMentor = mentorFilterValue === "" || mentorId === mentorFilterValue;
+                const matchesStatus = statusFilterValue === "" || status === statusFilterValue;
+
+                if (matchesMentor && matchesStatus) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
                 }
             });
 
-            hasFiltered = Array.from(rows).some(row => row.style.display === 'none');
+            // Enable or disable the clear filter button based on active filters
+            hasFiltered = mentorFilterValue || statusFilterValue;
             document.getElementById('clearFilterBtn').disabled = !hasFiltered;
         }
 
         function clearFilter() {
             document.getElementById('mentorFilter').value = '';
+            document.getElementById('statusFilter').value = '';
             filterMeetings();
         }
     </script>
