@@ -167,7 +167,7 @@
 
                             <div class="col-md-12 mb-3">
                                 <label class="control-label">Due Date</label>
-                                <input type="date" class="form-control" name="due_date" required>
+                                <input id="last_date_to_apply" type="date" class="form-control" name="due_date" required>
                             </div>
 
                             <div class="col-md-12 mb-3">
@@ -243,4 +243,34 @@
         @endif
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Set the minimum date for Last Date To Apply to today
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd; // Format as YYYY-MM-DD
+
+            $('#last_date_to_apply').attr('min', today);
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = $('.needs-validation');
+
+            // Loop over them and prevent submission
+            forms.each(function() {
+                $(this).on('submit', function(event) {
+                    if (!this.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+                        // You can add any custom logic here before submission if needed
+                    }
+
+                    $(this).addClass('was-validated');
+                });
+            });
+        });
+    </script>
 @endsection

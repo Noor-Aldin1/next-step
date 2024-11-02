@@ -101,7 +101,8 @@
                     <a href="{{ route('mentorsuser.show', Auth::user()->id) }}"
                         class="{{ request()->routeIs('mentorsuser.show', Auth::user()->id) ? 'active' : '' }}">
                         <i class='bx bx-video'></i>
-                        Add an introductory video
+                        Set Intro Video & Status
+
                     </a>
 
                 </li>

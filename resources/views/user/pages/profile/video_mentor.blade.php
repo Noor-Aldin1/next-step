@@ -80,10 +80,10 @@
                             <div></div>
                             @if ($mentor->video)
                                 <button class="btn btn-success mr-2" data-toggle="modal"
-                                    data-target="#editVideoModal-{{ $mentor->id }}">Edit Video</button>
+                                    data-target="#editVideoModal-{{ $mentor->id }}">Edit Video And Status</button>
                             @else
                                 <button class="btn btn-success mr-2" data-toggle="modal"
-                                    data-target="#editVideoModal-{{ $mentor->id }}">Add Video</button>
+                                    data-target="#editVideoModal-{{ $mentor->id }}">Add Video And Status</button>
                             @endif
                         </div>
 

@@ -4,12 +4,10 @@
     <div class="content-body">
         <div class="container-fluid">
             <!-- Search Filters -->
-            <div class="d-flex align-items-center flex-wrap search-job bg-white mb-4">
+            <div class="d-flex align-items-center flex-wrap search-job bg-white mb-4 p-3 rounded">
                 <!-- Location Filter -->
-                <div class="card-body">
-
-                    <select id="locationFilter"
-                        class="form-control card-title border-0 default-select dashboard-select-1 wide h-auto">
+                <div class="me-3">
+                    <select id="locationFilter" class="form-control border-0 default-select dashboard-select-1 wide h-auto">
                         <option value="">Choose Location</option>
                         <option value="Amman">Amman</option>
                         <option value="Irbid">Irbid</option>
@@ -27,7 +25,7 @@
                 </div>
 
                 <!-- Salary Filter -->
-                <div class="col-xl-2 col-xxl-3 col-lg-3 col-sm-6 col-12 search-dropdown d-flex align-items-center">
+                <div class="me-3">
                     <select class="form-control border-0 default-select dashboard-select-1 wide h-auto" id="salaryFilter">
                         <option value="">Salary Range</option>
                         <option value="1000">Under $1,000</option>
@@ -35,11 +33,11 @@
                         <option value="30000">Under $30,000</option>
                     </select>
                 </div>
+
                 <!-- Job Title Search -->
-                <div class="col-xl-8 col-xxl-6 col-lg-6 col-12 d-md-flex job-title-search pe-0">
+                <div class="flex-grow-1 pe-0">
                     <div class="input-group search-area">
-                        <input type="text" class="form-control h-auto" placeholder="Search job title here..."
-                            id="titleFilter">
+                        <input type="text" class="form-control" placeholder="Search job title here..." id="titleFilter">
                         <span class="input-group-text">
                             <button id="searchBtn" class="btn btn-primary btn-rounded">Search<i
                                     class="flaticon-381-search-2 ms-2"></i></button>
@@ -57,7 +55,7 @@
                             <span>Based on your preferences</span>
                         </div>
                         <div class="d-flex align-items-center mb-4">
-                            <div class="default-tab job-tabs">
+                            <div class="default-tab job-tabs me-3">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-bs-toggle="tab" href="#Boxed">
@@ -71,7 +69,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-xl-2 col-xxl-3 col-lg-3 col-sm-6 col-12 d-flex align-items-center">
+                            <div class="col-xl-3">
                                 <select class="default-select dashboard-select border-0" id="sortSelect">
                                     <option data-display="Newest" value="newest">Newest</option>
                                     <option value="oldest">Oldest</option>
@@ -97,7 +95,6 @@
                                                 <div class="jobs2 card-body">
                                                     <div class="text-center">
                                                         <h4 class="mb-0">
-
                                                             <a href="{{ route('employer.job_postings.show', $job->id) }}"
                                                                 class="text-black">{{ $job->title }}</a>
                                                         </h4>
@@ -161,7 +158,7 @@
                                                     class="d-flex col-xl-3 col-xxl-4 col-lg-4 col-sm-6 align-items-center">
                                                     <div>
                                                         <h2 class="title">
-                                                            <a href="javascript:void(0);"
+                                                            <a href="{{ route('employer.job_postings.show', $job->id) }}"
                                                                 class="text-black">{{ $job->title }}</a>
                                                         </h2>
                                                         <span class="text-primary">{{ $job->company_name }}</span>
@@ -183,18 +180,21 @@
                                                         <rect width="54" height="54" rx="15"
                                                             fill="#FBA556"></rect>
                                                         <path
-                                                            d="M27 15C21.934 15 17.8125 19.1215 17.8125 24.1875C17.8125 25.8091 18.2409 27.4034 19.0515 28.7979C19.2404 29.123 19.4516 29.4398 19.6793 29.7396L26.6008 39H27.3991L34.3207 29.7397C34.5483 29.4398 34.7595 29.1231 34.9485 28.7979C35.7591 27.4034 36.1875 25.8091 36.1875 24.1875C36.1875 19.1215 32.066 15 27 15Z"
+                                                            d="M27 15C21.934 15 17.8125 19.1215 17.8125 24.1875C17.8125 25.8091 18.2409 27.4034 19.0515 28.7979C19.2404 29.123 19.4516 29.4398 19.6793 29.7396L26.6008 39H27.3991L34.3207 29.7397C34.5483 29.4398 34.7595 29.123 34.9485 28.7979C35.7591 27.4034 36.1875 25.8091 36.1875 24.1875C36.1875 19.1215 32.066 15 27 15ZM27 27.5C26.5859 27.5 26.1875 27.601 25.8516 27.8594C25.5156 28.1178 25.3125 28.5586 25.3125 29.0625C25.3125 29.5664 25.5156 30.0078 25.8516 30.2656C26.1875 30.5234 26.5859 30.625 27 30.625C27.4141 30.625 27.8125 30.5234 28.1484 30.2656C28.4844 30.0078 28.6875 29.5664 28.6875 29.0625C28.6875 28.5586 28.4844 28.1178 28.1484 27.8594C27.8125 27.601 27.4141 27.5 27 27.5Z"
                                                             fill="white"></path>
                                                     </svg>
                                                     <div>
-                                                        <h4 class="sub-title text-black">{{ $job->city }}</h4>
-                                                        <span>Location</span>
+                                                        <span class="text-dark">{{ $job->city }}</span>
+                                                        <span>{{ $job->address }}</span>
                                                     </div>
                                                 </div>
                                                 <div
-                                                    class="col-xl-3 col-xxl-4 col-lg-4 col-sm-6 mt-lg-0 mt-3 align-items-center">
-                                                    <a href="javascript:void(0);" class="btn btn-primary btn-rounded">View
-                                                    </a>
+                                                    class="d-flex col-xl-3 col-xxl-4 col-lg-4 col-sm-6 justify-content-end">
+                                                    <div>
+                                                        <a href="{{ route('employer.job_postings.show', $job->id) }}"
+                                                            class="btn btn-danger">View</a>
+
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -202,86 +202,58 @@
                                 @endif
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
     <script>
-        // Form validation remains the same
-        document.getElementById('jobForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Stop form submission
+        document.addEventListener("DOMContentLoaded", function() {
+            const jobList = document.getElementById('jobList');
+            const locationFilter = document.getElementById('locationFilter');
+            const salaryFilter = document.getElementById('salaryFilter');
+            const titleFilter = document.getElementById('titleFilter');
+            const sortSelect = document.getElementById('sortSelect');
 
-            const form = event.target;
-            const title = form.title.value.trim();
-            const companyName = form.company_name.value.trim();
-            const position = form.position.value.trim();
-            const jobType = form.job_type.value;
-            const city = form.city.value;
-            const address = form.address.value.trim();
-            const category = form.category.value;
+            function filterJobs() {
+                const location = locationFilter.value.toLowerCase();
+                const salary = salaryFilter.value;
+                const title = titleFilter.value.toLowerCase();
+                const jobs = jobList.querySelectorAll('.job-listing');
 
-            let hasError = false;
-            let errors = [];
+                jobs.forEach(job => {
+                    const jobTitle = job.getAttribute('data-title').toLowerCase();
+                    const jobLocation = job.getAttribute('data-location').toLowerCase();
+                    const jobSalary = parseFloat(job.getAttribute('data-salary'));
 
-            // Validate fields based on Laravel rules
-            if (title === '' || title.length > 255) {
-                hasError = true;
-                errors.push('Title is required and must not exceed 255 characters.');
-            }
+                    const matchLocation = !location || jobLocation.includes(location);
+                    const matchSalary = !salary || jobSalary <= salary;
+                    const matchTitle = !title || jobTitle.includes(title);
 
-            if (companyName === '' || companyName.length > 255) {
-                hasError = true;
-                errors.push('Company Name is required and must not exceed 255 characters.');
-            }
-
-            if (position === '' || position.length > 255) {
-                hasError = true;
-                errors.push('Position is required and must not exceed 255 characters.');
-            }
-
-            if (jobType === '') {
-                hasError = true;
-                errors.push('Job Type is required.');
-            }
-
-            if (city === '') {
-                hasError = true;
-                errors.push('City is required.');
-            }
-
-            if (address === '' || address.length > 255) {
-                hasError = true;
-                errors.push('Address is required and must not exceed 255 characters.');
-            }
-
-            if (category === '') {
-                hasError = true;
-                errors.push('Category is required.');
-            }
-
-            if (hasError) {
-                // Use SweetAlert2 to display validation errors
-                Swal.fire({
-                    title: 'Validation Errors',
-                    icon: 'error',
-                    html: '<ul>' + errors.map(error => `<li>${error}</li>`).join('') + '</ul>',
-                    confirmButtonText: 'Okay'
+                    if (matchLocation && matchSalary && matchTitle) {
+                        job.style.display = '';
+                    } else {
+                        job.style.display = 'none';
+                    }
                 });
-            } else {
-                form.submit(); // Proceed with form submission if no errors
             }
-        });
 
-        // Display success message if present in session
-        @if (session('success'))
-            Swal.fire({
-                title: 'Success',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                confirmButtonText: 'OK'
+            locationFilter.addEventListener('change', filterJobs);
+            salaryFilter.addEventListener('change', filterJobs);
+            titleFilter.addEventListener('input', filterJobs);
+            sortSelect.addEventListener('change', function() {
+                const isAscending = this.value === 'newest';
+                const sortedJobs = Array.from(jobList.children);
+                sortedJobs.sort((a, b) => {
+                    const dateA = new Date(a.getAttribute('data-date'));
+                    const dateB = new Date(b.getAttribute('data-date'));
+                    return isAscending ? dateB - dateA : dateA - dateB;
+                });
+                sortedJobs.forEach(job => jobList.appendChild(job));
             });
-        @endif
+        });
     </script>
 @endsection

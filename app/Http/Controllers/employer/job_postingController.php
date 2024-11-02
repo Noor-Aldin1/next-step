@@ -70,14 +70,30 @@ class job_postingController extends Controller
     public function dashboard()
     {
         $employer = Employer::where('user_id', auth()->id())->first();
-        $jobCount = $this->jobPostings = JobPosting::where('employer_id', $employer->id)->count();
+        $jobCount = JobPosting::where('employer_id', $employer->id)->count();
         $jobApplicationCount = DB::table('applications')
             ->join('job_postings', 'job_postings.id', '=', 'applications.job_id')
             ->where('job_postings.employer_id', $employer->id)
             ->count('applications.id');
-        $dataDashboard = ['jobCount' => $jobCount, 'jobApplicationCount' => $jobApplicationCount];
 
-        return $dataDashboard;
+        // Get status counts for chart
+        $statusCounts = DB::table('applications')
+            ->select('applications.status', DB::raw('COUNT(applications.status) as status_count'))
+            ->join('job_postings', 'job_postings.id', '=', 'applications.job_id')
+            ->where('job_postings.employer_id', $employer->id)
+            ->groupBy('applications.status')
+            ->get();
+
+        // Prepare data for the charts
+        $statusLabels = $statusCounts->pluck('status'); // E.g., ['Pending', 'Accepted', 'Rejected']
+        $statusData = $statusCounts->pluck('status_count'); // E.g., [10, 5, 2]
+
+        return [
+            'jobCount' => $jobCount,
+            'jobApplicationCount' => $jobApplicationCount,
+            'statusLabels' => $statusLabels,
+            'statusData' => $statusData
+        ];
     }
 
     /**
@@ -87,7 +103,6 @@ class job_postingController extends Controller
     {
         $employer = Employer::where('user_id', auth()->id())->first();
 
-
         $dashboard = $this->dashboard();
         $this->jobPostings = JobPosting::where('employer_id', $employer->id)->get();
         $jobPostings = $this->jobPostings;
@@ -96,12 +111,14 @@ class job_postingController extends Controller
         session([
             'jobPostings' => $jobPostings,
             'categories_name' => $categories_name,
-
         ]);
 
-        // dd($jobPostings);
-        return view('employer.pages.dashbooard', ['categories_name' => $categories_name, 'jobPostings' => $jobPostings], $dashboard);
+        return view('employer.pages.dashbooard', array_merge([
+            'categories_name' => $categories_name,
+            'jobPostings' => $jobPostings
+        ], $dashboard));
     }
+
 
     /**
      * Store a newly created resource in storage.
