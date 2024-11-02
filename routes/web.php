@@ -30,10 +30,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-// test 
-// Route::get('/alls/test', function () {
-//     return view('mentor.pages.event_management');
-// });
 
 // Mentor Routes
 Route::middleware(['auth'])->group(function () {
@@ -44,4 +40,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/mentors/{id}/edit', [MentorController::class, 'edit'])->name('mentorsuser.edit'); // Show form to edit a mentor
     Route::put('/profile/mentors/{id}', [MentorController::class, 'update'])->name('mentorsuser.update'); // Update a specific mentor
     Route::delete('/profile/mentors/{id}', [MentorController::class, 'destroy'])->name('mentorsuser.destroy'); // Delete a specific mentor
+});
+
+
+// test 
+Route::get('/alls/test', function () {
+    return view('admin.pages.dash');
 });
