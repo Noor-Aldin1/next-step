@@ -11,6 +11,7 @@ require base_path('routes/employer_routes.php');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/mentor.php';
+require __DIR__ . '/admin.php';
 
 
 //business_owner
@@ -44,6 +45,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 // test 
-Route::get('/alls/test', function () {
-    return view('admin.pages.dash');
-});
+// Route::get('/alls/test', function () {
+//     return view('admin.pages.employer.all_employees');
+// });

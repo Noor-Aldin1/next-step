@@ -22,32 +22,10 @@
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                     <div class="card dash-widget">
                         <div class="card-body">
-                            <span class="dash-widget-icon"><i class="fa-solid fa-cubes"></i></span>
+                            <span class="dash-widget-icon"><i class="fa-solid fa-user"></i></span>
                             <div class="dash-widget-info">
-                                <h3>112</h3>
-                                <span>Projects</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                    <div class="card dash-widget">
-                        <div class="card-body">
-                            <span class="dash-widget-icon"><i class="fa-solid fa-dollar-sign"></i></span>
-                            <div class="dash-widget-info">
-                                <h3>44</h3>
-                                <span>Clients</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                    <div class="card dash-widget">
-                        <div class="card-body">
-                            <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
-                            <div class="dash-widget-info">
-                                <h3>37</h3>
-                                <span>Tasks</span>
+                                <h3>{{ $studenCount }}</h3>
+                                <span>Users</span>
                             </div>
                         </div>
                     </div>
@@ -57,12 +35,60 @@
                         <div class="card-body">
                             <span class="dash-widget-icon"><i class="fa-solid fa-user"></i></span>
                             <div class="dash-widget-info">
-                                <h3>218</h3>
+                                <h3>{{ $MentorsCount }}</h3>
+                                <span>Menetors</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="card dash-widget">
+                        <div class="card-body">
+                            <span class="dash-widget-icon"><i class="fa-solid fa-user"></i></span>
+                            <div class="dash-widget-info">
+                                <h3>{{ $AdminCount }}</h3>
+                                <span>Admins</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="card dash-widget">
+                        <div class="card-body">
+                            <span class="dash-widget-icon"><i class="fa-solid fa-user"></i></span>
+                            <div class="dash-widget-info">
+                                <h3>{{ $EmployerCount }}</h3>
                                 <span>Employees</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="card dash-widget">
+                        <div class="card-body">
+                            <span class="dash-widget-icon"><i class="fa-solid fa-subscript"></i></span>
+
+                            <div class="dash-widget-info">
+                                <h3>{{ $count_BasicPlain }}</h3>
+                                <span>Basic Plan Subscribers </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    <div class="card dash-widget">
+                        <div class="card-body">
+                            <span class="dash-widget-icon"><i class="fa-solid fa-dollar-sign"></i></span>
+                            <div class="dash-widget-info">
+                                <h3>{{ $count_BasicPremium }}</h3>
+                                <span> Pro Plan Subscribers </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <!-- chart -->
             <div class="row">
@@ -71,16 +97,18 @@
                         <div class="col-md-6 text-center">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3 class="card-title">Total Revenue</h3>
-                                    <div id="bar-charts"></div>
+                                    <h3 class="card-title">Monthly Revenue by Package</h3>
+                                    <canvas id="monthlyRevenueChart"></canvas>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 text-center">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3 class="card-title">Sales Overview</h3>
-                                    <div id="line-charts"></div>
+                                    <h3 class="card-title">Top 5 Mentors</h3>
+                                    <div id="bar-chart-container" style="position: relative; width: 100%; height: 300px;">
+                                        <canvas id="barChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +116,73 @@
                 </div>
             </div>
 
+
             <div class="row">
+                <div class="col-md-12">
+                    <div class="card-group m-b-30">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div>
+                                        <span class="d-block">New Employees</span>
+                                    </div>
+
+                                </div>
+                                <h3 class="mb-3">{{ $newEmployerCount }}</h3>
+
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div>
+                                        <span class="d-block">New Users </span>
+                                    </div>
+
+                                </div>
+                                <h3 class="mb-3">{{ $newstudenCount }}</h3>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div>
+                                        <span class="d-block">Overall Revenue</span>
+                                    </div>
+
+                                </div>
+                                <h3 class="mb-3">${{ $totalRevenue }}</h3>
+
+                                <p class="mb-0">
+                                    Previous Month <span class="text-muted">${{ $totalRevenueLastMonth }}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-lg-6 col-xl-4 d-flex">
+                            <div class="card flex-fill">
+                                <div class="card-body">
+
+
+                                    <!-- New Mentor Status Chart -->
+                                    <h4 class="mt-4">Mentor Status</h4>
+                                    <div class="chart-container" style="width: 100%; max-width: 300px; margin: 0 auto;">
+                                        <canvas id="mentorStatusChart"></canvas>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- ------deatails--- --}}
+            {{-- <div class="row">
                 <div class="col-md-12">
                     <div class="card-group m-b-30">
                         <div class="card">
@@ -101,12 +195,8 @@
                                         <span class="text-success">+10%</span>
                                     </div>
                                 </div>
-                                <h3 class="mb-3">10</h3>
-                                <div class="progress height-five mb-2">
-                                    <div class="progress-bar bg-primary w-70" role="progressbar" aria-valuenow="40"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <p class="mb-0">Overall Employees 218</p>
+                                <h3 class="mb-3">{{ $newEmployerCount }}</h3>
+
                             </div>
                         </div>
 
@@ -174,187 +264,146 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+
 
             <!-- Statistics Widget -->
-            <div class="row">
-                <div class="col-md-12 col-lg-12 col-xl-4 d-flex">
-                    <div class="card flex-fill dash-statistics">
-                        <div class="card-body">
-                            <h5 class="card-title">Statistics</h5>
-                            <div class="stats-list">
-                                <div class="stats-info">
-                                    <p>
-                                        Today Leave <strong>4 <small>/ 65</small></strong>
-                                    </p>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-primary w-31" role="progressbar" aria-valuenow="31"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="stats-info">
-                                    <p>
-                                        Pending Invoice <strong>15 <small>/ 92</small></strong>
-                                    </p>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-warning w-31" role="progressbar" aria-valuenow="31"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="stats-info">
-                                    <p>
-                                        Completed Projects
-                                        <strong>85 <small>/ 112</small></strong>
-                                    </p>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success w-62" role="progressbar" aria-valuenow="62"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="stats-info">
-                                    <p>
-                                        Open Tickets <strong>190 <small>/ 212</small></strong>
-                                    </p>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-danger w-62" role="progressbar" aria-valuenow="62"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="stats-info">
-                                    <p>
-                                        Closed Tickets <strong>22 <small>/ 212</small></strong>
-                                    </p>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info w-22" role="progressbar" aria-valuenow="22"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-12 col-lg-6 col-xl-4 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-body">
-                            <h4 class="card-title">Task Statistics</h4>
-                            <div class="statistics">
-                                <div class="row">
-                                    <div class="col-md-6 col-6 text-center">
-                                        <div class="stats-box mb-4">
-                                            <p>Total Tasks</p>
-                                            <h3>385</h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-6 text-center">
-                                        <div class="stats-box mb-4">
-                                            <p>Overdue Tasks</p>
-                                            <h3>19</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-purple w-30" role="progressbar" aria-valuenow="30"
-                                    aria-valuemin="0" aria-valuemax="100">
-                                    30%
-                                </div>
-                                <div class="progress-bar bg-warning w-22" role="progressbar" aria-valuenow="18"
-                                    aria-valuemin="0" aria-valuemax="100">
-                                    22%
-                                </div>
-                                <div class="progress-bar bg-success w-24" role="progressbar" aria-valuenow="12"
-                                    aria-valuemin="0" aria-valuemax="100">
-                                    24%
-                                </div>
-                                <div class="progress-bar bg-danger w-21" role="progressbar" aria-valuenow="14"
-                                    aria-valuemin="0" aria-valuemax="100">
-                                    21%
-                                </div>
-                                <div class="progress-bar bg-info w-10" role="progressbar" aria-valuenow="14"
-                                    aria-valuemin="0" aria-valuemax="100">
-                                    10%
-                                </div>
-                            </div>
-                            <div>
-                                <p>
-                                    <i class="fa-regular fa-circle-dot text-purple me-2"></i>Completed Tasks <span
-                                        class="float-end">166</span>
-                                </p>
-                                <p>
-                                    <i class="fa-regular fa-circle-dot text-warning me-2"></i>Inprogress Tasks <span
-                                        class="float-end">115</span>
-                                </p>
-                                <p>
-                                    <i class="fa-regular fa-circle-dot text-success me-2"></i>On Hold Tasks <span
-                                        class="float-end">31</span>
-                                </p>
-                                <p>
-                                    <i class="fa-regular fa-circle-dot text-danger me-2"></i>Pending Tasks <span
-                                        class="float-end">47</span>
-                                </p>
-                                <p class="mb-0">
-                                    <i class="fa-regular fa-circle-dot text-info me-2"></i>Review Tasks <span
-                                        class="float-end">5</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12 col-lg-6 col-xl-4 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                Today Absent
-                                <span class="badge bg-inverse-danger ms-2">5</span>
-                            </h4>
-                            <div class="leave-info-box">
-                                <div class="media d-flex align-items-center">
-                                    <a href="profile.html" class="avatar"><img src="assets/img/user.jpg"
-                                            alt="User Image" /></a>
-                                    <div class="media-body flex-grow-1">
-                                        <div class="text-sm my-0">Martin Lewis</div>
-                                    </div>
-                                </div>
-                                <div class="row align-items-center mt-3">
-                                    <div class="col-6">
-                                        <h6 class="mb-0">4 Sep 2019</h6>
-                                        <span class="text-sm text-muted">Leave Date</span>
-                                    </div>
-                                    <div class="col-6 text-end">
-                                        <span class="badge bg-inverse-danger">Pending</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="leave-info-box">
-                                <div class="media d-flex align-items-center">
-                                    <a href="profile.html" class="avatar"><img src="assets/img/user.jpg"
-                                            alt="User Image" /></a>
-                                    <div class="media-body flex-grow-1">
-                                        <div class="text-sm my-0">Martin Lewis</div>
-                                    </div>
-                                </div>
-                                <div class="row align-items-center mt-3">
-                                    <div class="col-6">
-                                        <h6 class="mb-0">4 Sep 2019</h6>
-                                        <span class="text-sm text-muted">Leave Date</span>
-                                    </div>
-                                    <div class="col-6 text-end">
-                                        <span class="badge bg-inverse-success">Approved</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="load-more text-center">
-                                <a class="text-dark" href="javascript:void(0);">Load More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!-- /Statistics Widget -->
         </div>
         <!-- /Page Content -->
     </div>
     <!-- /Page Wrapper -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mentor Status Chart Data
+            const mentorStatusLabels = ['Active Mentors', 'Inactive Mentors'];
+            const mentorStatusData = [{{ $activeMentors }}, {{ $inactiveMentors }}];
+            const mentorStatusColors = ['#36A2EB', '#FF6384'];
+
+            // Mentor Status Chart
+            new Chart(document.getElementById('mentorStatusChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: mentorStatusLabels,
+                    datasets: [{
+                        data: mentorStatusData,
+                        backgroundColor: mentorStatusColors,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+
+            // Top Mentors Chart Data
+            const topMentors = @json($topMentors);
+            const topMentorLabels = topMentors.map(mentor => mentor.username);
+            const topMentorData = topMentors.map(mentor => mentor.mention_count);
+
+            // Top Mentors Bar Chart
+            new Chart(document.getElementById('barChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: topMentorLabels,
+                    datasets: [{
+                        label: 'Mentions',
+                        data: topMentorData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Mentions'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    return Number.isInteger(value) ? value : ''; // Show only integers
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Mentors'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Monthly Revenue Chart Data
+            const monthlyRevenue = @json($monthlyRevenue);
+            const months = [...new Set(monthlyRevenue.map(item => item.month))];
+            const packageNames = [...new Set(monthlyRevenue.map(item => item.package_name))];
+
+            // Prepare datasets for each package
+            const monthlyRevenueDatasets = packageNames.map(packageName => {
+                const data = months.map(month => {
+                    const record = monthlyRevenue.find(item => item.package_name === packageName &&
+                        item.month === month);
+                    return record ? record.total_revenue : 0;
+                });
+                return {
+                    label: packageName,
+                    data: data,
+                    borderColor: getRandomColor(),
+                    backgroundColor: getRandomColor(0.5),
+                    fill: false,
+                    tension: 0.1
+                };
+            });
+
+            // Utility function to get random colors for each line
+            function getRandomColor(alpha = 1) {
+                const r = Math.floor(Math.random() * 255);
+                const g = Math.floor(Math.random() * 255);
+                const b = Math.floor(Math.random() * 255);
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+
+            // Monthly Revenue Line Chart
+            new Chart(document.getElementById('monthlyRevenueChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: monthlyRevenueDatasets
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Revenue'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

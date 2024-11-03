@@ -51,12 +51,13 @@
           <!-- ----profile-- -->
           <li class="nav-item dropdown has-arrow main-drop">
               <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                  <span class="user-img"><img src="assets/img/avatar/avatar-27.jpg" alt="User Image" />
+                  <span class="user-img"><img width="40"
+                          height="40"src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User Image" />
                       <span class="status online"></span></span>
                   <span>Admin</span>
               </a>
               <div class="dropdown-menu">
-                  <a class="dropdown-item" href="profile.html">My Profile</a>
+                  <a class="dropdown-item" href="{{ route('employer.profile.edit') }}">My Profile</a>
                   <a class="dropdown-item" href="settings.html">Settings</a>
                   <a class="dropdown-item" href="index.html">Logout</a>
               </div>
@@ -71,7 +72,11 @@
           <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item" href="profile.html">My Profile</a>
               <a class="dropdown-item" href="settings.html">Settings</a>
-              <a class="dropdown-item" href="index.html">Logout</a>
+              <form method="POST" action="{{ route('logout') }}" class="d-inline" id="logout-form">
+                  @csrf
+                  <a class="dropdown-item"
+                      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+              </form>
           </div>
       </div>
       <!-- /Mobile Menu -->
