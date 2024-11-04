@@ -198,6 +198,38 @@ class AdminEmployerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            // Start a database transaction
+            DB::beginTransaction();
+
+            // Find the employer by ID
+            $employer = Employer::findOrFail($id);
+
+            // Retrieve the associated user
+            $user = $employer->user;
+
+            // Delete the employer
+            $employer->delete();
+
+            // Delete the associated user if exists
+            if ($user) {
+                $user->delete();
+            }
+
+            // Commit transaction
+            DB::commit();
+
+            // Return a JSON response for AJAX
+            return response()->json(['success' => true, 'message' => 'Employer deleted successfully.']);
+        } catch (\Exception $e) {
+            // Rollback transaction if any error occurs
+            DB::rollBack();
+
+            // Log the error for debugging
+            Log::error('Failed to delete employer.', ['error' => $e->getMessage()]);
+
+            // Return a JSON error response for AJAX
+            return response()->json(['success' => false, 'message' => 'Failed to delete employer.'], 500);
+        }
     }
 }

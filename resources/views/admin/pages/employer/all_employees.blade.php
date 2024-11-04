@@ -27,33 +27,37 @@
             <!-- /Page Header -->
 
             <!-- Search Filter -->
-            <div class="row filter-row">
+            <div class="row filter-row mb-4">
                 <div class="col-sm-6 col-md-3">
                     <div class="input-block mb-3 form-focus">
-                        <input type="text" class="form-control floating" placeholder="Employee ID">
-                        <label class="focus-label">Employee ID</label>
+                        <input type="text" class="form-control floating" id="searchEmployeeID"
+                            placeholder="Search by Employee ID">
+
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="input-block mb-3 form-focus">
-                        <input type="text" class="form-control floating" placeholder="Employee Name">
-                        <label class="focus-label">Employee Name</label>
+                        <input type="text" class="form-control floating" id="searchEmployeeName"
+                            placeholder=" Search by Employee Name">
+
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
-                    <div class="input-block mb-3 form-focus select-focus">
-                        <select class="select floating">
-                            <option>Select Designation</option>
-                            <option>Web Developer</option>
-                            <option>Web Designer</option>
-                            <option>Android Developer</option>
-                            <option>iOS Developer</option>
+                    <div style="display: none" class="input-block mb-3 form-focus select-focus">
+                        <select class="select floating" id="searchDesignation">
+                            <option value="">Select Designation</option>
+                            <option value="Web Developer">Web Developer</option>
+                            <option value="Web Designer">Web Designer</option>
+                            <option value="Android Developer">Android Developer</option>
+                            <option value="iOS Developer">iOS Developer</option>
                         </select>
                         <label class="focus-label">Designation</label>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3">
-                    <a href="#" class="btn btn-success w-100"> Search </a>
+                <div class="col-sm-6 col-md-3 d-flex">
+                    <button class="btn btn-success w-50 me-2" onclick="filterEmployees()">Search</button>
+                    <button class="btn btn-secondary w-50" id="clearFilterButton" onclick="clearFilters()" disabled>Clear
+                        Filter</button>
                 </div>
             </div>
             <!-- /Search Filter -->
@@ -61,7 +65,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-striped custom-table datatable">
+                        <table class="table table-striped custom-table datatable" id="employeeTable">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -88,7 +92,7 @@
                                         <td>{{ $employ->id }}</td>
                                         <td>{{ $employ->email }}</td>
                                         <td>{{ $employ->phone }}</td>
-                                        <td>{{ $employ->created_at }}</td> <!-- Format date -->
+                                        <td>{{ $employ->created_at }}</td>
                                         <td>{{ $employ->business_sector }}</td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
@@ -109,9 +113,9 @@
                                                         data-phone="{{ $employ->phone }}" data-id="{{ $employ->id }}">
                                                         <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                     </a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_employee">
-                                                        <i class="fa-regular fa-trash-can m-r-5"></i> Delete
+                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                        onclick="confirmDelete({{ $employ->id }})">
+                                                        <i class="fa-solid fa-trash m-r-5"></i> Delete
                                                     </a>
                                                 </div>
                                             </div>
@@ -129,32 +133,96 @@
         @include('admin.pages.employer.partials.add_employer')
         @include('admin.pages.employer.partials.update_employer')
 
-        <!-- Delete Employee Modal -->
-        <div class="modal custom-modal fade" id="delete_employee" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="form-header">
-                            <h3>Delete Employee</h3>
-                            <p>Are you sure you want to delete this employee?</p>
-                        </div>
-                        <div class="modal-btn delete-action">
-                            <div class="row">
-                                <div class="col-6">
-                                    <a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="javascript:void(0);" data-bs-dismiss="modal"
-                                        class="btn btn-primary cancel-btn">Cancel</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Delete Employee Modal -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+        <script>
+            // Confirm Delete function
+            function confirmDelete(employeeId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `{{ route('admin.employers.destroy', '') }}/${employeeId}`,
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire('Deleted!', 'The employee has been deleted.', 'success').then(
+                                        () => {
+                                            location.reload();
+                                        });
+                                } else {
+                                    Swal.fire('Error!', response.message ||
+                                        'Something went wrong. Please try again later.', 'error');
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.fire('Error!', 'Something went wrong. Please try again later.',
+                                    'error');
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Filter Employees function
+            function filterEmployees() {
+                const employeeID = document.getElementById('searchEmployeeID').value.toLowerCase();
+                const employeeName = document.getElementById('searchEmployeeName').value.toLowerCase();
+                const designation = document.getElementById('searchDesignation').value.toLowerCase();
+                const table = document.getElementById('employeeTable');
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+                let anyFilterActive = employeeID || employeeName || designation;
+
+                for (let i = 0; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    const idMatch = cells[1].textContent.toLowerCase().includes(employeeID);
+                    const nameMatch = cells[0].textContent.toLowerCase().includes(employeeName);
+                    const designationMatch = !designation || cells[5].textContent.toLowerCase().includes(designation);
+
+                    rows[i].style.display = idMatch && nameMatch && designationMatch ? '' : 'none';
+                }
+
+                // Enable Clear Filter button if any filter is applied
+                document.getElementById('clearFilterButton').disabled = !anyFilterActive;
+            }
+
+            // Clear Filters function
+            function clearFilters() {
+                document.getElementById('searchEmployeeID').value = '';
+                document.getElementById('searchEmployeeName').value = '';
+                document.getElementById('searchDesignation').value = '';
+
+                // Reset all rows to visible
+                const table = document.getElementById('employeeTable');
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].style.display = '';
+                }
+
+                // Disable Clear Filter button
+                document.getElementById('clearFilterButton').disabled = true;
+            }
+
+            // Enable Clear Filter button on input
+            const filterInputs = ['searchEmployeeID', 'searchEmployeeName', 'searchDesignation'];
+            filterInputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    const anyFilterActive = filterInputs.some(id => document.getElementById(id).value);
+                    document.getElementById('clearFilterButton').disabled = !anyFilterActive;
+                });
+            });
+        </script>
     </div>
     <!-- /Page Wrapper -->
 @endsection

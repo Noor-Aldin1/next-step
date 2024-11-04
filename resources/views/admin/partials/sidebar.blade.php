@@ -20,7 +20,7 @@
                       <ul>
 
                           <li>
-                              <a href="attendance-employee.html">All Employees</a>
+                              <a href="#">All Employees</a>
                           </li>
                           <li><a href="departments.html">Employment Listings</a></li>
                           <li><a href="designations.html">Job Application</a></li>
@@ -33,7 +33,7 @@
                       <ul>
 
                           <li>
-                              <a href="attendance-employee.html">All Employees</a>
+                              <a href="{{ route('admin.employers.index') }}">All Employees</a>
                           </li>
                           <li><a href="departments.html">Employment Listings</a></li>
                           <li><a href="designations.html">Job Application</a></li>

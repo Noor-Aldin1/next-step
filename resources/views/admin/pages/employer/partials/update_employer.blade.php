@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.employers.update', $employee->id) }}" method="POST"
+                <form id="editEmployeeForm" action="{{ route('admin.employers.update', ':id') }}" method="POST"
                     class="needs-validation" novalidate enctype="multipart/form-data">
                     @csrf
                     @method('PUT') <!-- Specify the method as PUT for updates -->
@@ -18,8 +18,7 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">Username <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="username"
-                                    value="{{ old('username', $employee->user->username) }}" required>
+                                <input id="editUsername" class="form-control" type="text" name="username" required>
                                 <div class="invalid-feedback">
                                     Please provide a valid username.
                                 </div>
@@ -29,8 +28,7 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">Email <span class="text-danger">*</span></label>
-                                <input class="form-control" type="email" name="email"
-                                    value="{{ old('email', $employee->user->email) }}" required>
+                                <input id="editEmail" class="form-control" type="email" name="email" required>
                                 <div class="invalid-feedback">
                                     Please provide a valid email.
                                 </div>
@@ -61,8 +59,8 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">Company Name <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="company_name"
-                                    value="{{ old('company_name', $employee->company_name) }}" required>
+                                <input id="editCompanyName" class="form-control" type="text" name="company_name"
+                                    required>
                                 <div class="invalid-feedback">
                                     Please provide a company name.
                                 </div>
@@ -72,8 +70,8 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">Business Sector <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="business_sector"
-                                    value="{{ old('business_sector', $employee->business_sector) }}" required>
+                                <input id="editBusinessSector" class="form-control" type="text"
+                                    name="business_sector" required>
                                 <div class="invalid-feedback">
                                     Please provide a business sector.
                                 </div>
@@ -83,8 +81,8 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">Employee Number <span class="text-danger">*</span></label>
-                                <input class="form-control" type="number" name="employee_num"
-                                    value="{{ old('employee_num', $employee->employee_num) }}" required>
+                                <input id="editEmployeeNum" class="form-control" type="number" name="employee_num"
+                                    required>
                                 <div class="invalid-feedback">
                                     Please provide a valid employee number.
                                 </div>
@@ -94,8 +92,7 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">City <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="city"
-                                    value="{{ old('city', $employee->city) }}" required>
+                                <input id="editCity" class="form-control" type="text" name="city" required>
                                 <div class="invalid-feedback">
                                     Please provide a city.
                                 </div>
@@ -105,8 +102,8 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">Account Manager <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="account_manager"
-                                    value="{{ old('account_manager', $employee->account_manager) }}" required>
+                                <input id="editAccountManager" class="form-control" type="text"
+                                    name="account_manager" required>
                                 <div class="invalid-feedback">
                                     Please provide an account manager name.
                                 </div>
@@ -116,8 +113,7 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">Phone <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="phone"
-                                    value="{{ old('phone', $employee->phone) }}" required>
+                                <input id="editPhone" class="form-control" type="text" name="phone" required>
                                 <div class="invalid-feedback">
                                     Please provide a phone number.
                                 </div>
@@ -141,3 +137,36 @@
     </div>
 </div>
 <!-- /Edit Employee Modal -->
+
+<!-- Link Trigger -->
+<a style=" display :none" class="dropdown-item" href="#" data-bs-toggle="modal"
+    data-bs-target="#edit_employee" data-username="{{ $employ->username }}" data-email="{{ $employ->email }}"
+    data-company-name="{{ $employ->company_name }}" data-business-sector="{{ $employ->business_sector }}"
+    data-employee-num="{{ $employ->employee_num }}" data-city="{{ $employ->city }}"
+    data-account-manager="{{ $employ->account_manager }}" data-phone="{{ $employ->phone }}"
+    data-id="{{ $employ->id }}">
+    <i class="fa-solid fa-pencil m-r-5"></i> Edit
+</a>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        $('#edit_employee').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var modal = $(this);
+
+            // Update the form action with the correct employee ID
+            var formAction = $('#editEmployeeForm').attr('action').replace(':id', button.data('id'));
+            $('#editEmployeeForm').attr('action', formAction);
+
+            // Populate the form fields with the data from the trigger button
+            modal.find('#editUsername').val(button.data('username'));
+            modal.find('#editEmail').val(button.data('email'));
+            modal.find('#editCompanyName').val(button.data('company-name'));
+            modal.find('#editBusinessSector').val(button.data('business-sector'));
+            modal.find('#editEmployeeNum').val(button.data('employee-num'));
+            modal.find('#editCity').val(button.data('city'));
+            modal.find('#editAccountManager').val(button.data('account-manager'));
+            modal.find('#editPhone').val(button.data('phone'));
+        });
+    });
+</script>

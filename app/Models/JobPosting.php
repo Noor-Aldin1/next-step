@@ -40,4 +40,9 @@ class JobPosting extends Model
     {
         return $this->belongsToMany(JobCategory::class, 'job_posting_categories', 'job_id', 'category_id');
     }
+
+    public function employerUser()
+    {
+        return $this->hasOneThrough(User::class, Employer::class, 'id', 'id', 'employer_id', 'user_id');
+    }
 }

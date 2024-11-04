@@ -46,5 +46,5 @@ Route::middleware(['auth'])->group(function () {
 
 // test 
 // Route::get('/alls/test', function () {
-//     return view('admin.pages.employer.all_employees');
+//     return view('admin.pages.employer.all_job');
 // });
