@@ -1,6 +1,82 @@
 @extends('admin.admin_panel')
 
 @section('content')
+    <style>
+        /* style model in job list  */
+        .custom-grid-badges {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .custom-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .custom-bg-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .custom-bg-purple {
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 90%;
+            z-index: 1000;
+        }
+
+        .custom-modal h6 {
+            margin-top: 0;
+        }
+
+        .custom-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* ------------ */
+        .view-icons {
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center items vertically */
+            gap: 8px;
+            /* Add space between text and icon */
+        }
+
+        .clear-filter-text {
+            font-weight: bold;
+            /* Make the text bold */
+            font-size: 14px;
+            /* Adjust font size as needed */
+            color: #333;
+            /* Change text color as desired */
+        }
+    </style>
+
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <!-- Page Content -->
@@ -10,10 +86,11 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col-md-4">
-                        <h3 class="page-title">Contact</h3>
+                        <h3 class="page-title">Job List</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Contact</li>
+                            <li class="breadcrumb-item active">Employers</li>
+                            <li class="breadcrumb-item"><a href="admin-dashboard.html">Job List</a></li>
                         </ul>
                     </div>
                     <div class="col-md-8 float-end ms-auto">
@@ -42,8 +119,8 @@
                                     console.log('All filters have been cleared.');
                                 });
                             </script>
-                            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_contact"><i
-                                    class="la la-plus-circle"></i> Add Contact</a>
+                            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_job"><i
+                                    class="la la-plus-circle"></i> Add Job</a>
                         </div>
                     </div>
                 </div>
@@ -76,23 +153,35 @@
                                             <div class="filter-set-contents accordion-collapse collapse" id="collapseThree"
                                                 data-bs-parent="#accordionExample">
                                                 <ul id="categoryList">
+                                                    @php
+                                                        // Track unique categories using an associative array with category IDs as keys
+                                                        $uniqueCategories = [];
+                                                    @endphp
+
                                                     @foreach ($jobPostings as $job)
                                                         @foreach ($job->categories as $category)
-                                                            <li>
-                                                                <div class="filter-checks">
-                                                                    <label class="checkboxs">
-                                                                        <input type="checkbox" class="category-checkbox"
-                                                                            value="{{ $category->id }}">
-                                                                        <span class="checkmarks"></span>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="collapse-inside-text">
-                                                                    <h5>{{ $category->name }}</h5>
-                                                                </div>
-                                                            </li>
+                                                            @if (!isset($uniqueCategories[$category->id]))
+                                                                @php
+                                                                    // Add the category to the unique list
+                                                                    $uniqueCategories[$category->id] = $category->name;
+                                                                @endphp
+                                                                <li>
+                                                                    <div class="filter-checks">
+                                                                        <label class="checkboxs">
+                                                                            <input type="checkbox" class="category-checkbox"
+                                                                                value="{{ $category->id }}">
+                                                                            <span class="checkmarks"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="collapse-inside-text">
+                                                                        <h5>{{ $category->name }}</h5>
+                                                                    </div>
+                                                                </li>
+                                                            @endif
                                                         @endforeach
                                                     @endforeach
                                                 </ul>
+
                                             </div>
                                         </div>
                                         <!-- City Filter Section -->
@@ -248,12 +337,63 @@
                                         <i class="material-icons">more_vert</i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                data-bs-target="#edit_contact"><i
-                                                    class="fa-solid fa-pencil me-2"></i>Edit</a></li>
-                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                data-bs-target="#delete_contact"><i
-                                                    class="fa-regular fa-trash-can me-2"></i>Delete</a></li>
+                                        <li>
+                                            <a class="dropdown-item edit-job" href="#" data-bs-toggle="modal"
+                                                data-bs-target="#update_job" data-title="{{ $job->title }}"
+                                                data-employer-id="{{ $job->employer_id }}"
+                                                data-category-id="{{ $job->categories->first()->id ?? '' }}"
+                                                data-company-name="{{ $job->company_name }}"
+                                                data-requirements="{{ $job->requirements }}"
+                                                data-description="{{ $job->description }}"
+                                                data-position="{{ $job->position }}"
+                                                data-job-type="{{ $job->job_type }}"
+                                                data-experience="{{ $job->experience }}"
+                                                data-salary="{{ $job->salary }}"
+                                                data-last-date-to-apply="{{ $job->last_date_to_apply }}"
+                                                data-city="{{ $job->city }}" data-address="{{ $job->address }}"
+                                                data-education-level="{{ $job->education_level }}"
+                                                data-id="{{ $job->id }}">
+                                                <i class="fa-solid fa-pencil me-2"></i>Edit
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#"
+                                                onclick="confirmDelete(event, '{{ route('admin.jobs.destroy', ':id') }}')"
+                                                data-id="{{ $job->id }}">
+                                                <i class="fa-regular fa-trash-can me-2"></i>Delete
+                                            </a>
+                                        </li>
+                                        <form id="deleteForm" action="" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        <script>
+                                            function confirmDelete(event, urlTemplate) {
+                                                event.preventDefault(); // Prevent the default link action
+
+                                                Swal.fire({
+                                                    title: 'Are you sure?',
+                                                    text: "You won't be able to revert this!",
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#d33',
+                                                    cancelButtonColor: '#3085d6',
+                                                    confirmButtonText: 'Yes, delete it!'
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        const deleteForm = document.getElementById('deleteForm');
+
+                                                        // Replace ':id' in the URL template with the actual ID from data-id attribute
+                                                        const employerId = event.target.getAttribute('data-id');
+                                                        deleteForm.action = urlTemplate.replace(':id', employerId);
+
+                                                        // Submit the form
+                                                        deleteForm.submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
+
                                     </ul>
                                 </div>
                             </div>
@@ -277,19 +417,27 @@
                                     <p class="mb-1"><i class="la la-map-marker-alt me-2"></i>{{ $job->city }},
                                         {{ $job->address }}</p>
                                 </div>
-                                <div class="custom-grid-badges">
+                                <div class="d-flex justify-content-center">
                                     <div class="custom-badge custom-bg-danger"
                                         onclick="openModal('custom-des-form-{{ $job->id }}')">Description</div>
-                                    <div class="custom-badge custom-bg-purple"
+                                    <div class="custom-badge custom-bg-purple ms-2"
                                         onclick="openModal('custom-req-form-{{ $job->id }}')">Requirement</div>
                                 </div>
-                                <div id="custom-des-form-{{ $job->id }}" class="custom-modal">
+
+                                <!-- Description Modal -->
+                                <div id="custom-des-form-{{ $job->id }}" class="custom-modal"
+                                    style="display: none;">
                                     <h6>Description</h6>
                                     <p>{{ $job->description }}</p>
+                                    <button onclick="closeModal('custom-des-form-{{ $job->id }}')">Close</button>
                                 </div>
-                                <div id="custom-req-form-{{ $job->id }}" class="custom-modal">
+
+                                <!-- Requirement Modal -->
+                                <div id="custom-req-form-{{ $job->id }}" class="custom-modal"
+                                    style="display: none;">
                                     <h6>Requirement</h6>
                                     <p>{{ $job->requirements }}</p>
+                                    <button onclick="closeModal('custom-req-form-{{ $job->id }}')">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -297,8 +445,21 @@
                 @endforeach
             </div>
 
+
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <div>{{ $jobPostings->links('vendor.pagination.custom') }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /Page Content -->
     </div>
     <!-- /Page Wrapper -->
+
+    @include('admin.pages.employer.partials.add_job')
+    @include('admin.pages.employer.partials.edit_job')
 @endsection

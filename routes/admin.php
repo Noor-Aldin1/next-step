@@ -5,7 +5,7 @@ use App\Http\Controllers\admin\AdminDashController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\admin\AdminEmployerController;
 use App\Http\Controllers\Admin\AdminJobsController;
-
+use App\Http\Controllers\Admin\AdminUserController;
 // ---------Dashboard
 Route::get('/admin/dashboard', [AdminDashController::class, 'dash'])->name('admin.dashboard');
 
@@ -54,4 +54,21 @@ Route::prefix('admin/jobs')->name('admin.jobs.')->group(function () {
     Route::get('/{id}/edit', [AdminJobsController::class, 'edit'])->name('edit'); // Show edit form
     Route::put('/{id}', [AdminJobsController::class, 'update'])->name('update'); // Update a job posting
     Route::delete('/{id}', [AdminJobsController::class, 'destroy'])->name('destroy'); // Delete a job posting
+});
+
+
+
+
+
+// ---------------------Admin Users -------------
+
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('users', [AdminUserController::class, 'index'])->name('users.index'); // List all users
+    Route::get('users/create', [AdminUserController::class, 'create'])->name('users.create'); // Show create form
+    Route::post('users', [AdminUserController::class, 'store'])->name('users.store'); // Store new user
+    Route::get('users/{id}', [AdminUserController::class, 'show'])->name('users.show'); // Display specific user
+    Route::get('users/{id}/edit', [AdminUserController::class, 'edit'])->name('users.edit'); // Show edit form
+    Route::put('users/{id}', [AdminUserController::class, 'update'])->name('users.update'); // Update user
+    Route::delete('users/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy'); // Delete user
 });

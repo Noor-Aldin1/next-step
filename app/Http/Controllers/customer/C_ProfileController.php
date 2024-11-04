@@ -13,9 +13,28 @@ use App\Models\Experience;
 use App\Models\Project;
 use App\Models\Skill;
 use App\Models\UserSkill;
+use App\Models\User;
 
 class C_ProfileController extends Controller
 {
+    public function editUserProfile($userId, UserSkill $userSkill)
+    {
+        // Retrieve the profile of the specified user by ID
+        $user = User::findOrFail($userId);
+        $profile = $user->profile;
+
+        // Get the projects related to the specified user
+        $projects = $user->projects;
+
+        // Get all skills related to the specified user
+        $allSkills = $user->skills;
+
+        // Fetch all available skills
+        $skills = Skill::all();
+
+        // Return the view with the necessary data
+        return view('user.pages.profile.profile', compact('profile', 'projects', 'allSkills', 'skills', 'userSkill'));
+    }
     // Function to display the profile edit page
     public function edit(UserSkill $userSkill)
     {

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\JobPosting;
+
 use Illuminate\Http\Request;
+use App\Models\JobPosting;
+use App\Models\JobCategory;
+use App\Models\JobPostingCategory;
 
 class AdminJobsController extends Controller
 {
@@ -27,7 +30,7 @@ class AdminJobsController extends Controller
      */
     public function create()
     {
-        // Load the view for creating a new job posting
+
         return view('admin.jobs.create');
     }
 
@@ -54,8 +57,19 @@ class AdminJobsController extends Controller
             'education_level' => 'required|string',
         ]);
 
+        $category_id = $request->input('category_id');
+
         // Create a new job posting
-        JobPosting::create($request->all());
+        $joblist = JobPosting::create($request->all());
+
+        // Create a new job posting category
+        $jobPostCategory = new JobPostingCategory();
+        $jobPostCategory->job_id = $joblist->id; // Access the ID correctly
+        $jobPostCategory->category_id = $category_id;
+
+        // Save the job posting category
+        $jobPostCategory->save();
+
 
         return redirect()->route('admin.jobs.index')->with('success', 'Job posting created successfully.');
     }
@@ -99,18 +113,35 @@ class AdminJobsController extends Controller
             'experience' => 'required|string',
             'salary' => 'nullable|string',
             'post_due' => 'nullable|date',
-            'last_date_to_apply' => 'required|date',
+            'last_date_to_apply' => 'nullable|date',
             'city' => 'required|string',
             'address' => 'required|string',
-            'education_level' => 'required|string',
+            'education_level' => 'required|string', //, // Ensure category_id is included
         ]);
 
-        // Find the job posting by ID and update it with new data
+        // Find the job posting by ID
         $jobPosting = JobPosting::findOrFail($id);
+
+        // Update the job posting with new data
         $jobPosting->update($request->all());
+
+        // Handle job posting category update
+        $jobPostCategory = JobPostingCategory::where('job_id', $jobPosting->id)->first();
+
+        // If a category exists, update it, otherwise create a new one
+        if ($jobPostCategory) {
+            $jobPostCategory->category_id = $request->input('category_id');
+            $jobPostCategory->save();
+        } else {
+            $jobPostCategory = new JobPostingCategory();
+            $jobPostCategory->job_id = $jobPosting->id;
+            $jobPostCategory->category_id = $request->input('category_id');
+            $jobPostCategory->save();
+        }
 
         return redirect()->route('admin.jobs.index')->with('success', 'Job posting updated successfully.');
     }
+
 
     /**
      * Remove the specified job posting from storage.

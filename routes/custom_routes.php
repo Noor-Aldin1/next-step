@@ -55,6 +55,7 @@ Route::get('/student/Change', function () {
 // -------------routes for profile/register -------------
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/edit/Customer', [C_ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/edit/Customer/{$id}', [C_ProfileController::class, 'editUserProfile'])->name('profile.editUserProfile');
     // Route::post('/profile/edit/createProjects', [C_ProfileController::class, 'createProjects'])->name('profile.createProjects');
     Route::post('/profile/edit/Customer', [C_ProfileController::class, 'updateProjects'])->name('profile.updateProjects');
     Route::post('/profile/edit/skill', [C_ProfileController::class, 'updateSkills'])->name('profile.updateSkills');

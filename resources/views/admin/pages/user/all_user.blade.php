@@ -118,18 +118,7 @@
 
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3">
-                    <div style="display: none" class="input-block mb-3 form-focus select-focus">
-                        <select class="select floating" id="searchDesignation">
-                            <option value="">Select Designation</option>
-                            <option value="Web Developer">Web Developer</option>
-                            <option value="Web Designer">Web Designer</option>
-                            <option value="Android Developer">Android Developer</option>
-                            <option value="iOS Developer">iOS Developer</option>
-                        </select>
-                        <label class="focus-label">Designation</label>
-                    </div>
-                </div>
+
                 <div class="col-sm-6 col-md-3 d-flex">
                     <button class="btn btn-success w-50 me-2" onclick="filterEmployees()">Search</button>
                     <button class="btn btn-secondary w-50" id="clearFilterButton" onclick="clearFilters()" disabled>Clear
@@ -145,31 +134,32 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Employee ID</th>
+                                    <th>User ID</th>
                                     <th>Email</th>
-                                    <th>Mobile</th>
+                                    <th>Phone</th>
                                     <th class="text-nowrap">Join Date</th>
-                                    <th>Business Sector</th>
+                                    <th>Role</th>
                                     <th class="text-end no-sort">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($employerUsers as $employ)
+                                @foreach ($users as $user)
                                     <tr>
                                         <td>
                                             <h2 class="table-avatar">
-                                                <a href="profile.html" class="avatar">
-                                                    <img src="{{ $employ->photo ? asset('storage/' . $employ->photo) : url('assets/img/profiles/avatar-02.jpg') }}"
+                                                <a href="{{ route('admin.users.show', $user->id) }}" class="avatar">
+                                                    <img src="{{ $user->photo ? asset('storage/' . $user->photo) : url('assets/img/profiles/default-avatar.jpg') }}"
                                                         alt="User Image">
                                                 </a>
-                                                <a href="profile.html">{{ ucfirst($employ->username) }}</a>
+                                                <a
+                                                    href="{{ route('admin.users.show', $user->id) }}">{{ ucfirst($user->username) }}</a>
                                             </h2>
                                         </td>
-                                        <td>{{ $employ->id }}</td>
-                                        <td>{{ $employ->email }}</td>
-                                        <td>{{ $employ->phone }}</td>
-                                        <td>{{ $employ->created_at }}</td>
-                                        <td>{{ $employ->business_sector }}</td>
+                                        <td>{{ $user->id }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone ?? 'N/A' }}</td>
+                                        <td>{{ $user->created_at }}</td>
+                                        <td>{{ $user->role->name ?? 'N/A' }}</td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="#" class="action-icon dropdown-toggle"
@@ -177,20 +167,12 @@
                                                     <i class="material-icons">more_vert</i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#edit_employee"
-                                                        data-username="{{ $employ->username }}"
-                                                        data-email="{{ $employ->email }}"
-                                                        data-company-name="{{ $employ->company_name }}"
-                                                        data-business-sector="{{ $employ->business_sector }}"
-                                                        data-employee-num="{{ $employ->employee_num }}"
-                                                        data-city="{{ $employ->city }}"
-                                                        data-account-manager="{{ $employ->account_manager }}"
-                                                        data-phone="{{ $employ->phone }}" data-id="{{ $employ->id }}">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('profile.editUserProfile', $user->id) }}">
                                                         <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                     </a>
                                                     <a class="dropdown-item" href="javascript:void(0);"
-                                                        onclick="confirmDelete({{ $employ->id }})">
+                                                        onclick="confirmDelete({{ $user->id }})">
                                                         <i class="fa-solid fa-trash m-r-5"></i> Delete
                                                     </a>
                                                 </div>
@@ -200,16 +182,16 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div>{{ $employerUsers->links('vendor.pagination.custom') }}</div>
-
+                        <div>{{ $users->links('vendor.pagination.custom') }}</div>
                     </div>
                 </div>
             </div>
+
         </div>
         <!-- /Page Content -->
 
-        @include('admin.pages.employer.partials.add_employer')
-        @include('admin.pages.employer.partials.update_employer')
+        {{-- // @include('admin.pages.employer.partials.add_employer') --}}
+        {{-- @include('admin.pages.employer.partials.update_employer') --}}
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

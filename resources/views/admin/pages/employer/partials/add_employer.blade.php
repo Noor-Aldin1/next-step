@@ -7,7 +7,10 @@
         </ul>
     </div>
 @endif
+<style>
 
+
+</style>
 <!-- Add Employee Modal -->
 <div id="add_employee" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

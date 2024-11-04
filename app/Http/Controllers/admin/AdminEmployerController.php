@@ -25,7 +25,7 @@ class AdminEmployerController extends Controller
             ->join('users', 'employers.user_id', '=', 'users.id')
             ->select('users.*', 'employers.*', 'employers.id AS id')
             ->where('users.role_id', 3)
-            ->get();
+            ->paginate(10);
 
         // Retrieve employee details if necessary
         $employee = Employer::with('user')->whereHas('user', function ($query) {

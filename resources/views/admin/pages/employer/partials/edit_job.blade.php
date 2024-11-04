@@ -1,473 +1,264 @@
-<!-- Edit Contact -->
-<div class="modal custom-modal fade custom-modal-two modal-padding" id="edit_contact" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
+-- Update Job Posting Modal -->
+<div id="update_job" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header header-border justify-content-between p-0">
-                <h5 class="modal-title">Edit Contact</h5>
-                <button type="button" class="btn-close position-static" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+            <div class="modal-header">
+                <h5 class="modal-title">Update Job Posting</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body p-0">
-                <div class="add-details-wizard">
-                    <ul id="progressbar2" class="progress-bar-wizard">
-                        <li class="active">
-                            <span><i class="la la-user-tie"></i></span>
-                            <div class="multi-step-info">
-                                <h6>Basic Info</h6>
-                            </div>
-                        </li>
-                        <li>
-                            <span><i class="la la-map-marker"></i></span>
-                            <div class="multi-step-info">
-                                <h6>Address</h6>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="multi-step-icon">
-                                <span><i class="la la-icons"></i></span>
-                            </div>
-                            <div class="multi-step-info">
-                                <h6>Social Profiles</h6>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="multi-step-icon">
-                                <span><i class="la la-images"></i></span>
-                            </div>
-                            <div class="multi-step-info">
-                                <h6>Access</h6>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="add-info-fieldset">
-                    <fieldset id="edit-first-field">
-                        <form action="https://smarthr.dreamstechnologies.com/html/template/contact-grid.html">
-                            <div class="form-upload-profile">
-                                <h6 class="">Profile Image <span> *</span></h6>
-                                <div class="profile-pic-upload">
-                                    <div class="profile-pic">
-                                        <span><img src="assets/img/avatar/avatar-19.jpg" class="rounded-circle"
-                                                alt="Img"></span>
-                                    </div>
-                                    <div class="employee-field">
-                                        <div class="mb-0">
-                                            <div class="image-upload mb-0">
-                                                <input type="file">
-                                                <div class="image-uploads">
-                                                    <h4>Upload</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="img-reset-btn">
-                                            <a href="#">Reset</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="contact-input-set">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">First Name <span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="Darlee">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Last Name <span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="Robertson">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Job Title <span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="Facility Manager">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Company Name <span
-                                                    class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>NovaWaveLLC</option>
-                                                <option>BlueSky Industries</option>
-                                                <option>SilverHawk</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="col-form-label">Email <span class="text-danger">
-                                                        *</span></label>
-                                                <div class="status-toggle small-toggle-btn d-flex align-items-center">
-                                                    <span class="me-2 label-text">Option</span>
-                                                    <input type="checkbox" id="user1" class="check" checked="">
-                                                    <label for="user1" class="checktoggle"></label>
-                                                </div>
-                                            </div>
-                                            <input class="form-control" type="email" value="Robertson@example.com">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Phone Number 1<span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="+1 875455453">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Phone Number 2<span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="+1 895455455">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Fax </label>
-                                            <input class="form-control" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="col-form-label">Deals <span
-                                                        class="text-danger">*</span></label>
-                                                <a href="#" class="add-new"><i
-                                                        class="la la-plus-circle me-2"></i>Add New</a>
-                                            </div>
-                                            <select class="select">
-                                                <option>Collins</option>
-                                                <option>Konopelski</option>
-                                                <option>Adams</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Date of birth <span
-                                                    class="text-danger">*</span></label>
-                                            <input class="form-control" type="text" value="02-05-1998">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Reviews <span
-                                                    class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>Lowest</option>
-                                                <option>Highest</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Owner <span
-                                                    class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>Hendry</option>
-                                                <option>Guillory</option>
-                                                <option>Jami</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Industry <span
-                                                    class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>Barry Cuda</option>
-                                                <option>Tressa Wexler</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Currency <span
-                                                    class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>$</option>
-                                                <option>€</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Language <span
-                                                    class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>English</option>
-                                                <option>French</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Tags <span
-                                                    class="text-danger">*</span></label>
-                                            <input class="input-tags form-control" id="inputBox2" type="text"
-                                                data-role="tagsinput" name="Label" value="Promotion, Rated">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Source <span
-                                                    class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>Barry Cuda</option>
-                                                <option>Tressa Wexler</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Comments<span
-                                                    class="text-danger">*</span></label>
-                                            <textarea class="form-control" rows="5"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 text-end form-wizard-button">
-                                        <button class="button btn-lights reset-btn" type="reset">Reset</button>
-                                        <button class="btn btn-primary wizard-next-btn" type="button">Save &
-                                            Next</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </fieldset>
-                    <fieldset>
-                        <form action="https://smarthr.dreamstechnologies.com/html/template/contact-grid.html">
-                            <div class="contact-input-set">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Street Address<span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="38 Simpson Stree">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">City <span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="Rock Island">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">State / Province <span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="USA">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Country <span
-                                                    class="text-danger">*</span></label>
-                                            <select class="select">
-                                                <option>Germany</option>
-                                                <option>USA</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Zipcode <span class="text-danger">
-                                                    *</span></label>
-                                            <input class="form-control" type="text" value="65">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 text-end form-wizard-button">
-                                        <button class="button btn-lights reset-btn" type="reset">Reset</button>
-                                        <button class="btn btn-primary wizard-next-btn" type="button">Save &
-                                            Next</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </fieldset>
-                    <fieldset>
-                        <form action="https://smarthr.dreamstechnologies.com/html/template/contact-grid.html">
-                            <div class="contact-input-set">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Facebook</label>
-                                            <input class="form-control" type="text" value="Darlee Robertson">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Twitter</label>
-                                            <input class="form-control" type="text" value="Darlee Robertson">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Linkedin</label>
-                                            <input class="form-control" type="text" value="Darlee Robertson">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Skype</label>
-                                            <input class="form-control" type="text" value="Darlee Robertson">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Whatsapp</label>
-                                            <input class="form-control" type="text" value="Darlee Robertson">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <label class="col-form-label">Instagram</label>
-                                            <input class="form-control" type="text" value="Darlee_Robertson">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="input-block mb-3">
-                                            <a href="#" class="add-new"><i
-                                                    class="la la-plus-circle me-2"></i>Add New</a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 text-end form-wizard-button">
-                                        <button class="button btn-lights reset-btn" type="reset">Reset</button>
-                                        <button class="btn btn-primary wizard-next-btn" type="button">Save &
-                                            Next</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </fieldset>
-                    <fieldset>
-                        <form action="https://smarthr.dreamstechnologies.com/html/template/contact-grid.html">
-                            <div class="contact-input-set">
-                                <div class="input-blocks add-products">
-                                    <label class="mb-3">Visibility</label>
-                                    <div class="access-info-tab">
-                                        <ul class="nav nav-pills" id="pills-tab2" role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <span class="custom_radio mb-0" id="pills-public-tab2"
-                                                    data-bs-toggle="pill" data-bs-target="#pills-public2"
-                                                    role="tab" aria-controls="pills-public2"
-                                                    aria-selected="true">
-                                                    <input type="radio" class="form-control" name="public"
-                                                        checked>
-                                                    <span class="checkmark"></span> Public</span>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <span class="custom_radio mb-0" id="pills-private-tab2"
-                                                    data-bs-toggle="pill" data-bs-target="#pills-private2"
-                                                    role="tab" aria-controls="pills-private2"
-                                                    aria-selected="false">
-                                                    <input type="radio" class="form-control" name="private">
-                                                    <span class="checkmark"></span> Private</span>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <span class="custom_radio mb-0 active" id="pills-select-people-tab2"
-                                                    data-bs-toggle="pill" data-bs-target="#pills-select-people2"
-                                                    role="tab" aria-controls="pills-select-people2"
-                                                    aria-selected="false">
-                                                    <input type="radio" class="form-control" name="select-people">
-                                                    <span class="checkmark"></span> Select People</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="tab-content" id="pills-tabContent2">
-                                    <div class="tab-pane fade" id="pills-public2" role="tabpanel"
-                                        aria-labelledby="pills-public-tab2">
+            <div class="modal-body">
+                <form action="{{ route('admin.jobs.update', ':id') }}" method="POST" class="needs-validation"
+                    enctype="multipart/form-data" novalidate id="updateJobForm">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="job_id" id="job-id">
 
-                                    </div>
-                                    <div class="tab-pane fade" id="pills-private2" role="tabpanel"
-                                        aria-labelledby="pills-private-tab2">
-                                    </div>
-                                    <div class="tab-pane fade show active" id="pills-select-people2" role="tabpanel"
-                                        aria-labelledby="pills-select-people-tab2">
-                                        <div class="people-select-tab">
-                                            <h3>Select People</h3>
-                                            <div class="select-people-checkbox">
-                                                <label class="custom_check">
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                    <span class="people-profile">
-                                                        <img src="assets/img/avatar/avatar-19.jpg" alt="Img">
-                                                        <a href="#">Darlee Robertson</a>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div class="select-people-checkbox">
-                                                <label class="custom_check">
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                    <span class="people-profile">
-                                                        <img src="assets/img/avatar/avatar-20.jpg" alt="Img">
-                                                        <a href="#">Sharon Roy</a>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div class="select-people-checkbox">
-                                                <label class="custom_check">
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                    <span class="people-profile">
-                                                        <img src="assets/img/avatar/avatar-21.jpg" alt="Img">
-                                                        <a href="#">Vaughan</a>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div class="select-people-checkbox">
-                                                <label class="custom_check">
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                    <span class="people-profile">
-                                                        <img src="assets/img/avatar/avatar-1.jpg" alt="Img">
-                                                        <a href="#">Jessica</a>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div class="select-confirm-btn">
-                                                <a href="#" class="btn danger-btn">Confirm</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h5 class="mb-3">Status</h5>
-                                <div class="status-radio-btns d-flex mb-3">
-                                    <div class="people-status-radio">
-                                        <input type="radio" class="status-radio" id="test1" name="radio-group"
-                                            checked>
-                                        <label for="test1">Active</label>
-                                    </div>
-                                    <div class="people-status-radio">
-                                        <input type="radio" class="status-radio" id="test2"
-                                            name="radio-group">
-                                        <label for="test2">Private</label>
-                                    </div>
-                                    <div class="people-status-radio">
-                                        <input type="radio" class="status-radio" id="test3"
-                                            name="radio-group">
-                                        <label for="test3">Inactive</label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 text-end form-wizard-button">
-                                    <button class="button btn-lights reset-btn" type="reset">Reset</button>
-                                    <button class="btn btn-primary" type="submit">Submit</button>
-                                </div>
+                    <div class="row">
+                        <!-- Employer Selection -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Choose Employer <span class="text-danger">*</span></label>
+                                <select class="form-control" name="employer_id" id="employer-id" required>
+                                    <option value="">Select Employer</option>
+                                    @foreach ($jobPostings->unique('employer_id') as $jobPosting)
+                                        <option value="{{ $jobPosting->employer->id }}">
+                                            {{ $jobPosting->employerUser->username }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">Please select an employer.</div>
                             </div>
-                        </form>
-                    </fieldset>
-                </div>
+                        </div>
+
+                        <!-- Category Selection -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Choose Category <span class="text-danger">*</span></label>
+                                <select class="form-control" name="category_id" id="category-id" required>
+                                    <option value="">Select Job Type</option>
+                                    @php
+                                        $uniqueCategories = $jobPostings
+                                            ->flatMap(fn($jobPosting) => $jobPosting->categories)
+                                            ->unique('id');
+                                    @endphp
+                                    @foreach ($uniqueCategories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">Please select a category.</div>
+                            </div>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="title" id="title" required>
+                                <div class="invalid-feedback">Please provide a valid title.</div>
+                            </div>
+                        </div>
+
+                        <!-- Company Name -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Company Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="company_name" id="company-name"
+                                    required>
+                                <div class="invalid-feedback">Please provide a company name.</div>
+                            </div>
+                        </div>
+
+                        <!-- Requirements -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Requirements</label>
+                                <textarea class="form-control" name="requirements" id="requirements" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Description</label>
+                                <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Position -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Position <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="position" id="position" required>
+                                <div class="invalid-feedback">Please provide a position.</div>
+                            </div>
+                        </div>
+
+                        <!-- Job Type -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Job Type <span class="text-danger">*</span></label>
+                                <select class="form-control" name="job_type" id="job-type" required>
+                                    <option value="">Select Job Type</option>
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Internship">Internship</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a job type.</div>
+                            </div>
+                        </div>
+
+                        <!-- Experience -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Experience</label>
+                                <input type="text" class="form-control" name="experience" id="experience">
+                            </div>
+                        </div>
+
+                        <!-- Salary -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Salary</label>
+                                <input type="number" class="form-control" step="0.01" name="salary"
+                                    id="salary">
+                            </div>
+                        </div>
+
+                        <!-- Last Date to Apply -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Last Date to Apply</label>
+                                <input type="date" class="form-control" name="last_date_to_apply"
+                                    id="last-date-input">
+                            </div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                // Get today's date in YYYY-MM-DD format
+                                const today = new Date().toISOString().split('T')[0];
+
+                                // Set the minimum date attribute for the input
+                                document.getElementById('last-date-input').setAttribute('min', today);
+                            });
+                        </script>
+
+                        <!-- City -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">City <span class="text-danger">*</span></label>
+                                <select class="form-control" name="city" id="city" required>
+                                    <option value="">Select City</option>
+                                    <option value="Amman">Amman</option>
+                                    <option value="Irbid">Irbid</option>
+                                    <option value="Balqa">Balqa</option>
+                                    <option value="Karak">Karak</option>
+                                    <option value="Ma an">Ma an</option>
+                                    <option value="Mafraq">Mafraq</option>
+                                    <option value="Tafilah">Tafilah</option>
+                                    <option value="Zarqa">Zarqa</option>
+                                    <option value="Madaba">Madaba</option>
+                                    <option value="Jerash">Jerash</option>
+                                    <option value="Ajloun">Ajloun</option>
+                                    <option value="Aqaba">Aqaba</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a city.</div>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Address</label>
+                                <input type="text" class="form-control" name="address" id="address">
+                            </div>
+                        </div>
+
+                        <!-- Education Level -->
+                        <div class="col-sm-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Education Level</label>
+                                <input type="text" class="form-control" name="education_level"
+                                    id="education-level">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" type="submit">Update</button>
+                    </div>
+                </form>
+
+                <!-- JavaScript to Populate Form -->
+                <script>
+                    document.querySelectorAll('.edit-job').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const jobId = this.getAttribute('data-id');
+                            document.getElementById('job-id').value = jobId;
+                            document.getElementById('employer-id').value = this.getAttribute('data-employer-id');
+                            document.getElementById('category-id').value = this.getAttribute('data-category-id');
+                            document.getElementById('title').value = this.getAttribute('data-title');
+                            document.getElementById('company-name').value = this.getAttribute('data-company-name');
+                            document.getElementById('requirements').value = this.getAttribute('data-requirements');
+                            document.getElementById('description').value = this.getAttribute('data-description');
+                            document.getElementById('position').value = this.getAttribute('data-position');
+                            document.getElementById('job-type').value = this.getAttribute('data-job-type');
+                            document.getElementById('experience').value = this.getAttribute('data-experience');
+                            document.getElementById('salary').value = this.getAttribute('data-salary');
+                            document.getElementById('last-date-input').value = this.getAttribute(
+                                'data-last-date-to-apply');
+                            document.getElementById('city').value = this.getAttribute('data-city');
+                            document.getElementById('address').value = this.getAttribute('data-address');
+                            document.getElementById('education-level').value = this.getAttribute(
+                                'data-education-level');
+
+                            document.getElementById('updateJobForm').action =
+                                `{{ route('admin.jobs.update', '') }}/${jobId}`;
+                        });
+                    });
+                </script>
+
+
+
             </div>
         </div>
     </div>
 </div>
-<!-- /Edit Contact -->
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+<!-- /Update Job Posting Modal -->

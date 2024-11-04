@@ -28,15 +28,15 @@
                       </ul>
                   </li>
                   <li class="submenu">
-                      <a href="#"><i class="la la-user"></i> <span> Employees</span>
+                      <a href="#"><i class="la la-user"></i> <span> Employer</span>
                           <span class="menu-arrow"></span></a>
                       <ul>
 
                           <li>
-                              <a href="{{ route('admin.employers.index') }}">All Employees</a>
+                              <a href="{{ route('admin.employers.index') }}">All Employers</a>
                           </li>
-                          <li><a href="departments.html">Employment Listings</a></li>
-                          <li><a href="designations.html">Job Application</a></li>
+                          <li><a href="{{ route('admin.jobs.index') }}">Job list</a></li>
+
 
                       </ul>
                   </li>
