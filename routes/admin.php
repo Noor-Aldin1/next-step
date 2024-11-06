@@ -77,5 +77,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // -------skill -----------
     Route::POST('skills', [AdminSkillController::class, 'store'])->name('user.skills.store');
     Route::put('/user/skills/{id}', [AdminSkillController::class, 'update'])->name('user.skills.update');
-    Route::delete('/user/skills/{id}', [AdminSkillController::class, 'destroy'])->name('user.skills.destroy');
+    // Route::delete('/user/skills/{id}', [AdminSkillController::class, 'destroy'])->name('user.skills.destroy');
 });
+Route::delete('/user/skills/{id}', [AdminSkillController::class, 'destroy'])->name('admin.user.skills.destroy');

@@ -468,9 +468,10 @@
                                                         <li>
                                                             <a class="dropdown-item deleteSkillBtn"
                                                                 href="javascript:void(0);"
-                                                                data-id="{{ $userSkill->id }}">Delete</a>
+                                                                data-id="{{ $userSkill->id }}">
+                                                                Delete
+                                                            </a>
                                                         </li>
-
                                                     </ul>
                                                 </div>
                                             </td>
@@ -479,6 +480,12 @@
                                 @endif
                             </tbody>
                         </table>
+
+                        <!-- Include SweetAlert2 -->
+                        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.css"
+                            rel="stylesheet">
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.js"></script>
+
                     </div>
                 </div>
                 <!-- /Skills -->
@@ -497,49 +504,55 @@
 
 
     <script>
-        // Add click event to delete button
-        document.querySelector('#deleteSkillBtn').addEventListener('click', function() {
-            // Get the skill ID from the button's data-id attribute
-            var skillId = this.getAttribute('data-id');
-            console.log(skillId);
-            // SweetAlert2 confirmation
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'This action cannot be undone!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // If confirmed, send delete request
-                    // You can adjust this URL to match your delete route
-                    fetch(`/user/skills/${skillId}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Show success alert and reload the page
-                                Swal.fire('Deleted!', 'The skill has been deleted.', 'success').then(
-                                    () => {
-                                        location.reload(); // Reload the page to reflect the change
+        // Add event listener to all "Delete" buttons
+        document.querySelectorAll('.deleteSkillBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the skill ID from the button's data-id attribute
+                var skillId = this.getAttribute('data-id');
+                console.log(skillId);
+
+                // SweetAlert2 confirmation dialog
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Send the DELETE request to the server
+                        fetch(`/user/skills/${skillId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token for security
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // Show success alert and reload the page to reflect the change
+                                    Swal.fire('Deleted!', 'The skill has been deleted.',
+                                        'success').then(() => {
+                                        location
+                                            .reload(); // Reload the page to update the table
                                     });
-                            } else {
-                                Swal.fire('Error!', 'There was a problem deleting the skill.', 'error');
-                            }
-                        })
-                        .catch(error => {
-                            Swal.fire('Error!', 'There was a problem deleting the skill.', 'error');
-                        });
-                }
+                                } else {
+                                    Swal.fire('Error!',
+                                        'There was a problem deleting the skill.', 'error');
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire('Error!', 'There was a problem deleting the skill.',
+                                    'error');
+                            });
+                    }
+                });
             });
         });
     </script>
+
 
 @endsection
