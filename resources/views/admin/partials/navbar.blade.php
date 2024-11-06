@@ -57,7 +57,7 @@
                   <span>Admin</span>
               </a>
               <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{{ route('employer.profile.edit') }}">My Profile</a>
+                  <a class="dropdown-item" href="{{ route('profile.edit') }}">My Profile</a>
                   <a class="dropdown-item" href="settings.html">Settings</a>
                   <a class="dropdown-item" href="index.html">Logout</a>
               </div>

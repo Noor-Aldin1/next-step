@@ -15,6 +15,7 @@ class Skill extends Model
     // Specify the fillable properties
     protected $fillable = [
         'name',
+        'id'
     ];
 
     // If you need to allow mass assignment, ensure the properties are included in $fillable.

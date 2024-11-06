@@ -6,6 +6,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\admin\AdminEmployerController;
 use App\Http\Controllers\Admin\AdminJobsController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminSkillController;
 // ---------Dashboard
 Route::get('/admin/dashboard', [AdminDashController::class, 'dash'])->name('admin.dashboard');
 
@@ -68,7 +69,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('users/create', [AdminUserController::class, 'create'])->name('users.create'); // Show create form
     Route::post('users', [AdminUserController::class, 'store'])->name('users.store'); // Store new user
     Route::get('users/{id}', [AdminUserController::class, 'show'])->name('users.show'); // Display specific user
+    Route::get('users/profileEdit/{id}', [AdminUserController::class, 'profileEdit'])->name('profileEdit.show'); // Display specific user
+    Route::put('users/profileUpdate/{id}', [AdminUserController::class, 'profileUpdate'])->name('users.profileUpdate'); // Display specific user
     Route::get('users/{id}/edit', [AdminUserController::class, 'edit'])->name('users.edit'); // Show edit form
     Route::put('users/{id}', [AdminUserController::class, 'update'])->name('users.update'); // Update user
     Route::delete('users/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy'); // Delete user
+    // -------skill -----------
+    Route::POST('skills', [AdminSkillController::class, 'store'])->name('user.skills.store');
+    Route::put('/user/skills/{id}', [AdminSkillController::class, 'update'])->name('user.skills.update');
+    Route::delete('/user/skills/{id}', [AdminSkillController::class, 'destroy'])->name('user.skills.destroy');
 });
