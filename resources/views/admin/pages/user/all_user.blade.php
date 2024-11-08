@@ -118,6 +118,16 @@
 
                     </div>
                 </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="input-block mb-3">
+                        <select style="height: 50px;" class="form-control" id="searchRole" name="role_id">
+                            <option value="" selected>Select role</option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <div class="col-sm-6 col-md-3 d-flex">
                     <button class="btn btn-success w-50 me-2" onclick="filterEmployees()">Search</button>
@@ -194,7 +204,6 @@
         {{-- @include('admin.pages.employer.partials.update_employer') --}}
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <script>
             // Confirm Delete function
             function confirmDelete(userId) {
@@ -238,19 +247,19 @@
             function filterEmployees() {
                 const employeeID = document.getElementById('searchEmployeeID').value.toLowerCase();
                 const employeeName = document.getElementById('searchEmployeeName').value.toLowerCase();
-                const designation = document.getElementById('searchDesignation').value.toLowerCase();
+                const role = document.getElementById('searchRole').value.toLowerCase();
                 const table = document.getElementById('employeeTable');
                 const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-                let anyFilterActive = employeeID || employeeName || designation;
+                let anyFilterActive = employeeID || employeeName || role;
 
                 for (let i = 0; i < rows.length; i++) {
                     const cells = rows[i].getElementsByTagName('td');
                     const idMatch = cells[1].textContent.toLowerCase().includes(employeeID);
                     const nameMatch = cells[0].textContent.toLowerCase().includes(employeeName);
-                    const designationMatch = !designation || cells[5].textContent.toLowerCase().includes(designation);
+                    const roleMatch = !role || cells[4].textContent.toLowerCase() === role;
 
-                    rows[i].style.display = idMatch && nameMatch && designationMatch ? '' : 'none';
+                    rows[i].style.display = idMatch && nameMatch && roleMatch ? '' : 'none';
                 }
 
                 // Enable Clear Filter button if any filter is applied
@@ -261,7 +270,7 @@
             function clearFilters() {
                 document.getElementById('searchEmployeeID').value = '';
                 document.getElementById('searchEmployeeName').value = '';
-                document.getElementById('searchDesignation').value = '';
+                document.getElementById('searchRole').value = '';
 
                 // Reset all rows to visible
                 const table = document.getElementById('employeeTable');
@@ -275,7 +284,7 @@
             }
 
             // Enable Clear Filter button on input
-            const filterInputs = ['searchEmployeeID', 'searchEmployeeName', 'searchDesignation'];
+            const filterInputs = ['searchEmployeeID', 'searchEmployeeName', 'searchRole'];
             filterInputs.forEach(id => {
                 document.getElementById(id).addEventListener('input', () => {
                     const anyFilterActive = filterInputs.some(id => document.getElementById(id).value);

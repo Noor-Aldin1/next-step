@@ -20,9 +20,9 @@ class AdminUserController extends Controller
     {
         $users = User::orderBy('created_at', 'DESC')->paginate(10);
 
-        $role = Role::all();
+        $roles = Role::all();
 
-        return view('admin.pages.user.all_user', compact('users', 'role'));
+        return view('admin.pages.user.all_user', compact('users', 'roles'));
     }
 
     /**

@@ -83,7 +83,7 @@
                                 <label class="col-form-label">Role <span class="text-danger">*</span></label>
                                 <select class="form-control" name="role_id" required>
                                     <option value="" disabled selected>Select role</option>
-                                    @foreach ($role as $role)
+                                    @foreach ($roles as $role)
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
 
