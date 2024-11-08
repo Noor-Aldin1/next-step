@@ -21,27 +21,14 @@
                       <h3>For Candidate</h3>
                       <ul>
                           <li>
-                              <a href="job-grid.html">
+                              <a href="{{ route('jobs.felter') }}">
                                   <i class='bx bx-chevrons-right bx-tada'></i>
                                   Browse Jobs
                               </a>
                           </li>
-                          <li>
-                              <a href="account.html">
-                                  <i class='bx bx-chevrons-right bx-tada'></i>
-                                  Account
-                              </a>
-                          </li>
-
 
                           <li>
-                              <a href="job-list.html">
-                                  <i class='bx bx-chevrons-right bx-tada'></i>
-                                  Job List
-                              </a>
-                          </li>
-                          <li>
-                              <a href="sign-up.html">
+                              <a href="{{ route('register') }}">
                                   <i class='bx bx-chevrons-right bx-tada'></i>
                                   Sign Up
                               </a>
@@ -55,37 +42,32 @@
                       <h3>Quick Links</h3>
                       <ul>
                           <li>
-                              <a href="index.html">
+                              <a href="{{ route('home') }}">
                                   <i class='bx bx-chevrons-right bx-tada'></i>
                                   Home
                               </a>
                           </li>
                           <li>
-                              <a href="about.html">
+                              <a href="{{ route('about') }}">
                                   <i class='bx bx-chevrons-right bx-tada'></i>
                                   About
                               </a>
                           </li>
                           <li>
-                              <a href="faq.html">
+                              <a href="{{ route('FAQ') }}">
                                   <i class='bx bx-chevrons-right bx-tada'></i>
                                   FAQ
                               </a>
                           </li>
+
                           <li>
-                              <a href="pricing.html">
-                                  <i class='bx bx-chevrons-right bx-tada'></i>
-                                  Pricing
-                              </a>
-                          </li>
-                          <li>
-                              <a href="privacy.html">
+                              <a href="{{ route('Privacy') }}">
                                   <i class='bx bx-chevrons-right bx-tada'></i>
                                   Privacy
                               </a>
                           </li>
                           <li>
-                              <a href="contact.html">
+                              <a href="{{ route('Terms') }}">
                                   <i class='bx bx-chevrons-right bx-tada'></i>
                                   Contact
                               </a>
