@@ -94,8 +94,8 @@
                         </ul>
                     </div>
                     <div class="col-auto float-end ms-auto">
-                        <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_employee">
-                            <i class="fa-solid fa-plus"></i> Add Employee
+                        <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_user">
+                            <i class="fa-solid fa-plus"></i> Add User
                         </a>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                                     <th>Name</th>
                                     <th>User ID</th>
                                     <th>Email</th>
-                                    <th>Phone</th>
+
                                     <th class="text-nowrap">Join Date</th>
                                     <th>Role</th>
                                     <th class="text-end no-sort">Action</th>
@@ -157,8 +157,8 @@
                                         </td>
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->phone ?? 'N/A' }}</td>
-                                        <td>{{ $user->created_at }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y h:i A') }}</td>
+                                        </td>
                                         <td>{{ $user->role->name ?? 'N/A' }}</td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
@@ -168,7 +168,7 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item"
-                                                        href="{{ route('profile.editUserProfile', $user->id) }}">
+                                                        href="{{ route('admin.users.show', $user->id) }}">
                                                         <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                     </a>
                                                     <a class="dropdown-item" href="javascript:void(0);"
@@ -197,7 +197,7 @@
 
         <script>
             // Confirm Delete function
-            function confirmDelete(employeeId) {
+            function confirmDelete(userId) {
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "This action cannot be undone!",
@@ -209,7 +209,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `{{ route('admin.employers.destroy', '') }}/${employeeId}`,
+                            url: `{{ route('admin.users.destroy', '') }}/${userId}`,
                             type: 'DELETE',
                             data: {
                                 _token: '{{ csrf_token() }}'
@@ -283,6 +283,8 @@
                 });
             });
         </script>
+
+        @include('admin.pages.user.partials.profile.add_user')
     </div>
     <!-- /Page Wrapper -->
 @endsection

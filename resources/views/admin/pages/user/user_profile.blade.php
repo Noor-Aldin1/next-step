@@ -121,6 +121,15 @@
                                                 <div class="small doj text-muted">Date of Join:
                                                     {{ \Carbon\Carbon::parse($user->created_at)->format('F j, Y, g:i a') ?? 'N/A' }}
                                                 </div>
+                                                <div class="staff-msg"><a data-bs-target="#update_user"
+                                                        data-bs-toggle="modal" href="#" class="btn btn-custom"
+                                                        data-id="{{ $user->id }}" data-username="{{ $user->username }}"
+                                                        data-email="{{ $user->email }}" data-role_id="{{ $user->role_id }}"
+                                                        data-photo="{{ $user->photo }}">
+                                                        <i class="fa-solid fa-pencil m-r-5"></i> Edit Basic Information
+                                                    </a>
+                                                </div>
+
 
                                             </div>
                                         </div>
@@ -198,24 +207,26 @@
                                     <ul class="personal-info">
                                         <li>
                                             <div class="title">University: </div>
-                                            <div class="text">{{ $user->profile->university }}</div>
+                                            <div class="text">{{ $user->profile->university ?? 'N/A' }}</div>
                                         </li>
                                         <li>
                                             <div class="title">Major:</div>
-                                            <div class="text">{{ $user->profile->major }}</div>
+                                            <div class="text">{{ $user->profile->major ?? 'N/A' }}</div>
                                         </li>
                                         <li>
                                             <div class="title">GAP : </div>
-                                            <div class="text">{{ $user->profile->gap }}</div>
+                                            <div class="text">{{ $user->profile->gap ?? 'N/A' }}</div>
                                         </li>
                                         <li>
                                             <div class="title">Linkedin : </div>
-                                            <div class="text"><a href="{{ $user->profile->linkedin }}">Linkedin</a>
+                                            <div class="text"><a
+                                                    href="{{ $user->profile->linkedin ?? 'N/A' }}">Linkedin</a>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="title">Github : </div>
-                                            <div class="text"><a href="{{ $user->profile->github }}">github</a>
+                                            <div class="text"><a
+                                                    href="{{ $user->profile->github ?? 'N/A' }}">github</a>
                                         </li>
 
                                     </ul>
@@ -548,5 +559,5 @@
 
 
 
-
+    @include('admin.pages.user.partials.profile.update_user')
 @endsection

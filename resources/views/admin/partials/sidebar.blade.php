@@ -20,7 +20,7 @@
                       <ul>
 
                           <li>
-                              <a href="#">All Employees</a>
+                              <a href="{{ route('admin.users.index') }}">All Users</a>
                           </li>
                           <li><a href="departments.html">Employment Listings</a></li>
                           <li><a href="designations.html">Job Application</a></li>

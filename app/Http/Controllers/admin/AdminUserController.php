@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Profile;
 use App\Models\Skill;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,8 +18,11 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
-        return view('admin.pages.user.all_user', compact('users'));
+        $users = User::orderBy('created_at', 'DESC')->paginate(10);
+
+        $role = Role::all();
+
+        return view('admin.pages.user.all_user', compact('users', 'role'));
     }
 
     /**
@@ -49,10 +53,25 @@ class AdminUserController extends Controller
         $user->role_id = $validatedData['role_id'];
 
         if ($request->hasFile('photo')) {
-            $user->photo = $request->file('photo')->store('photos', 'public');
+            $user->photo = $request->file('photo')->store('images', 'public');
         }
 
         $user->save();
+        Profile::create([
+            'user_id' => $user->id,
+            'full_name' => null,
+            'email' => null,
+            'phone' => null,
+            'job_title' => null,
+            'country' => null,
+            'city' => null,
+            'age' => null,
+            'language' => null,
+            'skills' => null,
+            'experience' => null,
+            'linkedin' => null,
+            'github' => null,
+        ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
@@ -75,11 +94,11 @@ class AdminUserController extends Controller
             'skills'
         ])->findOrFail($id);
 
-
+        $roles = Role::all();
         $skills = Skill::all();
 
 
-        return view('admin.pages.user.user_profile', compact('user', 'skills', 'id'));
+        return view('admin.pages.user.user_profile', compact('user', 'skills', 'id', 'roles'));
     }
 
     /**
@@ -115,7 +134,7 @@ class AdminUserController extends Controller
         }
 
         if ($request->hasFile('photo')) {
-            $user->photo = $request->file('photo')->store('photos', 'public');
+            $user->photo = $request->file('photo')->store('images', 'public');
         }
 
         $user->save();
@@ -127,6 +146,7 @@ class AdminUserController extends Controller
         // Retrieve the profile by ID or fail if not found
         $profile = Profile::where('user_id', $id)->firstOrFail();
         $user_id = $id;
+
 
 
         // Pass the profile data to the edit view
@@ -190,6 +210,6 @@ class AdminUserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        return response()->json(['success' => true]);
     }
 }

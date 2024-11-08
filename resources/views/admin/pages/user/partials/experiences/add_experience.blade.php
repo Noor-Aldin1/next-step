@@ -65,13 +65,16 @@
                         <!-- End Due Date -->
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">End Due <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="end_due" required>
+                                <label class="col-form-label">End Date <small>(leave blank if ongoing)</small></label>
+                                <input type="date" class="form-control" name="end_due">
                                 <div class="invalid-feedback">
-                                    Please select an end due date.
+                                    Please select an end date.
                                 </div>
                             </div>
                         </div>
+
+
+
                     </div>
 
                     <div class="row">

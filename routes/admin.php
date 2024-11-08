@@ -67,7 +67,6 @@ Route::prefix('admin/jobs')->name('admin.jobs.')->group(function () {
 
 
 
-
 // ---------------------Admin Users -------------
 
 
