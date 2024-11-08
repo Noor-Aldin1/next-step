@@ -6,7 +6,14 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\admin\AdminEmployerController;
 use App\Http\Controllers\Admin\AdminJobsController;
 use App\Http\Controllers\Admin\AdminUserController;
+
+use App\Http\Controllers\admin\AdminCertificationController;
 use App\Http\Controllers\Admin\AdminSkillController;
+use App\Http\Controllers\admin\AdminExperienceController;
+use App\Http\Controllers\admin\AdminProjectsController;
+
+
+
 // ---------Dashboard
 Route::get('/admin/dashboard', [AdminDashController::class, 'dash'])->name('admin.dashboard');
 
@@ -80,3 +87,31 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Route::delete('/user/skills/{id}', [AdminSkillController::class, 'destroy'])->name('user.skills.destroy');
 });
 Route::delete('/user/skills/{id}', [AdminSkillController::class, 'destroy'])->name('admin.user.skills.destroy');
+
+
+
+// Admin Certification Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Route to store a new certification
+    Route::post('/certifications/store', [AdminCertificationController::class, 'store'])->name('certifications.store');
+
+    // Route to update an existing certification
+    Route::put('/certifications/{id}', [AdminCertificationController::class, 'update'])->name('certifications.update');
+    Route::delete('/certifications/{id}', [AdminCertificationController::class, 'destroy'])->name('certifications.destroy');
+});
+
+
+// AdminExperienceController;
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::post('/experiences', [AdminExperienceController::class, 'store'])->name('experiences.store');
+    Route::put('/experiences/{id}', [AdminExperienceController::class, 'update'])->name('experiences.update');
+    Route::delete('/experiences/{id}', [AdminExperienceController::class, 'destroy'])->name('experiences.destroy');
+});
+
+
+
+//projectsController 
+Route::post('/admin/projects', [AdminProjectsController::class, 'store'])->name('admin.projects.store');
+Route::put('/admin/projects/{id}', [AdminProjectsController::class, 'update'])->name('admin.projects.update');
+Route::delete('/admin/projects/{id}', [AdminProjectsController::class, 'destroy'])->name('admin.projects.destroy');

@@ -282,21 +282,29 @@
                                                         <i class="material-icons">more_vert</i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a data-bs-target="#edit_project{{ $project->id }}"
-                                                            data-bs-toggle="modal" href="#" class="dropdown-item">
+                                                        <a data-bs-target="#update_project" data-bs-toggle="modal"
+                                                            href="#" class="dropdown-item editProjectBtn"
+                                                            data-id="{{ $project->id }}"
+                                                            data-name="{{ $project->name }}"
+                                                            data-start_due="{{ $project->start_due }}"
+                                                            data-end_due="{{ $project->end_due }}"
+                                                            data-description="{{ $project->description }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                         </a>
-                                                        <a data-bs-target="#delete_project{{ $project->id }}"
-                                                            data-bs-toggle="modal" href="#" class="dropdown-item">
+
+                                                        <a data-bs-target="#delete_project" data-id="{{ $project->id }}"
+                                                            data-bs-toggle="modal" href="#"
+                                                            class="dropdown-item deleteProjectBtn">
                                                             <i class="fa-regular fa-trash-can m-r-5"></i> Delete
                                                         </a>
+
                                                     </div>
                                                 </div>
                                                 <h4 class="project-title"><a
                                                         href="project-view.html">{{ $project->name }}</a></h4>
                                                 <p class="text-muted">{{ $project->description }}</p>
                                                 <div class="pro-deadline m-b-15">
-                                                    <div class="sub-title">Deadline:</div>
+                                                    <div class="sub-title">Duration :</div>
                                                     <div class="text-muted">
                                                         {{ \Carbon\Carbon::parse($project->start_due)->format('F Y') }} -
                                                         {{ $project->end_due ? \Carbon\Carbon::parse($project->end_due)->format('F Y') : 'Ongoing' }}
@@ -315,7 +323,8 @@
                 <!-- emp_Experiences Tab -->
                 <div class="tab-pane fade" id="emp_Experiences">
                     <div class="mb-3">
-                        <a href="#add_experience" data-bs-toggle="modal" class="btn btn-primary">Add Experience</a>
+                        <a data-bs-target="#add_experience"data-bs-toggle="modal" class="btn btn-primary">Add
+                            Experience</a>
                     </div>
                     <div class="{{ $user->certifications->isEmpty() ? ' ' : 'overflow-auto' }}"
                         style="max-height: 400px;"> <!-- Set max-height for overflow -->
@@ -335,14 +344,25 @@
                                                         <i class="material-icons">more_vert</i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a data-bs-target="#edit_experience{{ $experience->id }}"
-                                                            data-bs-toggle="modal" href="#" class="dropdown-item">
+                                                        <a href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#update_experience"
+                                                            class="dropdown-item editExperienceBtn"
+                                                            data-id="{{ $experience->id }}"
+                                                            data-position="{{ $experience->position }}"
+                                                            data-company_name="{{ $experience->company_name }}"
+                                                            data-start_due="{{ $experience->start_due }}"
+                                                            data-end_due="{{ $experience->end_due }}"
+                                                            data-description="{{ $experience->description }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                         </a>
+
                                                         <a data-bs-target="#delete_experience{{ $experience->id }}"
-                                                            data-bs-toggle="modal" href="#" class="dropdown-item">
+                                                            data-bs-toggle="modal" href="#"
+                                                            class="dropdown-item deleteExperienceBtn"
+                                                            data-id="{{ $experience->id }}">
                                                             <i class="fa-regular fa-trash-can m-r-5"></i> Delete
                                                         </a>
+
                                                     </div>
                                                 </div>
                                                 <h4 class="project-title"><a
@@ -371,7 +391,8 @@
                 <!-- Certificates Tab -->
                 <div class="tab-pane fade" id="Certificates">
                     <div class="mb-3">
-                        <a href="#add_certificate" data-bs-toggle="modal" class="btn btn-primary">Add Certificate</a>
+                        <a data-bs-toggle="modal" data-bs-target="#add_certification" class="btn btn-primary">Add
+                            Certificate</a>
                     </div>
                     <div class=" {{ $user->certifications->isEmpty() ? ' ' : 'overflow-auto' }}"
                         style="max-height: 400px;"> <!-- Set max-height for overflow -->
@@ -391,12 +412,19 @@
                                                         <i class="material-icons">more_vert</i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a data-bs-target="#edit_certificate{{ $certification->id }}"
-                                                            data-bs-toggle="modal" href="#" class="dropdown-item">
+                                                        <a data-bs-target="#update_certification" data-bs-toggle="modal"
+                                                            href="#" class="dropdown-item"
+                                                            data-id="{{ $certification->id }}"
+                                                            data-name="{{ $certification->name }}"
+                                                            data-start_due="{{ $certification->start_due }}"
+                                                            data-end_due="{{ $certification->end_due }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                         </a>
-                                                        <a data-bs-target="#delete_certificate{{ $certification->id }}"
-                                                            data-bs-toggle="modal" href="#" class="dropdown-item">
+
+                                                        <a data-bs-target="#delete_certification{{ $certification->id }}"
+                                                            data-bs-toggle="modal" href="#"
+                                                            class="dropdown-item deleteCertificationBtn"
+                                                            data-id="{{ $certification->id }}">
                                                             <i class="fa-regular fa-trash-can m-r-5"></i> Delete
                                                         </a>
                                                     </div>
@@ -489,7 +517,9 @@
                     </div>
                 </div>
                 <!-- /Skills -->
-
+                {{-- edxperincs  --}}
+                @include('admin.pages.user.partials.experiences.add_experience')
+                @include('admin.pages.user.partials.experiences.update_experience')
 
 
             </div>
@@ -499,60 +529,24 @@
     </div>
     <!-- /Page Wrapper -->
 
+    {{-- ----------skills-- --}}
     @include('admin.pages.user.partials.skills.add_skill')
     @include('admin.pages.user.partials.skills.update_skill')
 
 
-    <script>
-        // Add event listener to all "Delete" buttons
-        document.querySelectorAll('.deleteSkillBtn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Get the skill ID from the button's data-id attribute
-                var skillId = this.getAttribute('data-id');
-                console.log(skillId);
 
-                // SweetAlert2 confirmation dialog
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'This action cannot be undone!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Send the DELETE request to the server
-                        fetch(`/user/skills/${skillId}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token for security
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    // Show success alert and reload the page to reflect the change
-                                    Swal.fire('Deleted!', 'The skill has been deleted.',
-                                        'success').then(() => {
-                                        location
-                                            .reload(); // Reload the page to update the table
-                                    });
-                                } else {
-                                    Swal.fire('Error!',
-                                        'There was a problem deleting the skill.', 'error');
-                                }
-                            })
-                            .catch(error => {
-                                Swal.fire('Error!', 'There was a problem deleting the skill.',
-                                    'error');
-                            });
-                    }
-                });
-            });
-        });
-    </script>
+    {{-- -------------certifications---------- --}}
+    @include('admin.pages.user.partials.certificates.add_certificate')
+    @include('admin.pages.user.partials.certificates.update_certificate')
+
+
+
+
+    {{-- -------------------projects  --}}
+    @include('admin.pages.user.partials.projects.add_project')
+    @include('admin.pages.user.partials.projects.update_project')
+
+
 
 
 @endsection

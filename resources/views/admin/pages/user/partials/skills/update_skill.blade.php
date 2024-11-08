@@ -20,55 +20,62 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.user.skills.update', $userSkill->id) }}" method="POST"
-                    class="needs-validation" enctype="multipart/form-data" novalidate>
-                    @csrf
-                    @method('PUT')
-                    <input hidden type="hidden" name="user_id" id="user_id" value="{{ $id }}">
+                @if (isset($userSkill))
 
-                    <div class="row">
-                        <!-- Skill Dropdown with Select2 (Pre-filled with existing skill) -->
-                        <div class="col-sm-6">
-                            <div class="input-block mb-3">
-                                <label class="col-form-label">Skill<span class="text-danger">*</span></label>
-                                <div class="custom-select-wrapper">
-                                    <select class="form-control select2" name="skill_id" id="skill_id" required>
-                                        <option selected disabled>Select Skill</option>
-                                        @foreach ($skills as $skill)
-                                            <option value="{{ $skill->id }}"
-                                                @if ($userSkill->skill_id == $skill->id) selected @endif>
-                                                {{ $skill->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+
+                    <form action="{{ isset($userSkill) ? route('admin.user.skills.update', $userSkill->id) : '#' }}"
+                        method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+
+                        @csrf
+                        @method('PUT')
+                        <input hidden type="hidden" name="user_id" id="user_id" value="{{ $id }}">
+
+                        <div class="row">
+                            <!-- Skill Dropdown with Select2 (Pre-filled with existing skill) -->
+                            <div class="col-sm-6">
+                                <div class="input-block mb-3">
+                                    <label class="col-form-label">Skill<span class="text-danger">*</span></label>
+                                    <div class="custom-select-wrapper">
+                                        <select class="form-control select2" name="skill_id" id="skill_id" required>
+                                            <option selected disabled>Select Skill</option>
+                                            @foreach ($skills as $skill)
+                                                <option value="{{ $skill->id }}"
+                                                    @if ($userSkill->skill_id == $skill->id) selected @endif>
+                                                    {{ $skill->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="invalid-feedback">Please select a skill.</div>
                                 </div>
-                                <div class="invalid-feedback">Please select a skill.</div>
+                            </div>
+
+                            <!-- Rating Dropdown with Select2 (Pre-filled with existing rating) -->
+                            <div class="col-sm-6">
+                                <div class="input-block mb-3">
+                                    <label class="col-form-label">Rating out of 10 <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control select2" name="rate" id="rate" required>
+                                        <option selected disabled>Select Rating</option>
+                                        @for ($i = 1; $i <= 10; $i++)
+                                            <option value="{{ $i }}"
+                                                @if ($userSkill->rate == $i) selected @endif>
+                                                {{ $i }}
+                                            </option>
+                                        @endfor
+                                    </select>
+                                    <div class="invalid-feedback">Please select a valid rating.</div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Rating Dropdown with Select2 (Pre-filled with existing rating) -->
-                        <div class="col-sm-6">
-                            <div class="input-block mb-3">
-                                <label class="col-form-label">Rating out of 10 <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-control select2" name="rate" id="rate" required>
-                                    <option selected disabled>Select Rating</option>
-                                    @for ($i = 1; $i <= 10; $i++)
-                                        <option value="{{ $i }}"
-                                            @if ($userSkill->rate == $i) selected @endif>
-                                            {{ $i }}
-                                        </option>
-                                    @endfor
-                                </select>
-                                <div class="invalid-feedback">Please select a valid rating.</div>
-                            </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn" type="submit">Update</button>
                         </div>
-                    </div>
-
-                    <div class="submit-section">
-                        <button class="btn btn-primary submit-btn" type="submit">Update</button>
-                    </div>
-                </form>
+                    </form>
+                @else
+                    <form></form>
+                @endif
             </div>
         </div>
     </div>
@@ -120,3 +127,54 @@
 
 
 {{-- -----------delete button ------------------- --}}
+{{-- delete skills from --}}
+<script>
+    // Add event listener to all "Delete" buttons
+    document.querySelectorAll('.deleteSkillBtn').forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the skill ID from the button's data-id attribute
+            var skillId = this.getAttribute('data-id');
+            console.log(skillId);
+
+            // SweetAlert2 confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This action cannot be undone!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send the DELETE request to the server
+                    fetch(`/user/skills/${skillId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token for security
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Show success alert and reload the page to reflect the change
+                                Swal.fire('Deleted!', 'The skill has been deleted.',
+                                    'success').then(() => {
+                                    location
+                                        .reload(); // Reload the page to update the table
+                                });
+                            } else {
+                                Swal.fire('Error!',
+                                    'There was a problem deleting the skill.', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire('Error!', 'There was a problem deleting the skill.',
+                                'error');
+                        });
+                }
+            });
+        });
+    });
+</script>
