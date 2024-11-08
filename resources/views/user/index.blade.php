@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="{{ url('customer_css/assets/css/responsive.css') }}">
 
     <!-- Title -->
-    <title>Jovie - Job Board & Portal HTML Template</title>
+    <title>NextStep - Customer</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ url('customer_css/assets/img/favicon.png') }}">

@@ -82,7 +82,7 @@
                                         <a href="{{ route('FAQ') }}"
                                             class="nav-link {{ request()->routeIs('FAQ') ? 'active' : '' }}">FAQ</a>
                                     </li>
-                                    <li class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a href="{{ route('Privacy') }}"
                                             class="nav-link {{ request()->routeIs('Privacy') ? 'active' : '' }}">Privacy
                                             &
@@ -92,7 +92,7 @@
                                         <a href="{{ route('Terms') }}"
                                             class="nav-link {{ request()->routeIs('Terms') ? 'active' : '' }}">Terms &
                                             Conditions</a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </li>
                             <li class="nav-item">

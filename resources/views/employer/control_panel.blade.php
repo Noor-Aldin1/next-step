@@ -25,7 +25,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Favicon icon -->
-    <link rel="shortcut icon" type="image/png" href="{{ url('employer_css/images/favicon.png') }}">
+
+
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url('customer_css/assets/img/favicon.png') }}">
 
     <!-- All StyleSheet -->
     <link rel="stylesheet" href="{{ url('employer_css/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">

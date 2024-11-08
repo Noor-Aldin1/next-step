@@ -10,15 +10,9 @@
                           </a>
                       </div>
 
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incididunt ut
-                          labore et dolore magna. Sed eiusmod tempor incididunt ut.</p>
+                      <p> Guiding you to the career opportunities and mentorship you need to build your
+                          future.</p>
 
-                      <div class="footer-social">
-                          <a href="#" target="_blank"><i class='bx bxl-facebook'></i></a>
-                          <a href="#" target="_blank"><i class='bx bxl-twitter'></i></a>
-                          <a href="#" target="_blank"><i class='bx bxl-pinterest-alt'></i></a>
-                          <a href="#" target="_blank"><i class='bx bxl-linkedin'></i></a>
-                      </div>
                   </div>
               </div>
 
@@ -110,7 +104,7 @@
                                   Phone:
                               </span>
                               <a href="tel:882569756">
-                                  +101 984 754
+                                  +9627647685
                               </a>
                           </li>
 
@@ -120,26 +114,18 @@
                                   Email:
                               </span>
                               <a href="mailto:info@jovie.com">
-                                  info@jovie.com
+                                  nextstep@gmail.com
                               </a>
                           </li>
 
-                          <li>
-                              <span>
-                                  <i class='bx bx-location-plus'></i>
-                                  Address:
-                              </span>
-                              123, Denver, USA
-                          </li>
+
                       </ul>
                   </div>
               </div>
           </div>
       </div>
   </footer>
-  <div class="copyright-text text-center">
-      <p>© Jovie is Proudly Owned by <a href="https://hibootstrap.com/" target="_blank">HiBootstrp</a></p>
-  </div>
+
   <!-- Footer Section End -->
 
   <!-- Back To Top Start -->

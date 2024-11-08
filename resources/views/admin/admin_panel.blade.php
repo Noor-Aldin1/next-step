@@ -9,10 +9,11 @@
     <meta name="keywords"
         content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects" />
     <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template" />
-    <title>Dashboard - HRMS admin template</title>
+    <!-- Title -->
+    <title>NextStep - Admin</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url('admin_css/assets/img/favicon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ url('customer_css/assets/img/favicon.png') }}">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url('admin_css/assets/css/bootstrap.min.css') }}" />
