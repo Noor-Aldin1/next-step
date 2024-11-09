@@ -11,8 +11,8 @@ use App\Http\Controllers\admin\AdminCertificationController;
 use App\Http\Controllers\Admin\AdminSkillController;
 use App\Http\Controllers\admin\AdminExperienceController;
 use App\Http\Controllers\admin\AdminProjectsController;
-
-
+use App\Http\Controllers\Admin\AdminSubscriptionController;
+use App\Http\Controllers\Admin\AdminPaymentController;
 
 // ---------Dashboard
 Route::get('/admin/dashboard', [AdminDashController::class, 'dash'])->name('admin.dashboard');
@@ -114,3 +114,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::post('/admin/projects', [AdminProjectsController::class, 'store'])->name('admin.projects.store');
 Route::put('/admin/projects/{id}', [AdminProjectsController::class, 'update'])->name('admin.projects.update');
 Route::delete('/admin/projects/{id}', [AdminProjectsController::class, 'destroy'])->name('admin.projects.destroy');
+
+
+
+// ----------------AdminSubscriptionController --------------
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('subscriptions', AdminSubscriptionController::class);
+    Route::resource('payments', AdminPaymentController::class);
+});
