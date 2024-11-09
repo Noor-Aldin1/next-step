@@ -6,13 +6,13 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\admin\AdminEmployerController;
 use App\Http\Controllers\Admin\AdminJobsController;
 use App\Http\Controllers\Admin\AdminUserController;
-
 use App\Http\Controllers\admin\AdminCertificationController;
 use App\Http\Controllers\Admin\AdminSkillController;
 use App\Http\Controllers\admin\AdminExperienceController;
 use App\Http\Controllers\admin\AdminProjectsController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
 use App\Http\Controllers\Admin\AdminPaymentController;
+use App\Http\Controllers\Admin\AdminUserMentorController;
 
 // ---------Dashboard
 Route::get('/admin/dashboard', [AdminDashController::class, 'dash'])->name('admin.dashboard');
@@ -122,4 +122,14 @@ Route::delete('/admin/projects/{id}', [AdminProjectsController::class, 'destroy'
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('subscriptions', AdminSubscriptionController::class);
     Route::resource('payments', AdminPaymentController::class);
+});
+
+
+/// --------------Admin user_mentors --------
+
+
+
+// Resourceful route for UserMentor
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('user_mentors', AdminUserMentorController::class);
 });

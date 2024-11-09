@@ -99,7 +99,11 @@
                                             <td>{{ $payment->subscription->package->name ?? 'N/A' }}</td>
                                             <td>${{ number_format($payment->amount, 2) }}</td>
                                             <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d-m-Y') }}</td>
-                                            <td>{{ ucfirst($payment->payment_status) }}</td>
+                                            <td
+                                                class="{{ $payment->payment_status == 'completed' ? 'text-success' : ($payment->payment_status == 'pending' ? 'text-warning' : 'text-danger') }}">
+                                                {{ ucfirst($payment->payment_status) }}
+                                            </td>
+
 
                                         </tr>
                                     @endforeach
