@@ -116,7 +116,6 @@ Route::put('/admin/projects/{id}', [AdminProjectsController::class, 'update'])->
 Route::delete('/admin/projects/{id}', [AdminProjectsController::class, 'destroy'])->name('admin.projects.destroy');
 
 
-
 // ----------------AdminSubscriptionController --------------
 
 Route::prefix('admin')->name('admin.')->group(function () {

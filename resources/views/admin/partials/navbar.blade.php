@@ -24,29 +24,34 @@
 
       <!-- Header Title -->
       <div class="page-title-box">
-          <h3>Dreams Technologies</h3>
+          <h3 id="pageTitle">Empowering Your Success with Technology</h3>
       </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+
+
+      <script>
+          gsap.from("#pageTitle", {
+              duration: 2, // Total animation duration in seconds
+              opacity: 0, // Start with opacity 0 (invisible)
+              y: 50, // Start 50px below its final position
+              ease: "power3.out", // Ease-out effect for smooth landing
+              color: "#3498db", // Initial color before it animates to the original color
+              stagger: 0.2 // Adds a small delay to each character for a slight wave effect
+          });
+
+          gsap.to("#pageTitle", {
+              duration: 2, // Matches duration for continuity
+              color: "#fff", // Final color for added visual effect
+              delay: 2 // Delays color change until the slide-in completes
+          });
+      </script>
       <!-- /Header Title -->
 
       <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa-solid fa-bars"></i></a>
 
       <!-- Header Menu -->
       <ul class="nav user-menu">
-          <!-- Search -->
-          <li class="nav-item">
-              <div class="top-nav-search">
-                  <a href="javascript:void(0);" class="responsive-search">
-                      <i class="fa-solid fa-magnifying-glass"></i>
-                  </a>
-                  <form action="https://smarthr.dreamstechnologies.com/html/template/search.html">
-                      <input class="form-control" type="text" placeholder="Search here" />
-                      <button class="btn" type="submit">
-                          <i class="fa-solid fa-magnifying-glass"></i>
-                      </button>
-                  </form>
-              </div>
-          </li>
-          <!-- /Search -->
+
 
           <!-- ----profile-- -->
           <li class="nav-item dropdown has-arrow main-drop">
