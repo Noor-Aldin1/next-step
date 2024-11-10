@@ -51,7 +51,7 @@ class AdminEmployerController extends Controller
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'company_name' => 'required|string|max:255',
             'business_sector' => 'required|string|max:255',
             'employee_num' => 'required|integer',

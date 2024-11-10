@@ -198,7 +198,7 @@
         </div>
         <!-- /Page Content -->
 
-        {{-- // @include('admin.pages.mentor.partials.add_mentor') --}}
+        @include('admin.pages.mentors.partials.add_mentor')
         {{-- @include('admin.pages.mentor.partials.update_mentor') --}}
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
