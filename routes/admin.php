@@ -13,6 +13,11 @@ use App\Http\Controllers\admin\AdminProjectsController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
 use App\Http\Controllers\Admin\AdminPaymentController;
 use App\Http\Controllers\Admin\AdminUserMentorController;
+use App\Http\Controllers\admin\AdminMentorsController;
+
+
+
+
 
 // ---------Dashboard
 Route::get('/admin/dashboard', [AdminDashController::class, 'dash'])->name('admin.dashboard');
@@ -131,4 +136,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 // Resourceful route for UserMentor
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('user_mentors', AdminUserMentorController::class);
+});
+
+
+
+//////-----------------start Routes Mentors-----------
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('mentors', AdminMentorsController::class);
 });
