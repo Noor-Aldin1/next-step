@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Mentor;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Support\Facades\Log;
 
 class AdminMentorsController extends Controller
@@ -13,14 +14,28 @@ class AdminMentorsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function index(Request $request)
     {
-        // Retrieve all mentors along with their associated user (e.g., user profile)
-        $mentors = Mentor::with(['user'])->paginate(10);
+        $query = Mentor::with(['user']);
+
+        // Apply filters if they are provided
+        if ($request->has('mentor_id') && $request->mentor_id !== null) {
+            $query->where('id', $request->mentor_id);
+        }
+
+        if ($request->has('mentor_name') && $request->mentor_name !== null) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('username', 'like', '%' . $request->mentor_name . '%');
+            });
+        }
+
+        $mentors = $query->paginate(10);
         $users = User::where('role_id', '=', 2)->get();
-        // Return the view with the mentors data
+
         return view('admin.pages.mentors.all_mentors', compact('mentors', 'users'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -36,6 +51,7 @@ class AdminMentorsController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $inputChose = $request->input('user_idCHose');
 
         // Validate basic data first
@@ -52,7 +68,7 @@ class AdminMentorsController extends Controller
         // Check if "Choose Default User" is selected
         if ($inputChose) {
             // Additional validation for the video field if user is chosen
-            $validatedData = $request->validate([
+            $request->validate([
                 'video' => 'required|file|mimes:mp4,mov,avi,wmv|max:10240',  // Max size for video validation
             ]);
 
@@ -66,7 +82,7 @@ class AdminMentorsController extends Controller
             }
 
             // Assign the mentor to the chosen user
-            $mentor = Mentor::create([
+            Mentor::create([
                 'user_id' => $inputChose,
                 'availability' => 'unavailable', // Assuming unavailable if user is chosen
                 'status' => $status,
@@ -74,23 +90,18 @@ class AdminMentorsController extends Controller
             ]);
         } else {
             // Validate fields when creating a new user
-            $validatedData = $request->validate([
+            $validatedData = array_merge($validatedData, $request->validate([
                 'username' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:8|confirmed',
                 'availability' => 'nullable|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'video' => 'nullable|mimes:mp4,avi,mkv,webm|max:50000',
-                'status' => 'required|in:active,inactive',
-            ]);
+            ]));
 
             // Handle image upload if exists
             if ($request->hasFile('image')) {
-                $imageFile = $request->file('image');
-                $imageFilename = 'mentor-image-' . uniqid() . '-' . time() . '.' . $imageFile->getClientOriginalExtension();
-                $imageLocation = public_path('images/');
-                $imageFile->move($imageLocation, $imageFilename);
-                $imagePath = 'images/' . $imageFilename;
+                $imagePath = $request->file('image')->store('images', 'public');
             }
 
             // Create a new user since "New User" is selected
@@ -115,11 +126,27 @@ class AdminMentorsController extends Controller
             }
 
             // Create a new mentor for the newly created user
-            $mentor = Mentor::create([
+            Mentor::create([
                 'user_id' => $user->id,
                 'availability' => $validatedData['availability'] ?? 'unavailable',
                 'status' => $validatedData['status'],
                 'video' => $videoPath,
+            ]);
+
+            Profile::create([
+                'user_id' => $user->id,
+                'full_name' => null,
+                'email' => null,
+                'phone' => null,
+                'job_title' => null,
+                'country' => null,
+                'city' => null,
+                'age' => null,
+                'language' => null,
+                'skills' => null,
+                'experience' => null,
+                'linkedin' => null,
+                'github' => null,
             ]);
         }
 
@@ -162,18 +189,33 @@ class AdminMentorsController extends Controller
     {
         // Validate the incoming request data
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'availability' => 'required|string',
-            'video' => 'nullable|string',
+            'video' => 'nullable|mimes:mp4,avi,mkv,webm|max:50000',
             'status' => 'required|in:active,inactive',
         ]);
 
         // Find the mentor and update the data
         $mentor = Mentor::findOrFail($id);
-        $mentor->update($request->all());
+
+        // Check if a new video file has been uploaded
+        $videoPath = $mentor->video; // Keep the existing video if no new video is uploaded
+
+        if ($request->hasFile('video')) {
+            $videoFile = $request->file('video');
+            $filename = 'mentor-video-' . uniqid() . '-' . time() . '.' . $videoFile->getClientOriginalExtension();
+            $location = public_path('videos/');
+            $videoFile->move($location, $filename);
+            $videoPath = 'videos/' . $filename; // Update the video path
+        }
+
+        // Update mentor data
+        $mentor->update([
+            'availability' => $request->input('availability', 'unavailable'), // Default availability if not provided
+            'video' => $videoPath,
+            'status' => $request->input('status'),
+        ]);
 
         // Optionally, you can redirect with a success message
-        return redirect()->route('admin.mentors.index')->with('success', 'Mentor updated successfully.');
+        return back()->with('success', 'Mentor updated successfully.');
     }
 
     /**

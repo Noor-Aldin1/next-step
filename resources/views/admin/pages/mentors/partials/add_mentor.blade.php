@@ -102,6 +102,7 @@
                                     @if ($users->isEmpty())
                                         <option value="" disabled>No Found User for Select User</option>
                                     @else
+                                        <option disabled selected value="">Select User</option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->username }}</option>
                                         @endforeach
