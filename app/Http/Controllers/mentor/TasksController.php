@@ -61,29 +61,37 @@ class TasksController extends Controller
             // Add other statuses as needed
         ]);
 
+        $mentor_id = $request->input('mentor_id');
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        // Check if there is a mentor in the session, otherwise use the provided mentor ID
+        $mentorId = session()->has('mentor') ? session('mentor')->id : $mentor_id;
+
         // Create the task
         $task = Task::create([
-            'mentor_id' => session('mentor')->id,
+            'mentor_id' => $mentorId,
             'title' => $request->title,
             'description' => $request->description,
             'due_date' => $request->due_date,
             'status' => 'pending',
         ]);
-
+        $course_id = $request->input('course_id');  // Note: changed input name to 'course_id'
+        $courseId = session()->has('course') ? session('course')->id : $course_id;
         CourseTask::create([
-            'course_id' => session('course')->id,
+            'course_id' =>  $courseId,
             'task_id' => $task->id,
 
         ]);
 
-
-        // Redirect with success message
-        return redirect()->route('tasks.index', ['id' => session('course')->id])
-            ->with('success', 'Task created successfully.');
+        if (session()->has('course') && session('course')->id) {
+            // Redirect with success message
+            return redirect()->route('tasks.index', ['id' => session('course')->id])
+                ->with('success', 'Task created successfully.');
+        } else {
+            return back()->with('success', 'Task created successfully.');
+        }
     }
 
     // Display the specified resource

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminSubscriptionController;
 use App\Http\Controllers\Admin\AdminPaymentController;
 use App\Http\Controllers\Admin\AdminUserMentorController;
 use App\Http\Controllers\admin\AdminMentorsController;
+use App\Http\Controllers\admin\AdminCoursesController;
 
 
 
@@ -143,4 +144,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 //////-----------------start Routes Mentors-----------
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('mentors', AdminMentorsController::class);
+});
+
+
+
+
+//------------Courses ---------------
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('courses', AdminCoursesController::class);
 });

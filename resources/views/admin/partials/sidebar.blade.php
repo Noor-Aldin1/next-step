@@ -78,13 +78,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="attendance-employee.html"
+                            <a href="{{ route('admin.mentors.index') }}"
                                 class="{{ request()->routeIs('admin.mentors.index') ? 'active' : '' }}">All Mentors</a>
                         </li>
                         <li>
                             <a href="departments.html"
-                                class="{{ request()->routeIs('admin.departments') ? 'active' : '' }}">Employment
-                                Listings</a>
+                                class="{{ request()->routeIs('admin.departments') ? 'active' : '' }}">Courses</a>
                         </li>
                         <li>
                             <a href="designations.html"

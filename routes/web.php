@@ -46,5 +46,5 @@ Route::middleware(['auth'])->group(function () {
 
 // test 
 Route::get('/alls/test', function () {
-    return view('admin.pages.user.partials.profile.edit_profile');
+    return view('admin.pages.mentors.courses.course_ditails');
 });
