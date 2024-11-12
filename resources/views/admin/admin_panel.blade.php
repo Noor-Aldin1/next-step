@@ -40,8 +40,105 @@
     <!-- SweetAlert2 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.js"></script>
-
+    {{-- ---------------Datepicker  --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
+<style>
+    /* Overall Container */
+    .booking-container {
+        border: 1px solid #007bff;
+        border-radius: 12px;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Date Input */
+    #start-session-datepicker,
+    #end-session-datepicker {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        margin-bottom: 20px;
+    }
+
+    #start-session-datepicker:focus,
+    #end-session-datepicker:focus {
+        border-color: #0056b3;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Time Slot Styles */
+    .time-slot {
+        cursor: pointer;
+        padding: 12px 15px;
+        display: inline-block;
+        margin: 5px;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        background-color: #f1f1f1;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        text-align: center;
+        width: 80px;
+        /* Set a fixed width for better alignment */
+        font-weight: bold;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .time-slot.disabled {
+        background-color: #e9ecef;
+        color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .time-slot:hover:not(.disabled) {
+        background-color: #e1f5fe;
+        border-color: #0056b3;
+    }
+
+    .time-slot.selected {
+        background-color: #007bff;
+        /* Change background color when selected */
+        color: white;
+        /* Change text color when selected */
+        border: 2px solid #0056b3;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Label Styles */
+    .control-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #007bff;
+    }
+
+    /* Time Slots Container */
+    .time-slots {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        /* Allow time slots to wrap */
+        gap: 10px;
+        /* Add space between time slots */
+        max-height: 200px;
+        /* Set a max height for the container */
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        padding: 10px;
+        border: 1px solid #007bff;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        /* Background color for the slots container */
+    }
+</style>
 
 <body>
     <div class="main-wrapper">

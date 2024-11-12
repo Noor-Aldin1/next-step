@@ -60,18 +60,20 @@ class MaterialController extends Controller
         $filePath = $request->file('file_path')->store('materials');
         $mentorId = Mentor::where('user_id', auth()->id())->value('id');
 
+        $mentor_Id = $request->input('mentor_id');
         // Create material record
         $material = Material::create([
-            'mentor_id' => $mentorId,
+            'mentor_id' => $mentorId ?? $mentor_Id,
             'title' => $request->title,
             'description' => $request->description,
             'file_path' => $filePath,
         ]);
 
         $course_id = $request->input('course_id');
+        $courseId = session()->has('course') ? session('course')->id : $course_id;
 
         CourseMaterial::create([
-            'course_id' => session('course')->id ? session('course')->id  :  $course_id,
+            'course_id' => $courseId,
             'material_id' => $material->id,
 
         ]);
@@ -166,6 +168,6 @@ class MaterialController extends Controller
 
         $material->delete();
 
-        return redirect()->back()->with('success', 'Material deleted successfully.');
+        return response()->json(['success' => true]);
     }
 }

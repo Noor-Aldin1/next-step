@@ -130,8 +130,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pro-edit"><a data-bs-target="#profile_info" data-bs-toggle="modal"
-                                        class="edit-icon" href="#"><i class="fa-solid fa-pencil"></i></a></div>
+                                <div class="pro-edit d-flex align-items-center">
+                                    <!-- Edit Icon (Existing) -->
+                                    <a data-bs-target="#edit_course" data-bs-toggle="modal" class="edit-icon me-3"
+                                        href="#" data-id="{{ $course->id }}" data-title="{{ $course->title }}"
+                                        data-description="{{ $course->description }}" data-photo="{{ $course->photo }}">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+
+                                    <!-- Delete Icon (New) -->
+                                    <a class="delete-icon deleteCourseBtn" href="#" data-id="{{ $course->id }}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -150,9 +163,7 @@
                             <li class="nav-item"><a href="#emp_assets" data-bs-toggle="tab" class="nav-link">Materials</a>
                             </li>
 
-                            <li class="nav-item"><a href="#emp_done" data-bs-toggle="tab" class="nav-link">Tasks done
-                                </a>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -162,6 +173,13 @@
 
                 <!-- Lectures Info Tab -->
                 <div id="emp_profile" class="pro-overview tab-pane fade show active">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div></div>
+
+                        <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#scheduleLectureModal">
+                            <i class="fa-solid fa-plus"></i> Add Lecture
+                        </a>
+                    </div>
                     <div class="table-responsive table-newdatatable">
                         <table class="table table-new custom-table mb-0 datatable">
                             <thead>
@@ -268,7 +286,7 @@
                         <h5 class="mb-0">Tasks</h5>
 
                         <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#addTaskModal">
-                            <i class="fa-solid fa-plus"></i> Add Mentor
+                            <i class="fa-solid fa-plus"></i> Add Task
                         </a>
                     </div>
 
@@ -290,14 +308,20 @@
                                                     <i class="material-icons">more_vert</i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a data-bs-target="#edit_project" data-bs-toggle="modal"
-                                                        href="#" class="dropdown-item">
+                                                    <a data-bs-target="#edit_task" data-bs-toggle="modal" href="#"
+                                                        class="dropdown-item" data-id="{{ $task->task->id }}"
+                                                        data-title="{{ $task->task->title }}"
+                                                        data-description="{{ $task->task->description }}"
+                                                        data-due-date="{{ $task->task->due_date }}">
                                                         <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                     </a>
-                                                    <a data-bs-target="#delete_project" data-bs-toggle="modal"
-                                                        href="#" class="dropdown-item">
+
+                                                    <!-- Delete Task Button with Data Attribute -->
+                                                    <a href="#" class="dropdown-item deleteTaskBtn"
+                                                        data-id="{{ $task->task->id }}">
                                                         <i class="fa-regular fa-trash-can m-r-5"></i> Delete
                                                     </a>
+
                                                 </div>
                                             </div>
                                             <h4 class="project-title">
@@ -326,135 +350,74 @@
                 <!-- /Tasks Tab -->
                 <!-- Materials Tab -->
                 <div class="tab-pane fade" id="emp_assets">
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="dropdown profile-action">
-                                        <a aria-expanded="false" data-bs-toggle="dropdown"
-                                            class="action-icon dropdown-toggle" href="#"><i
-                                                class="material-icons">more_vert</i></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a data-bs-target="#edit_project" data-bs-toggle="modal" href="#"
-                                                class="dropdown-item"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
-                                            <a data-bs-target="#delete_project" data-bs-toggle="modal" href="#"
-                                                class="dropdown-item"><i class="fa-regular fa-trash-can m-r-5"></i>
-                                                Delete</a>
-                                        </div>
-                                    </div>
-                                    <h4 class="project-title"><a href="project-view.html">Office Management</a></h4>
-                                    <small class="block text-ellipsis m-b-15">
-                                        <span class="text-xs">1</span> <span class="text-muted">open tasks, </span>
-                                        <span class="text-xs">9</span> <span class="text-muted">tasks completed</span>
-                                    </small>
-                                    <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. When an unknown printer took a galley of type and
-                                        scrambled it...
-                                    </p>
-                                    <div class="pro-deadline m-b-15">
-                                        <div class="sub-title">
-                                            Deadline:
-                                        </div>
-                                        <div class="text-muted">
-                                            17 Apr 2019
-                                        </div>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Project Leader :</div>
-                                        <ul class="team-members">
-                                            <li>
-                                                <a href="#" data-bs-toggle="tooltip" title="Jeffery Lalor"><img
-                                                        src="assets/img/profiles/avatar-16.jpg" alt="User Image"></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Team :</div>
-                                        <ul class="team-members">
-                                            <li>
-                                                <a href="#" data-bs-toggle="tooltip" title="John Doe"><img
-                                                        src="assets/img/profiles/avatar-02.jpg" alt="User Image"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-bs-toggle="tooltip" title="Richard Miles"><img
-                                                        src="assets/img/profiles/avatar-09.jpg" alt="User Image"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-bs-toggle="tooltip" title="John Smith"><img
-                                                        src="assets/img/profiles/avatar-10.jpg" alt="User Image"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-bs-toggle="tooltip" title="Mike Litorus"><img
-                                                        src="assets/img/profiles/avatar-05.jpg" alt="User Image"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="all-users">+15</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="m-b-5">Progress <span class="text-success float-end">40%</span></p>
-                                    <div class="progress progress-xs mb-0">
-                                        <div class="w-40" title="" data-bs-toggle="tooltip" role="progressbar"
-                                            class="progress-bar bg-success" data-original-title="40%"></div>
-                                    </div>
+                    <!-- Add Material Button -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <h5 class="mb-0">Materials</h5>
+
+                        <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#addMaterialModal">
+                            <i class="fa-solid fa-plus"></i> Add Material
+                        </a>
+                    </div>
+
+                    <div class="row" style="max-height: 400px; overflow-y: auto;">
+                        @if ($course->materials->isEmpty())
+                            <div class="col-12">
+                                <div class="alert alert-info text-center">
+                                    No materials available for this course.
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            @foreach ($course->materials as $courseMaterial)
+                                @php $material = $courseMaterial->material; @endphp
+                                <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="dropdown profile-action">
+                                                <a aria-expanded="false" data-bs-toggle="dropdown"
+                                                    class="action-icon dropdown-toggle" href="#">
+                                                    <i class="material-icons">more_vert</i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <!-- Edit Material Button with Data Attributes -->
+                                                    <a data-bs-target="#edit_material" data-bs-toggle="modal"
+                                                        href="#" class="dropdown-item"
+                                                        data-id="{{ $material->id }}"
+                                                        data-title="{{ $material->title }}"
+                                                        data-description="{{ $material->description }}">
+                                                        <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                                                    </a>
 
+                                                    <!-- Delete Material Button with Data Attribute -->
+                                                    <a href="#" class="dropdown-item deleteMaterialBtn"
+                                                        data-id="{{ $material->id }}">
+                                                        <i class="fa-regular fa-trash-can m-r-5"></i> Delete
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                            <h4 class="project-title">
+                                                <a href="project-view.html">{{ $material->title ?? 'N/A' }}</a>
+                                            </h4>
+
+                                            <p style="max-height: 60px; overflow-y: auto;" class="text-muted">
+                                                {{ $material->description }}
+                                            </p>
+                                            <a type="button" href="{{ asset('storage/' . $material->file_path) }}"
+                                                class="btn btn-primary" download>
+                                                Download File
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <!-- /Materials Tab -->
 
-                <!-- done Tab -->
-                <div class="tab-pane fade" id="emp_done">
-                    <div class="table-responsive table-newdatatable">
-                        <table class="table table-new custom-table mb-0 datatable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Asset ID</th>
-                                    <th>Assigned Date</th>
-                                    <th>Assignee</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <a href="assets-details.html" class="table-imgname">
-                                            <img src="assets/img/laptop.png" class="me-2" alt="Laptop Image">
-                                            <span>Laptop</span>
-                                        </a>
-                                    </td>
-                                    <td>AST - 001</td>
-                                    <td>22 Nov, 2022 10:32AM</td>
-                                    <td class="table-namesplit">
-                                        <a href="javascript:void(0);" class="table-profileimage">
-                                            <img src="assets/img/profiles/avatar-02.jpg" class="me-2" alt="User Image">
-                                        </a>
-                                        <a href="javascript:void(0);" class="table-name">
-                                            <span>John Paul Raj</span>
-                                            <p><span class="__cf_email__"
-                                                    data-cfemail="f3999c9b9db3978196929e94868a808796909bdd909c9e">[email&#160;protected]</span>
-                                            </p>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <div class="table-actions d-flex">
-                                            <a class="delete-table me-2" href="user-asset-details.html">
-                                                <img src="assets/img/icons/eye.svg" alt="Eye Icon">
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- /done Tab -->
+
 
             </div>
         </div>
@@ -466,8 +429,32 @@
     <!-- /Page Wrapper -->
     {{-- -------------Section INclude ---------- --}}
 
+    {{-- -----------------Tasks---------------------- --}}
     {{-- //-----------add Task ------- --}}
     @include('admin.pages.mentors.courses.tasks.add_task')
+    {{-- //-----------edit Task ------- --}}
+    @include('admin.pages.mentors.courses.tasks.edit_task')
+
+    {{-- -----------------Material---------------------- --}}
+
+    {{-- //-----------add Material ------- --}}
+
+    @include('admin.pages.mentors.courses.materials.add_material')
+
+    {{-- //-----------edit Material ------- --}}
+
+
+    @include('admin.pages.mentors.courses.materials.edit_material')
+
+
+    {{-- -----------------/Material---------------------- --}}
+
+    {{-- ------------edit courser -----------  --}}
+    @include('admin.pages.mentors.courses.edit_course')
+    {{-- -------------------add Lectures---------------- --}}
+    @include('admin.pages.mentors.courses.Lectures.add_Lecture')
+
+
 
     {{-- ------modal description--- --}}
     <div style="height:auto;" id="description" class="modal custom-modal fade" role="dialog">
@@ -502,4 +489,56 @@
             });
         });
     </script>
+
+    <script>
+        // Add event listener to all "Delete" buttons
+        document.querySelectorAll('.deleteSkillBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the skill ID from the button's data-id attribute
+                var course = this.getAttribute('data-id');
+                console.log(skillId);
+
+                // SweetAlert2 confirmation dialog
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Send the DELETE request to the server
+                        fetch(`/user/skills/${skillId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token for security
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // Show success alert and reload the page to reflect the change
+                                    Swal.fire('Deleted!', 'The skill has been deleted.',
+                                        'success').then(() => {
+                                        location
+                                            .reload(); // Reload the page to update the table
+                                    });
+                                } else {
+                                    Swal.fire('Error!',
+                                        'There was a problem deleting the skill.', 'error');
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire('Error!', 'There was a problem deleting the skill.',
+                                    'error');
+                            });
+                    }
+                });
+            });
+        });
+    </script>
+
 @endsection

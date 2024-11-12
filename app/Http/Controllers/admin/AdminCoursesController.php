@@ -54,7 +54,7 @@ class AdminCoursesController extends Controller
     public function show(string $id)
     {
         // Load the course with necessary relationships
-        $course = Course::with(['mentor', 'materials', 'tasks.task', 'lectures.lecture', 'students'])
+        $course = Course::with(['mentor', 'materials.material', 'tasks.task', 'lectures.lecture', 'students'])
             ->findOrFail($id);
 
         // Paginate the lectures for the specific course
@@ -105,7 +105,7 @@ class AdminCoursesController extends Controller
 
         $course->update($data);
 
-        return redirect()->route('admin.courses.index')->with('success', 'Course updated successfully.');
+        return redirect()->back()->with('success', 'Course updated successfully.');
     }
 
     /**
@@ -121,6 +121,6 @@ class AdminCoursesController extends Controller
 
         $course->delete();
 
-        return redirect()->route('admin.courses.index')->with('success', 'Course deleted successfully.');
+        return response()->json(['success' => true]);
     }
 }

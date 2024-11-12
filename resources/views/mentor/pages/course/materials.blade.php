@@ -182,49 +182,54 @@
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Perform the delete action
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = '{{ url('mentor/materials') }}' + '/' + materialId;
-
-                    const csrfField = document.createElement('input');
-                    csrfField.type = 'hidden';
-                    csrfField.name = '_token';
-                    csrfField.value = '{{ csrf_token() }}';
-
-                    const methodField = document.createElement('input');
-                    methodField.type = 'hidden';
-                    methodField.name = '_method';
-                    methodField.value = 'DELETE';
-
-                    form.appendChild(csrfField);
-                    form.appendChild(methodField);
-                    document.body.appendChild(form);
-                    form.submit();
+                    fetch(`{{ url('mentor/materials') }}/${materialId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire('Deleted!', 'The material has been deleted.', 'success')
+                                    .then(() => location.reload());
+                            } else {
+                                Swal.fire('Error!', 'There was a problem deleting the material.', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire('Error!', 'There was a problem deleting the material.', 'error');
+                        });
                 }
             });
         }
 
-        // Show success/error alerts
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: '{{ session('success') }}',
-                timer: 3000,
-                showConfirmButton: false
-            });
-        @endif
+        // Display success or error notifications based on session messages
+        // @if (session('success'))
+        //     Swal.fire({
+        //         icon: 'success',
+        //         title: 'Success!',
+        //         text: '{{ session('success') }}',
+        //         timer: 3000,
+        //         showConfirmButton: false
+        //     });
+        // @endif
 
-        @if (session('error'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: '{{ session('error') }}',
-                timer: 3000,
-                showConfirmButton: false
-            });
-        @endif
+        // @if (session('error'))
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error!',
+        //         text: '{{ session('error') }}',
+        //         timer: 3000,
+        //         showConfirmButton: false
+        //     });
+        // @endif
     </script>
 
 @endsection

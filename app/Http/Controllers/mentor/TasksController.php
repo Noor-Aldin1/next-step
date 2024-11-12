@@ -135,8 +135,13 @@ class TasksController extends Controller
         ]);
 
         // Redirect with success message
-        return redirect()->route('tasks.index', ['id' => session('course')->id])
-            ->with('success', 'Task updated successfully.');
+        if (session()->has('course') && session('course')->id) {
+            // Redirect with success message
+            return redirect()->route('tasks.index', ['id' => session('course')->id])
+                ->with('success', 'Task created successfully.');
+        } else {
+            return back()->with('success', 'Task created successfully.');
+        }
     }
 
     // Remove the specified resource from storage
@@ -147,8 +152,13 @@ class TasksController extends Controller
         $task->delete();
 
         // Redirect with success message
-        return redirect()->route('tasks.index', ['id' => session('course')->id])
-            ->with('success', 'Task deleted successfully.');
+        if (session()->has('course') && session('course')->id) {
+            // Redirect with success message
+            return redirect()->route('tasks.index', ['id' => session('course')->id])
+                ->with('success', 'Task created successfully.');
+        } else {
+            return response()->json(['success' => True]);
+        }
     }
 
     public function AnswerTask($id)
