@@ -1,6 +1,81 @@
 @extends('admin.admin_panel')
 
 @section('content')
+    <style>
+        /* style model in job list  */
+        .custom-grid-badges {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .custom-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .custom-bg-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .custom-bg-purple {
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 90%;
+            z-index: 1000;
+        }
+
+        .custom-modal h6 {
+            margin-top: 0;
+        }
+
+        .custom-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* ------------ */
+        .view-icons {
+            display: flex;
+            /* Use flexbox for alignment */
+            align-items: center;
+            /* Center items vertically */
+            gap: 8px;
+            /* Add space between text and icon */
+        }
+
+        .clear-filter-text {
+            font-weight: bold;
+            /* Make the text bold */
+            font-size: 14px;
+            /* Adjust font size as needed */
+            color: #333;
+            /* Change text color as desired */
+        }
+    </style>
     <div class="page-wrapper">
         <div class="content container-fluid">
 
@@ -136,7 +211,7 @@
                             success: function(response) {
                                 if (response.success) {
                                     Swal.fire('Deleted!', 'The mentor has been deleted.', 'success').then(
-                                    () => location.reload());
+                                        () => location.reload());
                                 } else {
                                     Swal.fire('Error!', response.message ||
                                         'Something went wrong. Please try again later.', 'error');
