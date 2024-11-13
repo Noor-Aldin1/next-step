@@ -111,9 +111,7 @@
   <!-- Footer Section End -->
 
   <!-- Back To Top Start -->
-  <div class="top-btn">
-      <i class='bx bx-chevrons-up bx-fade-up'></i>
-  </div>
+
   <!-- Back To Top End -->
   <!-- jQuery first, then Bootstrap JS -->
   <script src="{{ url('customer_css/assets/js/jquery.min.js') }}"></script>
