@@ -4,8 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Lecture;
+use App\Models\User;
+use App\Models\CourseStudent;
+use App\Models\UserMentor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; // Add this line
+use Illuminate\Support\Facades\DB;
+
 class AdminCoursesController extends Controller
 {
     /**
@@ -14,7 +20,23 @@ class AdminCoursesController extends Controller
     public function index()
     {
         $courses = Course::with(['mentor', 'materials', 'tasks.task', 'lectures', 'students'])->paginate(10);
-        return view('admin.pages.mentors.all_courses', compact('courses'));
+
+
+        $nameMentors = UserMentor::with(['mentor.user'])->get();
+
+
+        $usernames = DB::table('users')
+            ->join('user_mentor', 'user_mentor.student_id', '=', 'users.id')
+            ->where('user_mentor.mentor_id', function ($query) {
+                $query->select('mentors.id')
+                    ->from('mentors')
+                    ->join('users', 'mentors.user_id', '=', 'users.id')
+                    ->where('users.username', 'Natalie')
+                    ->limit(1);
+            })
+            ->pluck('users.username');
+
+        return view('admin.pages.mentors.all_courses', compact('courses', 'nameMentors'));
     }
 
     /**
@@ -30,23 +52,31 @@ class AdminCoursesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'mentor_id' => 'required|exists:mentors,id',
             'photo' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->all();
-
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('photos', 'public');
+            $fileName = time() . '_' . $request->photo->getClientOriginalName();
+            $filePath = $request->file('photo')->storeAs('mentors/photos', $fileName, 'public');
+            $validatedData['photo'] = $filePath;
         }
 
-        Course::create($data);
+        $studentId = $request->input('student_id');
+        $course = Course::create($validatedData);
+        CourseStudent::create([
+            'course_id' => $course->id,
+            'student_id' => $studentId,
+        ]);
 
-        return redirect()->route('admin.courses.index')->with('success', 'Course created successfully.');
+
+        return redirect()->back()->with('success', 'Course created successfully.');
     }
+
 
     /**
      * Display the specified course.
@@ -122,5 +152,27 @@ class AdminCoursesController extends Controller
         $course->delete();
 
         return response()->json(['success' => true]);
+    }
+
+    public function LuctureDestroy(string $id)
+    {
+        // Try to find the lecture, or return a 404 if not found
+        $lecture = Lecture::find($id);
+
+        // If lecture not found, return an error response
+        if (!$lecture) {
+            return response()->json(['success' => false, 'message' => 'Lecture not found.'], 404);
+        }
+
+        try {
+            // Attempt to delete the lecture
+            $lecture->delete();
+
+            // Return a success response
+            return response()->json(['success' => true, 'message' => 'Lecture has been deleted successfully.']);
+        } catch (\Exception $e) {
+            // Return an error response if something goes wrong during deletion
+            return response()->json(['success' => false, 'message' => 'Something went wrong. Please try again later.'], 500);
+        }
     }
 }

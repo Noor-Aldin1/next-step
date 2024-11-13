@@ -82,14 +82,10 @@
                                 class="{{ request()->routeIs('admin.mentors.index') ? 'active' : '' }}">All Mentors</a>
                         </li>
                         <li>
-                            <a href="departments.html"
-                                class="{{ request()->routeIs('admin.departments') ? 'active' : '' }}">Courses</a>
+                            <a href="{{ route('admin.courses.index') }}"
+                                class="{{ request()->routeIs('admin.courses.index') ? 'active' : '' }}">Courses</a>
                         </li>
-                        <li>
-                            <a href="designations.html"
-                                class="{{ request()->routeIs('admin.designations') ? 'active' : '' }}">Job
-                                Application</a>
-                        </li>
+
                     </ul>
                 </li>
             </ul>

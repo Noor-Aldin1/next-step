@@ -20,7 +20,7 @@ class UserMentor extends Pivot
     ];
     public function mentor()
     {
-        return $this->belongsTo(User::class, 'mentor_id');
+        return $this->belongsTo(Mentor::class, 'mentor_id');
     }
 
     public function student()

@@ -153,4 +153,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('courses', AdminCoursesController::class);
+    Route::delete('/LuctureDestroy/{id}', [AdminCoursesController::class, 'LuctureDestroy'])->name('LuctureDestroy');
 });

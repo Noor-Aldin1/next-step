@@ -173,13 +173,7 @@
 
                 <!-- Lectures Info Tab -->
                 <div id="emp_profile" class="pro-overview tab-pane fade show active">
-                    <div class="d-flex justify-content-between mb-3">
-                        <div></div>
 
-                        <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#scheduleLectureModal">
-                            <i class="fa-solid fa-plus"></i> Add Lecture
-                        </a>
-                    </div>
                     <div class="table-responsive table-newdatatable">
                         <table class="table table-new custom-table mb-0 datatable">
                             <thead>
@@ -262,7 +256,7 @@
                                                 <div>
                                                     <!-- Delete Button -->
                                                     <button class="btn btn-danger me-2" type="button"
-                                                        data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                        onclick="confirmDeleteLe({{ $lecture->id }})">
                                                         Delete
                                                     </button>
                                                 </div>
@@ -540,5 +534,48 @@
             });
         });
     </script>
+    {{-- lucture delete  --}}
+
+    <script>
+        function confirmDeleteLe(lectureId) {
+            console.log(lectureId);
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send AJAX request to delete the lecture
+                    $.ajax({
+                        url: `{{ route('admin.LuctureDestroy', ':id') }}`.replace(':id',
+                            lectureId), // Dynamic URL
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire('Deleted!', 'The lecture has been deleted.', 'success').then(
+                                    () => location.reload()); // Reload the page after deletion
+                            } else {
+                                Swal.fire('Error!', response.message ||
+                                    'Something went wrong. Please try again later.', 'error');
+                            }
+                        },
+                        error: function() {
+                            Swal.fire('Error!', 'Something went wrong. Please try again later.',
+                                'error');
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+
 
 @endsection

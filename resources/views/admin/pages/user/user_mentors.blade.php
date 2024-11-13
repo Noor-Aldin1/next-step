@@ -154,7 +154,7 @@
                                         <tr>
                                             <td>
                                                 <a href="{{ route('admin.users.show', $userMentor->mentor->id) }}">
-                                                    {{ ucfirst($userMentor->mentor->username) }}
+                                                    {{ ucfirst($userMentor->mentor->user->username) }}
                                                 </a>
                                             </td>
                                             <td>{{ $userMentor->mentor->id }}</td>

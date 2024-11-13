@@ -73,7 +73,7 @@
             event.preventDefault(); // Prevent default link behavior
 
             const courseId = this.getAttribute(
-            'data-id'); // Get the course ID from the data-id attribute
+                'data-id'); // Get the course ID from the data-id attribute
 
             // SweetAlert2 confirmation dialog
             Swal.fire({
@@ -107,7 +107,7 @@
                                 Swal.fire('Deleted!', 'The course has been deleted.',
                                         'success')
                                     .then(() => location
-                                .reload()); // Reload the page after deletion
+                                        .reload()); // Reload the page after deletion
                             } else {
                                 Swal.fire('Error!',
                                     'There was a problem deleting the course.',
@@ -126,58 +126,3 @@
 
 <!-- Delete Course Script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-    document.querySelectorAll('.deleteCourseBtn').forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default link behavior
-
-            const courseId = this.getAttribute('data-id');
-
-            // SweetAlert2 confirmation dialog
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'This action cannot be undone!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Send the DELETE request to the server
-                    const url = `{{ route('admin.courses.destroy', ':id') }}`.replace(':id',
-                        courseId);
-                    fetch(url, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            }
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.success) {
-                                Swal.fire('Deleted!', 'The course has been deleted.',
-                                        'success')
-                                    .then(() => location.reload());
-                            } else {
-                                Swal.fire('Error!',
-                                    'There was a problem deleting the course.',
-                                    'error');
-                            }
-                        })
-                        .catch(error => {
-                            Swal.fire('Error!',
-                                'There was a problem deleting the course.', 'error');
-                        });
-                }
-            });
-        });
-    });
-</script>
