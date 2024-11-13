@@ -117,10 +117,11 @@
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="input-block mb-3">
-                        <select style="height: 50px;" class="form-control" id="searchPackage" name="package_id">
+                        <select style="height: 50px;" class="form-control" id="searchPackage" name="package_name"
+                            onchange="filterSubscriptions()">
                             <option value="" selected>Select Package</option>
                             @foreach ($packages as $package)
-                                <option value="{{ $package->name }}">{{ $package->name }}</option>
+                                <option value="{{ $package->name }}">{{ $package->name }}</option> <!-- Use package name -->
                             @endforeach
                         </select>
                     </div>
@@ -165,7 +166,9 @@
                                                 </a>
                                             </td>
                                             <td>{{ $subscription->user->id }}</td>
-                                            <td>{{ $subscription->package->name ?? 'N/A' }}</td>
+                                            <td value ='$subscription->package->id'>
+                                                {{ $subscription->package->id == 1 ? 'Basic Plan' : ($subscription->package->id == 2 ? 'Pro Plan' : ' ') }}
+                                            </td>
                                             <td>{{ \Carbon\Carbon::parse($subscription->start_date)->format('d-m-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($subscription->end_date)->format('d-m-Y') }}</td>
                                             <td>{{ $subscription->number_month }}</td>
@@ -186,7 +189,6 @@
                                                             data-end_date="{{ $subscription->end_date }}">
                                                             <i class="fa-solid fa-pencil m-r-5"></i> Edit
                                                         </a>
-
                                                         <a class="dropdown-item" href="javascript:void(0);"
                                                             onclick="confirmDelete({{ $subscription->id }})">
                                                             <i class="fa-solid fa-trash m-r-5"></i> Delete
@@ -230,10 +232,7 @@
                             success: function(response) {
                                 if (response.success) {
                                     Swal.fire('Deleted!', 'The subscription has been deleted.', 'success')
-                                        .then(
-                                            () => {
-                                                location.reload();
-                                            });
+                                        .then(() => location.reload());
                                 } else {
                                     Swal.fire('Error!', response.message ||
                                         'Something went wrong. Please try again later.', 'error');
@@ -252,7 +251,8 @@
             function filterSubscriptions() {
                 const userID = document.getElementById('searchUserID').value.toLowerCase();
                 const userName = document.getElementById('searchUserName').value.toLowerCase();
-                const packageName = document.getElementById('searchPackage').value.toLowerCase();
+                const packageName = document.getElementById('searchPackage').value
+            .toLowerCase(); // Get the selected package name
                 const table = document.getElementById('subscriptionTable');
                 const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
@@ -260,9 +260,11 @@
 
                 for (let i = 0; i < rows.length; i++) {
                     const cells = rows[i].getElementsByTagName('td');
-                    const idMatch = cells[1].textContent.toLowerCase().includes(userID);
-                    const nameMatch = cells[0].textContent.toLowerCase().includes(userName);
-                    const packageMatch = !packageName || cells[2].textContent.toLowerCase() === packageName;
+                    const idMatch = cells[2].textContent.toLowerCase().includes(userID); // Search by User ID column (index 2)
+                    const nameMatch = cells[1].textContent.toLowerCase().includes(
+                    userName); // Search by User Name column (index 1)
+                    const packageMatch = !packageName || cells[3].textContent.toLowerCase().includes(
+                    packageName); // Match package by name (column 3)
 
                     rows[i].style.display = idMatch && nameMatch && packageMatch ? '' : 'none';
                 }
@@ -270,7 +272,6 @@
                 // Enable Clear Filter button if any filter is applied
                 document.getElementById('clearFilterButton').disabled = !anyFilterActive;
             }
-
             // Clear Filters function
             function clearFilters() {
                 document.getElementById('searchUserID').value = '';
@@ -302,4 +303,5 @@
         @include('admin.pages.user.partials.subscriptions.update_subscription')
     </div>
     <!-- /Page Wrapper -->
+
 @endsection
