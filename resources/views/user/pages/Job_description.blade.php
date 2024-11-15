@@ -205,14 +205,14 @@
                             <span> From {{ htmlspecialchars($jobPosting->company_name ?? 'N/A') }}</span>
                         </div>
                     </div>
-                    <div class="job-sidebar">
+                    {{-- <div class="job-sidebar">
                         <div class="posted-by">
 
                             <image
                                 src="https://cdn.dribbble.com/users/4415359/screenshots/12483759/media/8262513d57658cc7c053ba9c68024438.gif"
                                 alt="job " class="img-responsive ">
                         </div>
-                    </div>
+                    </div> --}}
 
 
 
@@ -236,31 +236,5 @@
 
 
 
-    <!-- Subscribe Section Start -->
-    <section class="subscribe-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="section-title">
-                        <h2>Get New Job Notifications</h2>
-                        <p>Subscribe & get all related jobs notification</p>
-                    </div>
-                </div>
 
-                <div class="col-md-6">
-                    <form class="newsletter-form" data-toggle="validator">
-                        <input type="email" class="form-control" placeholder="Enter your email" name="EMAIL" required
-                            autocomplete="off">
-
-                        <button class="default-btn sub-btn" type="submit">
-                            Subscribe
-                        </button>
-
-                        <div id="validator-newsletter" class="form-result"></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Subscribe Section End -->
 @endsection

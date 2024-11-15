@@ -14,7 +14,7 @@
 
                         <div class="theme-btn">
                             <a href="{{ route('profile.edit') }} " class="default-btn active">Get Started with Us</a>
-                            <a href="contact.html" class="default-btn">Contact Us</a>
+
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
 
 
     @include('user.partials.job_list_10')
-    <!-- Counter Section Start -->
+    {{-- <!-- Counter Section Start -->
     <div class="counter-section pt-100 pb-70">
         <div class="container">
             <div class="row counter-area">
@@ -182,7 +182,7 @@
             </div>
         </div>
     </div>
-    <!-- Counter Section End -->
+    <!-- Counter Section End --> --}}
 
     <!-- Testimonial Section Start -->
     <div class="testimonial-style-two ptb-100">
@@ -293,35 +293,7 @@
                             </div>
                         </div>
 
-                        <div class="row counter-area">
-                            <div class="col-md-3 col-6">
-                                <div class="counter-text">
-                                    <h2><span>127</span></h2>
-                                    <p>Job Posted</p>
-                                </div>
-                            </div>
 
-                            <div class="col-md-3 col-6">
-                                <div class="counter-text">
-                                    <h2><span>137</span></h2>
-                                    <p>Job Filed</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 col-6">
-                                <div class="counter-text">
-                                    <h2><span>180</span></h2>
-                                    <p>Company</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 col-6">
-                                <div class="counter-text">
-                                    <h2><span>144</span></h2>
-                                    <p>Members</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -335,29 +307,56 @@
     <!-- Why Choose Section End -->
 
 
-    <!-- Subscribe Section Start -->
     <section class="subscribe-section">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="section-title">
-                        <h2>Get New Job Notifications</h2>
-                        <p>Subscribe & get all related jobs notification</p>
+                        <h2>Join Now and Land Your Dream Job!</h2>
+                        <p>Sign up today to receive personalized job offers directly to you.</p>
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <form class="newsletter-form" data-toggle="validator">
-                        <input type="email" class="form-control" placeholder="Enter your email" name="EMAIL" required
-                            autocomplete="off">
-
-                        <button class="default-btn sub-btn" type="submit">
-                            Subscribe
-                        </button>
-
-                        <div id="validator-newsletter" class="form-result"></div>
-                    </form>
+                    @if (session('success'))
+                        <div class="alert alert-info">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <div class="signup-btn text-center">
+                        <a href="{{ route('register') }}" class="custom-signup-btn">Sign Up</a>
+                    </div>
                 </div>
+
+                <style>
+                    .custom-signup-btn {
+                        display: inline-block;
+                        padding: 12px 30px;
+                        font-size: 29px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        text-decoration: none;
+                        background-color: #010c29;
+                        color: #fff;
+                        border-radius: 25px;
+                        transition: background-color 0.3s ease, transform 0.2s ease;
+                    }
+
+                    .custom-signup-btn:hover {
+                        background-color: #fff;
+                        transform: translateY(-2px);
+                    }
+
+                    .custom-signup-btn:active {
+                        background-color: #004085;
+                        transform: translateY(0);
+                    }
+
+                    .custom-signup-btn:focus {
+                        outline: none;
+                        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                    }
+                </style>
             </div>
         </div>
     </section>

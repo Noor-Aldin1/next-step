@@ -28,7 +28,8 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Job Title or Keyword">
+                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                placeholder="Job Title or Keyword">
                             <i class="bx bx-search-alt"></i>
                         </div>
                     </div>
@@ -64,11 +65,12 @@
     <!-- Find Section End -->
 
     <!-- Job Category Section Start -->
-    <div class="category-style-two pb-70"> 
+    <div class="category-style-two pb-70">
         <div class="container">
             <div class="section-title">
                 <h2>Popular Jobs Category</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus</p>
             </div>
 
             <div class="row">
@@ -89,7 +91,7 @@
                             <h3>Finance</h3>
                             <p>8 new Job</p>
                         </div>
-                    </a>                  
+                    </a>
                 </div>
 
                 <div class="col-lg-3 col-sm-6">
@@ -161,7 +163,8 @@
         <div class="container">
             <div class="section-title text-center">
                 <h2>Jobs You May Be Interested In</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus</p>
             </div>
 
             <div class="row">
@@ -188,11 +191,11 @@
                                             Wellesley Rd, London
                                         </li>
                                         <li>
-                                            <i class='bx bx-filter-alt' ></i>
+                                            <i class='bx bx-filter-alt'></i>
                                             Accountancy
                                         </li>
                                         <li>
-                                            <i class='bx bx-briefcase' ></i>
+                                            <i class='bx bx-briefcase'></i>
                                             Freelance
                                         </li>
                                     </ul>
@@ -206,7 +209,7 @@
                                         <i class='bx bx-heart'></i>
                                     </a>
                                     <p>
-                                        <i class='bx bx-stopwatch' ></i>
+                                        <i class='bx bx-stopwatch'></i>
                                         1 Hr Ago
                                     </p>
                                 </div>
@@ -226,40 +229,40 @@
                                 </div>
                             </div>
 
-                        <div class="col-lg-6">
-                            <div class="job-info">
-                                <h3>
-                                    <a href="job-details.html">Data Entry</a>
-                                </h3>
-                                <ul>
-                                    <li>Via <a href="#">Techno Inc.</a></li>
-                                    <li>
-                                        <i class='bx bx-location-plus'></i>
-                                        Street 40/A, London
-                                    </li>
-                                    <li>
-                                        <i class='bx bx-filter-alt' ></i>
-                                        Data Entry
-                                    </li>
-                                    <li>
-                                        <i class='bx bx-briefcase' ></i>
-                                        Freelance
-                                    </li>
-                                </ul>
+                            <div class="col-lg-6">
+                                <div class="job-info">
+                                    <h3>
+                                        <a href="job-details.html">Data Entry</a>
+                                    </h3>
+                                    <ul>
+                                        <li>Via <a href="#">Techno Inc.</a></li>
+                                        <li>
+                                            <i class='bx bx-location-plus'></i>
+                                            Street 40/A, London
+                                        </li>
+                                        <li>
+                                            <i class='bx bx-filter-alt'></i>
+                                            Data Entry
+                                        </li>
+                                        <li>
+                                            <i class='bx bx-briefcase'></i>
+                                            Freelance
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-3">
-                            <div class="job-save">
-                            <a href="#">
-                                <i class='bx bx-heart'></i>
-                            </a>
-                            <p>
-                                <i class='bx bx-stopwatch' ></i>
-                                3 Hr Ago
-                            </p>
+                            <div class="col-lg-3">
+                                <div class="job-save">
+                                    <a href="#">
+                                        <i class='bx bx-heart'></i>
+                                    </a>
+                                    <p>
+                                        <i class='bx bx-stopwatch'></i>
+                                        3 Hr Ago
+                                    </p>
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -283,16 +286,16 @@
                                     <ul>
                                         <li>Via <a href="#">Devon Design</a></li>
                                         <li>
-                                        <i class='bx bx-location-plus'></i>
-                                        West Sight, USA
+                                            <i class='bx bx-location-plus'></i>
+                                            West Sight, USA
                                         </li>
                                         <li>
-                                        <i class='bx bx-filter-alt' ></i>
-                                        Graphics
+                                            <i class='bx bx-filter-alt'></i>
+                                            Graphics
                                         </li>
                                         <li>
-                                        <i class='bx bx-briefcase' ></i>
-                                        Freelance
+                                            <i class='bx bx-briefcase'></i>
+                                            Freelance
                                         </li>
                                     </ul>
                                 </div>
@@ -304,7 +307,7 @@
                                         <i class='bx bx-heart'></i>
                                     </a>
                                     <p>
-                                        <i class='bx bx-stopwatch' ></i>
+                                        <i class='bx bx-stopwatch'></i>
                                         4 Hr Ago
                                     </p>
                                 </div>
@@ -336,11 +339,11 @@
                                             San Francisco, California
                                         </li>
                                         <li>
-                                            <i class='bx bx-filter-alt' ></i>
+                                            <i class='bx bx-filter-alt'></i>
                                             Development
                                         </li>
                                         <li>
-                                            <i class='bx bx-briefcase' ></i>
+                                            <i class='bx bx-briefcase'></i>
                                             Freelance
                                         </li>
                                     </ul>
@@ -353,7 +356,7 @@
                                         <i class='bx bx-heart'></i>
                                     </a>
                                     <p>
-                                        <i class='bx bx-stopwatch' ></i>
+                                        <i class='bx bx-stopwatch'></i>
                                         5 Hr Ago
                                     </p>
                                 </div>
@@ -385,11 +388,11 @@
                                             Wellesley Rd, London
                                         </li>
                                         <li>
-                                            <i class='bx bx-filter-alt' ></i>
+                                            <i class='bx bx-filter-alt'></i>
                                             Marketing
                                         </li>
                                         <li>
-                                            <i class='bx bx-briefcase' ></i>
+                                            <i class='bx bx-briefcase'></i>
                                             Freelance
                                         </li>
                                     </ul>
@@ -402,7 +405,7 @@
                                         <i class='bx bx-heart'></i>
                                     </a>
                                     <p>
-                                        <i class='bx bx-stopwatch' ></i>
+                                        <i class='bx bx-stopwatch'></i>
                                         6 Hr Ago
                                     </p>
                                 </div>
@@ -430,16 +433,16 @@
                                     <ul>
                                         <li>Via <a href="#">Design Hunter</a></li>
                                         <li>
-                                        <i class='bx bx-location-plus'></i>
-                                        Zoo Rd, London
+                                            <i class='bx bx-location-plus'></i>
+                                            Zoo Rd, London
                                         </li>
                                         <li>
-                                        <i class='bx bx-filter-alt' ></i>
-                                        Accountancy
+                                            <i class='bx bx-filter-alt'></i>
+                                            Accountancy
                                         </li>
                                         <li>
-                                        <i class='bx bx-briefcase' ></i>
-                                        Freelance
+                                            <i class='bx bx-briefcase'></i>
+                                            Freelance
                                         </li>
                                     </ul>
                                 </div>
@@ -451,7 +454,7 @@
                                         <i class='bx bx-heart'></i>
                                     </a>
                                     <p>
-                                        <i class='bx bx-stopwatch' ></i>
+                                        <i class='bx bx-stopwatch'></i>
                                         8 Hr Ago
                                     </p>
                                 </div>
@@ -463,31 +466,4 @@
         </div>
     </section>
     <!-- Jobs Section End -->
-
-    <!-- Subscribe Section Start -->
-    <section class="subscribe-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="section-title">
-                        <h2>Get New Job Notifications</h2>
-                        <p>Subscribe & get all related jobs notification</p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <form class="newsletter-form" data-toggle="validator">
-                        <input type="email" class="form-control" placeholder="Enter your email" name="EMAIL" required autocomplete="off">
-
-                        <button class="default-btn sub-btn" type="submit">
-                            Subscribe
-                        </button>
-
-                        <div id="validator-newsletter" class="form-result"></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Subscribe Section End -->
 @endsection

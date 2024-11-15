@@ -25,7 +25,7 @@
 <div class="navbar-area">
     <!-- Menu For Mobile Device -->
     <div class="mobile-nav">
-        <a href="index.html" class="logo">
+        <a href="{{ route('home') }}" class="logo">
 
             <img src="{{ url('customer_css/assets/img/logo.png') }}"alt="logo'">
         </a>
@@ -67,41 +67,18 @@
                                 class="nav-link {{ request()->routeIs('packages.index') ? 'active' : '' }}">Packages</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle">More</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a href="{{ route('contact') }}"
-                                        class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact
-                                        Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('FAQ') }}"
-                                        class="nav-link {{ request()->routeIs('FAQ') ? 'active' : '' }}">FAQ</a>
-                                </li>
-                                {{-- <li class="nav-item">
-                                    <a href="{{ route('Privacy') }}"
-                                        class="nav-link {{ request()->routeIs('Privacy') ? 'active' : '' }}">Privacy
-                                        & Policy</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('Terms') }}"
-                                        class="nav-link {{ request()->routeIs('Terms') ? 'active' : '' }}">Terms &
-                                        Conditions</a>
-                                </li> --}}
-                            </ul>
-                        </li>
+
                         <li class="nav-item">
                             <a href="{{ route('employer.register') }}"
                                 class="nav-link {{ request()->routeIs('employer.register') ? 'active' : '' }}"
-                                style=" font-weight: bold; text-decoration: underline;"
+                                style="font-weight: bold; text-decoration: none; color: inherit;"
                                 title="Uncover benefits created exclusively for business owners">
-                                Business
-                                <span
-                                    style="color:
-                                #ffcb14; font-style: italic;">Owner</span>
+
+                                <span style="color: #ffcb14; font-style: italic;">Recruiter</span>
                             </a>
                         </li>
+
+
                     </ul>
 
 

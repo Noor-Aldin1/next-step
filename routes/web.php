@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TranslateController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\EmailController;
+
 // ---------------Another Routes-------
 require base_path('routes/custom_routes.php');
 require base_path('routes/auth.php');
@@ -42,6 +44,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/mentors/{id}', [MentorController::class, 'update'])->name('mentorsuser.update'); // Update a specific mentor
     Route::delete('/profile/mentors/{id}', [MentorController::class, 'destroy'])->name('mentorsuser.destroy'); // Delete a specific mentor
 });
+
+
+
+
+// for  email
+
+Route::post('/send-offer-email', [EmailController::class, 'sendOffer'])->name('send.offer.email');
 
 
 // test 
