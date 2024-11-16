@@ -1,7 +1,7 @@
 <form class="find-form mt-0" method="GET" action="{{ route('jobs.felter') }}" id="filter-form">
     <div class="row">
         <!-- Job Title or Keyword -->
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <input type="text" class="form-control" name="search" placeholder="Job Title or Keyword"
                     value="{{ request('search') }}" oninput="toggleClearButton()">
@@ -9,7 +9,8 @@
             </div>
         </div>
 
-        <div class="col-lg-3">
+        <!-- City -->
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <select class="form-control" name="city" id="city" onchange="toggleClearButton()">
                     <option value="" selected>Choose City</option>
@@ -22,8 +23,8 @@
             </div>
         </div>
 
-
-        <div class="col-lg-3">
+        <!-- Category -->
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <select class="form-control" name="category" id="category" onchange="toggleClearButton()">
                     <option value="" selected>Choose Category</option>
@@ -38,24 +39,27 @@
         </div>
 
         <!-- Search Button -->
-        <div class="col-lg-3">
-            <button type="submit" class="find-btn">
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3 d-flex justify-content-center align-items-center">
+            <button type="submit" class="find-btn w-100">
                 Find A Job
                 <i class='bx bx-search'></i>
             </button>
         </div>
     </div>
+
     <br>
+
     <div class="row">
         <!-- Clear Filter Button -->
-        <div class="col-lg-3">
-            <button type="button" class="clear-btn btn" id="clear-filter" disabled onclick="clearFilters()">
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3 d-flex justify-content-center align-items-center">
+            <button type="button" class="clear-btn btn w-100" id="clear-filter" disabled onclick="clearFilters()">
                 Clear Filter
                 <i class='bx bx-filter' style="font-size: 16px; margin-left: 5px;"></i>
             </button>
         </div>
     </div>
 </form>
+
 <script>
     // Format options to include the city flag
     var optionFormat = function(item) {

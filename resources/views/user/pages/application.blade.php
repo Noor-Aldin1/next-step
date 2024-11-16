@@ -47,7 +47,7 @@
 
 
                                     <label for="profileDetails" class="form-label">Your Resume (Profile)</label>
-                                    <input type="text" class="form-control" id="profileDetails"
+                                    <input hidden type="text" class="form-control" id="profileDetails"
                                         value="{{ auth()->user()->name }}" disabled>
                                 @endauth
                             </div>

@@ -154,7 +154,6 @@
                                     <div class="col-lg-3">
                                         <div class="job-save">
                                             <span>{{ $job->job_type }}</span>
-                                            <a href="#"><i class='bx bx-heart'></i></a>
                                             <p>
                                                 <i class='bx bx-stopwatch'></i>
                                                 Posted {{ \Carbon\Carbon::parse($job->created_at)->diffForHumans() }}

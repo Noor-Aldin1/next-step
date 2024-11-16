@@ -32,6 +32,15 @@
                 <div class="col-md-8">
                     <div class="account-details">
                         <h3>Profile Information</h3>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{ route('profile.update') }}" method="POST" class="profile-form">
                             @csrf
                             <div class="row">

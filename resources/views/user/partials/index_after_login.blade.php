@@ -30,8 +30,9 @@
 <div class="navbar-area">
     <!-- Menu For Mobile Device -->
     <div class="mobile-nav">
-        <a href="index.html" class="logo">
-            <img src="customer_css/assets/img/logo.png" alt="logo">
+        <a href="{{ route('home') }}" class="logo">
+
+            <img src="{{ url('customer_css/assets/img/logo.png') }}"alt="logo'">
         </a>
     </div>
 
@@ -68,33 +69,10 @@
                                     class="nav-link {{ request()->routeIs('soft') ? 'active' : '' }}">Soft Skills</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('contact') }}"
-                                    class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact Us</a>
+                                <a href="{{ route('packages.index') }}"
+                                    class="nav-link {{ request()->routeIs('packages.index') ? 'active' : '' }}">Packages</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="{{ route('packages.index') }}"
-                                            class="nav-link {{ request()->routeIs('packages.index') ? 'active' : '' }}">Packages</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('FAQ') }}"
-                                            class="nav-link {{ request()->routeIs('FAQ') ? 'active' : '' }}">FAQ</a>
-                                    </li>
-                                    {{-- <li class="nav-item">
-                                        <a href="{{ route('Privacy') }}"
-                                            class="nav-link {{ request()->routeIs('Privacy') ? 'active' : '' }}">Privacy
-                                            &
-                                            Policy</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('Terms') }}"
-                                            class="nav-link {{ request()->routeIs('Terms') ? 'active' : '' }}">Terms &
-                                            Conditions</a>
-                                    </li> --}}
-                                </ul>
-                            </li>
+
                             <li class="nav-item">
                                 @if (Auth::check() && Auth::user()->subscriptions()->where('end_date', '>', now())->exists())
                                     <a href="{{ route('usermentor.index') }}"
@@ -259,9 +237,8 @@
                         <div class="other-option">
                             <!-- Avatar Profile after Login -->
                             <div class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" id="avatarDropdown"
-                                    role="button" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <a href="#" class="nav-link dropdown-toggle" id="avatarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Avatar"
                                         class="rounded-circle" width="40" height="40">
                                     <span>{{ Auth::user()->name }}</span>
