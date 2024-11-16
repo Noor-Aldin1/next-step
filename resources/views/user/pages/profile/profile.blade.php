@@ -188,10 +188,12 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
-                                <button type="button" id="edit-button" class="btn btn-success ">Edit</button>
-                                <button type="submit" class="account-btn ">Save All</button>
+                            <div class="col-md-12 ">
+                                <button type="button" id="edit-button"
+                                    class="btn btn-success mb-3 mb-md-0 me-md-2">Edit</button>
+                                <button type="submit" class="account-btn btn  w-md-auto">Save All</button>
                             </div>
+
                         </form>
 
 

@@ -76,12 +76,20 @@
 
     {{-- style profile  --}}
     <link rel="stylesheet" href="{{ url('profile/profile_input/profile.css') }}">
-    {{-- live chat --}}
+    {{-- Live chat --}}
 
     <!-- Smartsupp Live Chat script -->
     <script type="text/javascript">
         var _smartsupp = _smartsupp || {};
         _smartsupp.key = '440c1a3dd4819703992098ca5b2f026995feef52';
+
+        @if (session('user_logged_in')) // Check if the user is logged in (modify session key accordingly)
+            _smartsupp.customMessage =
+            'Hello, {{ session('user_name') }}! How can we assist you today?'; // Display custom message with user's name
+        @else
+            _smartsupp.customMessage = 'Hello! How can we help you today?'; // Default message for guests
+        @endif
+
         window.smartsupp || (function(d) {
             var s, c, o = smartsupp = function() {
                 o._.push(arguments)
@@ -96,7 +104,11 @@
             s.parentNode.insertBefore(c, s);
         })(document);
     </script>
-    <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+
+    <noscript>
+        Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a>
+    </noscript>
+
 </head>
 
 <body>

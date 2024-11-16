@@ -75,7 +75,7 @@ class AdminMentorsController extends Controller
             // Handle video upload manually
             if ($request->hasFile('video')) {
                 $videoFile = $request->file('video');
-                $filename = 'mentor-video-' . uniqid() . '-' . time() . '.' . $videoFile->getClientOriginalExtension();
+                $filename =  $videoFile->getClientOriginalExtension();
                 $location = public_path('videos/');
                 $videoFile->move($location, $filename);
                 $videoPath = 'videos/' . $filename;
@@ -118,11 +118,7 @@ class AdminMentorsController extends Controller
 
             // Handle video upload manually
             if ($request->hasFile('video')) {
-                $videoFile = $request->file('video');
-                $filename = 'mentor-video-' . uniqid() . '-' . time() . '.' . $videoFile->getClientOriginalExtension();
-                $location = public_path('videos/');
-                $videoFile->move($location, $filename);
-                $videoPath = 'videos/' . $filename;
+                $videoPath = $request->file('video')->store('videos', 'public');
             }
 
             // Create a new mentor for the newly created user
@@ -200,11 +196,7 @@ class AdminMentorsController extends Controller
         $videoPath = $mentor->video; // Keep the existing video if no new video is uploaded
 
         if ($request->hasFile('video')) {
-            $videoFile = $request->file('video');
-            $filename = 'mentor-video-' . uniqid() . '-' . time() . '.' . $videoFile->getClientOriginalExtension();
-            $location = public_path('videos/');
-            $videoFile->move($location, $filename);
-            $videoPath = 'videos/' . $filename; // Update the video path
+            $videoPath = $request->file('video')->store('videos', 'public');
         }
 
         // Update mentor data

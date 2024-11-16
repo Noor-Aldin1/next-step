@@ -19,7 +19,7 @@
                                                 </div>
                                                 <span class="fs-14 d-block mb-2">Total Jobs</span>
                                             </div>
-                                            <div id="NewCustomers"></div>
+
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -30,7 +30,7 @@
                                                 </div>
                                                 <span class="fs-14 d-block mb-2">Application Sent</span>
                                             </div>
-                                            <div id="NewCustomers1"></div>
+
                                         </div>
                                     </div>
 

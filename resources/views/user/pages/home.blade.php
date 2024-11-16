@@ -307,58 +307,61 @@
     <!-- Why Choose Section End -->
 
 
-    <section class="subscribe-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="section-title">
-                        <h2>Join Now and Land Your Dream Job!</h2>
-                        <p>Sign up today to receive personalized job offers directly to you.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    @if (session('success'))
-                        <div class="alert alert-info">
-                            {{ session('success') }}
+    @if (!Auth::check())
+        <section class="subscribe-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="section-title">
+                            <h2>Join Now and Land Your Dream Job!</h2>
+                            <p>Sign up today to receive personalized job offers directly to you.</p>
                         </div>
-                    @endif
-                    <div class="signup-btn text-center">
-                        <a href="{{ route('register') }}" class="custom-signup-btn">Sign Up</a>
                     </div>
+
+                    <div class="col-md-6">
+                        @if (session('success'))
+                            <div class="alert alert-info">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <div class="signup-btn text-center">
+                            <a href="{{ route('register') }}" class="custom-signup-btn">Sign Up</a>
+                        </div>
+                    </div>
+
+                    <style>
+                        .custom-signup-btn {
+                            display: inline-block;
+                            padding: 12px 30px;
+                            font-size: 29px;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            text-decoration: none;
+                            background-color: #010c29;
+                            color: #fff;
+                            border-radius: 25px;
+                            transition: background-color 0.3s ease, transform 0.2s ease;
+                        }
+
+                        .custom-signup-btn:hover {
+                            background-color: #fff;
+                            transform: translateY(-2px);
+                        }
+
+                        .custom-signup-btn:active {
+                            background-color: #004085;
+                            transform: translateY(0);
+                        }
+
+                        .custom-signup-btn:focus {
+                            outline: none;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                        }
+                    </style>
                 </div>
-
-                <style>
-                    .custom-signup-btn {
-                        display: inline-block;
-                        padding: 12px 30px;
-                        font-size: 29px;
-                        font-weight: 600;
-                        text-transform: uppercase;
-                        text-decoration: none;
-                        background-color: #010c29;
-                        color: #fff;
-                        border-radius: 25px;
-                        transition: background-color 0.3s ease, transform 0.2s ease;
-                    }
-
-                    .custom-signup-btn:hover {
-                        background-color: #fff;
-                        transform: translateY(-2px);
-                    }
-
-                    .custom-signup-btn:active {
-                        background-color: #004085;
-                        transform: translateY(0);
-                    }
-
-                    .custom-signup-btn:focus {
-                        outline: none;
-                        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-                    }
-                </style>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
+
     <!-- Subscribe Section End -->
 @endsection

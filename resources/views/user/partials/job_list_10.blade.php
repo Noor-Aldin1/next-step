@@ -59,10 +59,39 @@
             @endforeach
         </div>
 
-        <!-- Pagination Links -->
+        <!-- Custom Pagination Style -->
+        <!-- Custom Pagination Style -->
         <div class="d-flex justify-content-center">
-            {{ $jobs->links() }} <!-- Laravel pagination links -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <!-- Previous Page Link -->
+                    <li class="page-item {{ $jobs->onFirstPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $jobs->previousPageUrl() }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- Loop through pages -->
+                    @for ($i = 1; $i <= $jobs->lastPage(); $i++)
+                        <li class="page-item {{ $i == $jobs->currentPage() ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $jobs->url($i) }}"
+                                style="{{ $i == $jobs->currentPage() ? 'background-color: red; color: white;' : '' }}">
+                                {{ $i }}
+                            </a>
+                        </li>
+                    @endfor
+
+                    <!-- Next Page Link -->
+                    <li class="page-item {{ $jobs->hasMorePages() ? '' : 'disabled' }}">
+                        <a class="page-link" href="{{ $jobs->nextPageUrl() }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+
+
     </div>
 </section>
 <!-- Job Section End -->

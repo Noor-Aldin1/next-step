@@ -53,12 +53,7 @@
                                   About
                               </a>
                           </li>
-                          <li>
-                              <a href="{{ route('FAQ') }}">
-                                  <i class='bx bx-chevrons-right bx-tada'></i>
-                                  FAQ
-                              </a>
-                          </li>
+
 
                           <li>
                               <a href="{{ route('Privacy') }}">

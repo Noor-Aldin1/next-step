@@ -117,7 +117,7 @@
                                     @foreach ($experiences as $experience)
                                         <div class="experience-info">
                                             <span>{{ \Carbon\Carbon::parse($experience->start_due)->format('F j, Y') }} -
-                                                {{ \Carbon\Carbon::parse($experience->end_due)->format('F j, Y') }}</span>
+                                                {{ $experience->end_due ?? 'Present' }}</span>
                                             <h5>{{ $experience->position }}</h5>
                                             <h4>{{ $experience->company_name }}</h4>
                                             <p>{{ $experience->description }}</p>

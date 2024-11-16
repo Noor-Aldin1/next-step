@@ -33,7 +33,7 @@
                         <img id="profileImage" src="{{ asset('storage/' . $results->photo) }}" alt="Profile Image"
                             class="rounded-circle img-fluid" style="width: 160px; height: 155px;">
                         <h3>{{ $results->username }}</h3>
-                        <p>Web Developer</p>
+                        <p>{{ $results->job_title }}</p>
 
                         <ul>
 
@@ -152,19 +152,33 @@
                         <h3>Skills</h3>
 
                         <ul>
-                            @foreach ($skills as $mentor)
+                            @if ($skills->isNotEmpty())
                                 @php
-                                    // Split the skills_list into an array
-                                    $skillsArray = explode(',', $mentor->skills_list);
+                                    // Collect all skills across mentors into an array
+                                    $allSkills = $skills
+                                        ->flatMap(function ($mentor) {
+                                            return explode(',', $mentor->skills_list);
+                                        })
+                                        ->map(function ($skill) {
+                                            return trim($skill); // Trim whitespace from each skill
+                                        })
+                                        ->filter()
+                                        ->unique(); // Remove empty and duplicate skills
                                 @endphp
 
-                                @foreach ($skillsArray as $skill)
-                                    <li>{{ trim($skill) }}</li> <!-- Trim to remove any leading/trailing whitespace -->
-                                @endforeach
-                            @endforeach
+                                @if ($allSkills->isNotEmpty())
+                                    @foreach ($allSkills as $skill)
+                                        <li>{{ $skill }}</li>
+                                    @endforeach
+                                @else
+                                    <p>No skills available.</p>
+                                @endif
+                            @else
+                                <p>No skills available.</p>
+                            @endif
                         </ul>
-
                     </div>
+
 
 
 
@@ -173,6 +187,4 @@
         </div>
     </section>
     <!-- Candidate Details End -->
-
-
 @endsection
