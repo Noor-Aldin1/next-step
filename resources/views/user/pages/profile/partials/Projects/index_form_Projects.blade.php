@@ -102,8 +102,9 @@
                                     data-end_due="{{ $project->end_due }}"
                                     data-description="{{ $project->description }}"
                                     onclick="openEditModal_p(this)">Edit</button>
-                                <button type="button" class="btn btn-danger mt-2"
+                                <button data-id="{{ $project->id }}" type="button" class="btn btn-danger mt-2"
                                     onclick="deleteProject(this)">Delete</button>
+
                             </div>
                         </div>
                     </div>
@@ -140,7 +141,15 @@
 <script>
     function deleteProject(button) {
         const projectId = button.getAttribute('data-id'); // Get the project ID from the button's data attribute
-        const accordionItem = button.closest('.accordion-item'); // Get the accordion item to be removed
+        const projectItem = button.closest('.project-item'); // Find the parent project item to be removed
+
+        // Check if the projectItem is found
+        if (!projectItem) {
+            console.error('Project item not found!');
+            return; // Exit function if item is not found
+        }
+
+        console.log('Deleting project with ID:', projectId);
 
         // Show SweetAlert2 confirmation dialog
         Swal.fire({
@@ -153,20 +162,20 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-
                 // Send AJAX request to delete the project
-                fetch(`/projects/{{ $project->id ?? null }}`, {
+                fetch(`/projects/${projectId}`, { // Dynamically insert project ID into the URL
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
                                 'content'),
+                            'Accept': 'application/json' // Ensure JSON response is expected
                         }
                     })
-                    .then(response => response.json())
+                    .then(response => response.json()) // Parse the JSON response
                     .then(data => {
                         if (data.success) {
-                            // Remove the accordion item from the DOM
-                            accordionItem.remove();
+                            // Remove the project item from the DOM
+                            projectItem.remove();
 
                             // Show success message
                             Swal.fire(
@@ -174,9 +183,9 @@
                                 'Your project has been deleted.',
                                 'success'
                             );
-                            location.reload();
+                            location.reload(); // Reload the page to reflect changes
                         } else {
-                            // Handle errors or unauthorized access
+                            // Handle unauthorized access or other errors
                             Swal.fire(
                                 'Error!',
                                 'There was a problem deleting the project.',
@@ -185,10 +194,10 @@
                         }
                     })
                     .catch(error => {
-                        // Handle network errors
+                        // Handle network or other errors
                         Swal.fire(
                             'Error!',
-                            'Failed to delete the project.',
+                            'Failed to delete the project due to a network error.',
                             'error'
                         );
                     });

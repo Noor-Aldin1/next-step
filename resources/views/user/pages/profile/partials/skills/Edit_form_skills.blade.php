@@ -13,9 +13,18 @@
 
                     <div class="mb-3">
                         <label for="skill_name" class="form-label">Skill Name</label>
-                        <input type="text" name="name" class="form-control" id="skill_name" required>
+                        <br>
+                        <select name="skill_id" class="form-control" id="skill_name" required>
+                            <option value="" disabled selected>Select a Skill</option>
+                            @foreach ($skills as $skill)
+                                <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                            @endforeach
+
+                            <!-- Add more options dynamically if needed -->
+                        </select>
                     </div>
 
+                    <br>
                     <div class="mb-3">
                         <label for="rate" class="form-label">Skill Rating (1-10)</label>
                         <br>

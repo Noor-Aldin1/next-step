@@ -81,28 +81,19 @@ class SkillController extends Controller
         // Validate input fields
         $request->validate([
             'rate' => 'required|numeric|min:1|max:10', // Validate skill rating
-            'name' => 'required|string|max:255', // Validate skill name
+            'skill_id' => 'required|exists:skills,id', // Validate skill_id exists in the skills table
         ]);
 
-        // Fetch the UserSkill record by ID
+        // Fetch the UserSkill record by ID, ensuring it's for the logged-in user
         $userSkill = UserSkill::where('user_id', Auth::id())->where('id', $id)->firstOrFail();
 
-        // Update the user skill rate
+        // Update the rate and skill_id for the UserSkill model
         $userSkill->rate = $request->rate;
+        $userSkill->skill_id = $request->skill_id;
 
         // Attempt to save the UserSkill
         if (!$userSkill->save()) {
-            \Log::error('UserSkill could not be updated: ', $userSkill->toArray());
-            return redirect()->route('user.skills.index')->with('error', 'Skill update failed!');
-        }
-
-        // Fetch the associated skill using userSkill's skill_id
-        $skill = Skill::findOrFail($userSkill->skill_id);
-        $skill->name = $request->name;
-
-        // Attempt to save the Skill
-        if (!$skill->save()) {
-            \Log::error('Skill could not be updated: ', $skill->toArray());
+            \Log::error('UserSkill could not be updated:', $userSkill->toArray());
             return redirect()->route('user.skills.index')->with('error', 'Skill update failed!');
         }
 
@@ -126,6 +117,6 @@ class SkillController extends Controller
         $userSkill->delete();
 
         // Return a JSON response
-        return response()->json(['success' => true, 'message' => 'Skill deleted successfully.']);
+        return response()->json(['success' => true]);
     }
 }

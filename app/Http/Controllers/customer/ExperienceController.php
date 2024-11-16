@@ -96,6 +96,6 @@ class ExperienceController extends Controller
         // Delete the experience
         $experience->delete();
 
-        return response()->json(['success' => true, 'message' => 'Experience deleted successfully.']);
+        return response()->json(['success' => true]);
     }
 }

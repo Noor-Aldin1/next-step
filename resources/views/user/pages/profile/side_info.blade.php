@@ -46,18 +46,7 @@
                         Applied Job
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-envelope'></i>
-                        Messages
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="">
-                        <i class='bx bx-heart'></i>
-                        Saved Jobs
-                    </a>
-                </li>
+
                 <li>
                     <a href="{{ route('change.password') }}"
                         class="{{ request()->routeIs('change.password') ? 'active' : '' }}">

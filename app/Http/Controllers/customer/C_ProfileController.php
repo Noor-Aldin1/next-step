@@ -32,6 +32,7 @@ class C_ProfileController extends Controller
         // Fetch all available skills
         $skills = Skill::all();
 
+
         // Return the view with the necessary data
         return view('user.pages.profile.profile', compact('profile', 'projects', 'allSkills', 'skills', 'userSkill'));
     }
