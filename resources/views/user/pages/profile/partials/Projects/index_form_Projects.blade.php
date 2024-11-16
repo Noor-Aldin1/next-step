@@ -1,81 +1,140 @@
+<style>
+    /* Container for the custom accordion */
+    #projectContainer {
+        margin: 20px 0;
+    }
+
+    /* Header button style (similar to Bootstrap accordion button) */
+    .toggle-project-btn {
+        width: 100%;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        text-align: left;
+        padding: 10px 15px;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #000;
+        outline: none;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .toggle-project-btn:hover {
+        background-color: #e2e6ea;
+    }
+
+    /* Button when expanded */
+    .toggle-project-btn.active {
+        background-color: #e2e6ea;
+        color: #000;
+    }
+
+    /* Content section (hidden by default) */
+    .project-details {
+        border: 1px solid #dee2e6;
+        border-top: none;
+        padding: 15px;
+        display: none;
+    }
+
+    /* Transition for opening/closing */
+    .project-details.show {
+        display: block;
+    }
+
+    /* Add some spacing between project items */
+    .project-item {
+        margin-bottom: 10px;
+    }
+</style>
+
 <div class="container" data-project-count="{{ Auth::user()->projects->count() }}">
     <form action="{{ route('projects.store') }}" method="POST" id="projectForm">
         @csrf <!-- Laravel CSRF token -->
-        <div id="projectContainer" class="accordion" id="accordionProject">
-            <!-- Existing Projects (to edit) -->
+        <div id="projectContainer">
             @foreach (Auth::user()->projects as $project)
-                <div class="accordion-item">
+                <div class="project-item">
                     <input type="hidden" name="project_id[]" value="{{ $project->id }}">
-                    <h2 class="accordion-header" id="projectHeading{{ $loop->index }}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#projectCollapse{{ $loop->index }}" aria-expanded="false"
-                            aria-controls="projectCollapse{{ $loop->index }}" onclick="toggleAccordion(this)">
-                            {{ $project->name }}
+                    <h2 class="project-header">
+                        <button type="button" class="toggle-project-btn" onclick="toggleProject(this)">
+                            <span>{{ $project->name }}</span>
+                            <span class="toggle-icon">▼</span>
                         </button>
                     </h2>
-                    <div id="projectCollapse{{ $loop->index }}" class="accordion-collapse collapse"
-                        aria-labelledby="projectHeading{{ $loop->index }}">
-                        <div class="accordion-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name_{{ $loop->index }}">Project Name</label>
-                                        <input type="text" name="name[]" class="form-control"
-                                            id="name_{{ $loop->index }}" value="{{ $project->name }}" required
-                                            disabled>
-                                    </div>
+                    <div class="project-details">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name_{{ $loop->index }}">Project Name</label>
+                                    <input type="text" name="name[]" class="form-control"
+                                        id="name_{{ $loop->index }}" value="{{ $project->name }}" required disabled>
                                 </div>
-
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="description_{{ $loop->index }}">Description</label>
-                                        <textarea name="description[]" class="form-control" id="description_{{ $loop->index }}" rows="3" required
-                                            disabled>{{ $project->description }}</textarea>
-                                    </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="description_{{ $loop->index }}">Description</label>
+                                    <textarea name="description[]" class="form-control" id="description_{{ $loop->index }}" rows="3" required
+                                        disabled>{{ $project->description }}</textarea>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="start_due_{{ $loop->index }}">Start Date</label>
-                                        <input type="date" name="start_due[]" class="form-control"
-                                            id="start_due_{{ $loop->index }}" value="{{ $project->start_due }}"
-                                            required disabled>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="start_due_{{ $loop->index }}">Start Date</label>
+                                    <input type="date" name="start_due[]" class="form-control"
+                                        id="start_due_{{ $loop->index }}" value="{{ $project->start_due }}" required
+                                        disabled>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="end_due_{{ $loop->index }}">End Date / Expected to End</label>
-                                        <input type="date" name="end_due[]" class="form-control"
-                                            id="end_due_{{ $loop->index }}" value="{{ $project->end_due }}" required
-                                            disabled>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="end_due_{{ $loop->index }}">End Date / Expected to End</label>
+                                    <input type="date" name="end_due[]" class="form-control"
+                                        id="end_due_{{ $loop->index }}" value="{{ $project->end_due }}" required
+                                        disabled>
                                 </div>
-
-
-                                <div class="col-md-12">
-                                    <!-- Edit and Delete buttons -->
-                                    <button type="button" class="btn btn-warning mt-2" data-id="{{ $project->id }}"
-                                        data-name="{{ $project->name }}" data-start_due="{{ $project->start_due }}"
-                                        data-end_due="{{ $project->end_due }}"
-                                        data-description="{{ $project->description }}"
-                                        onclick="openEditModal_p(this)">Edit</button>
-
-                                    <button type="button" class="btn btn-danger mt-2"
-                                        onclick="deleteProject(this)">Delete</button>
-                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-warning mt-2" data-id="{{ $project->id }}"
+                                    data-name="{{ $project->name }}" data-start_due="{{ $project->start_due }}"
+                                    data-end_due="{{ $project->end_due }}"
+                                    data-description="{{ $project->description }}"
+                                    onclick="openEditModal_p(this)">Edit</button>
+                                <button type="button" class="btn btn-danger mt-2"
+                                    onclick="deleteProject(this)">Delete</button>
                             </div>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
-        <!-- Dynamically added projects will appear here -->
         <div id="newProjectContainer"></div>
-
-    
-        
     </form>
 </div>
+
+<script>
+    function toggleProject(button) {
+        // Toggle the active class on the button
+        button.classList.toggle('active');
+
+        // Find the associated project details
+        const projectDetails = button.closest('.project-item').querySelector('.project-details');
+
+        // Toggle the 'show' class for project details
+        projectDetails.classList.toggle('show');
+
+        // Toggle the icon
+        const icon = button.querySelector('.toggle-icon');
+        if (projectDetails.classList.contains('show')) {
+            icon.textContent = '▼'; // Change to upward arrow
+        } else {
+            icon.textContent = '▲'; // Change to downward arrow
+        }
+    }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
