@@ -5,9 +5,8 @@
     <section class="custom-section pt-100 pb-70">
         <div class="container">
             <div class="section-title text-center mb-5">
-                <h2>Why is Early Education Essential?</h2>
-                <p>Early education provides a strong foundation for lifelong learning, critical thinking, and social
-                    development.</p>
+                <h2>Meet Our Mentors</h2>
+                <p>If there are no Mentors available, you can now choose your preferred options.</p>
             </div>
             <style>
                 .custom-card {
@@ -76,45 +75,50 @@
                 }
             </style>
             <div class="row justify-content-center">
-                <!-- Loop through each mentor -->
-                @foreach ($mentors as $index => $mntor)
-                    <div class="col-lg-4 col-sm-6 mb-4 d-flex justify-content-center">
-                        <div class="custom-card h-100 shadow-sm d-flex flex-column">
-                            <div class="custom-img position-relative">
-                                <a href="{{ route('UserCourses.index', ['mentorId' => $mntor->id]) }}" class="d-block">
-                                    <img src="{{ isset($users[$index]) && $users[$index]->photo ? asset('storage/' . $users[$index]->photo) : 'http://mydomain.com/default-image.png' }}"
-                                        alt="Image description" class="img-fluid rounded-top"
-                                        style="object-fit: cover; height: 200px; width: 100%;">
-                                </a>
-                            </div>
-                            <div class="custom-text p-4 d-flex flex-column flex-grow-1">
-                                <ul class="list-unstyled mb-4">
-                                    <li class="mb-2">
-                                        <i class="bx bx-calendar"></i>
-                                        <strong>Booking Date: </strong>
-                                        @foreach ($relationships as $rr)
-                                            @if ($rr->mentor_id == $mntor->id)
-                                                {{ $rr->created_at ? $rr->created_at->format('F j, Y') : 'no date' }}
-                                                <!-- Formats the date -->
-                                            @endif
-                                        @endforeach
-                                    </li>
-                                    <li>
-                                        <i class='bx bxs-user'></i>
-                                        <strong>Mentor:</strong> {{ $users[$index]->username ?? 'Unknown' }}
-                                    </li>
-                                </ul>
-                                <div class="text-center mt-auto">
-                                    <a href="{{ route('UserCourses.index', ['mentorId' => $mntor->id]) }}"
-                                        class="custom-btn btn btn-primary d-inline-flex align-items-center">
-                                        Let's get started
-                                        <i style="padding-left: 10px;" class='bx bx-book-open'></i>
+                @if ($mentors->isEmpty())
+                    <div class="col-12 text-center">
+                        <p>You can now choose</p>
+                    </div>
+                @else
+                    <!-- Loop through each mentor -->
+                    @foreach ($mentors as $index => $mntor)
+                        <div class="col-lg-4 col-sm-6 mb-4 d-flex justify-content-center">
+                            <div class="custom-card h-100 shadow-sm d-flex flex-column">
+                                <div class="custom-img position-relative">
+                                    <a href="{{ route('UserCourses.index', ['mentorId' => $mntor->id]) }}" class="d-block">
+                                        <img src="{{ isset($users[$index]) && $users[$index]->photo ? asset('storage/' . $users[$index]->photo) : 'http://mydomain.com/default-image.png' }}"
+                                            alt="Image description" class="img-fluid rounded-top"
+                                            style="object-fit: cover; height: 200px; width: 100%;">
                                     </a>
+                                </div>
+                                <div class="custom-text p-4 d-flex flex-column flex-grow-1">
+                                    <ul class="list-unstyled mb-4">
+                                        <li class="mb-2">
+                                            <i class="bx bx-calendar"></i>
+                                            <strong>Booking Date: </strong>
+                                            @foreach ($relationships as $rr)
+                                                @if ($rr->mentor_id == $mntor->id)
+                                                    {{ $rr->created_at ? $rr->created_at->format('F j, Y') : 'no date' }}
+                                                @endif
+                                            @endforeach
+                                        </li>
+                                        <li>
+                                            <i class='bx bxs-user'></i>
+                                            <strong>Mentor:</strong> {{ $users[$index]->username ?? 'Unknown' }}
+                                        </li>
+                                    </ul>
+                                    <div class="text-center mt-auto">
+                                        <a href="{{ route('UserCourses.index', ['mentorId' => $mntor->id]) }}"
+                                            class="custom-btn btn btn-primary d-inline-flex align-items-center">
+                                            Let's get started
+                                            <i style="padding-left: 10px;" class='bx bx-book-open'></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
             </div>
         </div>
     </section>
